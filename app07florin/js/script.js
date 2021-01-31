@@ -75,31 +75,6 @@ function force_update(type, idx, value){
 	console.log("update..",_js);
 	_js	= null;
 }
-function force_update__(){
-	let data = {
-	/*SENSOR SET*/
-	"SET1ZNTEMP": document.getElementById("idCurSetTemp-Zone1").value,
-	"SET2ZNTEMP": document.getElementById("idCurSetTemp-Zone2").value,
-	"SET3ZNTEMP": document.getElementById("idCurSetTemp-Zone3").value,
-	"SET4ZNTEMP": document.getElementById("idCurSetTemp-Zone4").value,
-	"SET5ZNTEMP": document.getElementById("idCurSetTemp-Zone5").value,
-	"SET6ZNTEMP": document.getElementById("idCurSetTemp-Zone6").value,
-	"SET7ZNTEMP": document.getElementById("idCurSetTemp-Zone7").value,
-	"SET8ZNTEMP": document.getElementById("idCurSetTemp-Zone8").value,
-	"SET9ZNTEMP": document.getElementById("idCurSetTemp-Zone9").value,
-	"SET10ZNTEMP": document.getElementById("idCurSetTemp-Zone10").value,
-	"SET11ZNTEMP": document.getElementById("idCurSetTemp-Zone11").value,
-	"SET12ZNTEMP": document.getElementById("idCurSetTemp-Zone12").value,
-	"SET13ZNTEMP": document.getElementById("idCurSetTemp-Zone13").value,
-	"SET14ZNTEMP": document.getElementById("idCurSetTemp-Zone14").value,
-	"SET15ZNTEMP": document.getElementById("idCurSetTemp-Zone15").value,
-	/*ZONE NAME*/
-	"SET1NAME" : document.getElementById("idZone-1").value
-	};
-	let _js = JSON.stringify(data);	
-    websocket.send(_js);
-	console.log("update..");
-}
 /*------------------------------------------------------------------------------------------------*/
 /*REGULAR*/
 /*------------------------------------------------------------------------------------------------*/
@@ -140,9 +115,11 @@ function createZonehtml() {
 		document.getElementById(idDownZone).addEventListener('click', function(e){
 			let elCurSetTemp = document.getElementById(idCurentSetTemp);
 			let curentTemp = parseFloat(elCurSetTemp.innerHTML) - 0.5;
-				if (curentTemp < 5.0) curentTemp = 5.0;
-				elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
-				force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);
+				
+				if (curentTemp >= 5.0) {
+					elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
+					force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);
+				}
 		});
 
 		let idUpZone = 'idTempUp-Zone'+i.toString();
@@ -150,9 +127,11 @@ function createZonehtml() {
 		document.getElementById(idUpZone).addEventListener('click', function(e){
 			let elCurSetTemp = document.getElementById(idCurentSetTemp);
 			let curentTemp = parseFloat(elCurSetTemp.innerHTML) + 0.5;
-				if (curentTemp > 35.0) curentTemp = 35.0;
-				elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
-				force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);
+				
+				if (curentTemp <= 35.0) {
+					elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
+					force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);
+				}
 		});			
 	}
 }
