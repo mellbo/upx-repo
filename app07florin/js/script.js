@@ -36,7 +36,7 @@ $(document).ready(function() {
 	let jsonObject = JSON.parse(event.data);
 		document.getElementById("cMillis").innerText = jsonObject['cMs'];
 		for (let i=1; i<=15;i++){
-			document.getElementById(["idRoomTemp-Zone"+i]).innerHTML = jsonObject[['LIVE'+i+'TEMP']];
+			document.getElementById(["idRoomTemp-Zone"+i]).innerHTML = (parseFloat(jsonObject[['LIVE'+i+'TEMP']])/1000).toFixed(1);
 		}
 		//document.getElementById("idRoomTemp-Zone1").innerHTML = jsonObject['LIVE1TEMP'];
 		jsonObject = null;
