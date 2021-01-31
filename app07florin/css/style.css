@@ -11,7 +11,7 @@
 }
 
 .lcd_font1 {
-  height: 87px;
+  height: 80px;
   margin: 0;
   font-family: digital-7;
   font-size: 91px;
@@ -35,7 +35,7 @@
 
 .lcd_icon {
   position: absolute;
-  top: 93px;
+  top: 88px;
   left: 11px;
   font-size: 22px;
   color: rgba(235,97,19,0.88);
