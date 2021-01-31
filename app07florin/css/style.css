@@ -1,9 +1,18 @@
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .lcd_style {
-  background-color: rgba(150,237,242,0.85);
+  background-color: rgba(0,224,255,0.6);
   box-shadow: 0px 0px 4px 3px var(--yellow);
 }
 
 .lcd_font1 {
+  height: 87px;
+  margin: 0;
   font-family: digital-7;
   font-size: 91px;
   color: rgb(65,63,63);
@@ -11,31 +20,32 @@
 
 .lcd_font2 {
   font-family: digital-7;
-  color: rgb(235,97,19);
-  font-size: 20px;
+  color: rgb(69,67,66);
+  font-size: 25px;
   margin-left: 41px;
 }
 
 .lcd_font3 {
   font-family: digital-7;
-  color: rgb(235,97,19);
+  color: rgb(174,63,0);
   text-align: center;
   font-size: 50px;
 }
 
 .lcd_icon {
   position: absolute;
-  top: 103px;
+  top: 89px;
   left: 11px;
-  font-size: 26px;
-  color: #eb6113;
+  font-size: 22px;
+  color: rgba(235,97,19,0.88);
 }
 
 .icon_arrow_left {
-  color: black;
+  font-size: 30px;
+  color: rgb(65,63,63);
   position: absolute;
   left: 20px;
-  bottom: 22px;
+  bottom: 15px;
   box-shadow: 0px 0px 4px 1px;
 }
 
@@ -44,10 +54,11 @@
 }
 
 .icon_arrow_right {
-  color: black;
+  font-size: 30px;
+  color: rgb(65,63,63);
   position: absolute;
   right: 20px;
-  bottom: 22px;
+  bottom: 15px;
   box-shadow: 0px 0px 4px 1px;
 }
 
@@ -57,10 +68,41 @@
 
 .features-blue {
   color: #fff;
-  background: linear-gradient(135deg, #172a74, #21a9af);
+  background: linear-gradient(93deg, rgb(23,42,116), rgb(151,178,191) 34%, rgb(23,42,116) 52%, rgb(33,169,175) 89%, rgb(0,0,0) 100%);
+  /*background: linear-gradient(135deg, #172a74, #21a9af);*/
   background-color: #184e8e;
   padding-bottom: 30px;
 }
 
-/* background */
+.titleStyle {
+  font-size: 2.6rem;
+  text-shadow: 0px 0px 20px, -3px 0px 15px var(--yellow), 0px -3px 3px var(--danger);
+}
+
+@media screen and (min-width: 640px) {
+  .titleStyle {
+    font-size: 4rem;
+  }
+}
+
+.upx_logo {
+  font-size: 16px;
+  color: rgb(150,150,150);
+  font-family: cursive;
+}
+
+/* customyze */
+
+.topImgStyle {
+  height: 160px;
+  border-radius: 0px;
+}
+
+.cardStyle {
+  min-width: 100%;
+  box-shadow: none;
+  border: 0 none;
+  border-radius: 0px;
+  border-bottom: 2px var(--yellow) solid;
+}
 
