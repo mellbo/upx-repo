@@ -11,8 +11,6 @@ $(document).ready(function() {
 	createZonehtml();
     initWebSocket();
     initButton();
-	let i = 5;
-	document.getElementById(["idRoomTemp-Zone"+i]).innerHTML = ["2"+i];
 });
 /*------------------------------------------------------------------------------------------------*/
   function onOpen(event) {
@@ -37,9 +35,10 @@ $(document).ready(function() {
 	let jsonObject = JSON.parse(event.data);
 		document.getElementById("cMillis").innerText = jsonObject['cMs'];
 		for (let i=1; i<=15;i++){
-			document.getElementById(["idRoomTemp-Zone"+i]).innerHTML = jsonObject['LIVE1TEMP'];
+			document.getElementById(["idRoomTemp-Zone"+i]).innerHTML = jsonObject[['LIVE'+i+'TEMP']];
 		}
 		//document.getElementById("idRoomTemp-Zone1").innerHTML = jsonObject['LIVE1TEMP'];
+		jsonObject = null;
   }
 /*------------------------------------------------------------------------------------------------*/
   function initButton() {
