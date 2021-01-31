@@ -58,6 +58,7 @@ function force_update(type, idx, value){
 	switch(type){
 		case 'SETZNTEMP':
 			let fxName = "SET"+idx.toString()+"ZNTEMP";
+			value = (parseFloat(value)*1000).toFixed(0);
 			data = {
 			  [fxName] : value
 			};
