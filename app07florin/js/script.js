@@ -149,7 +149,7 @@ function createZonehtml() {
 			let curentTemp = parseFloat(elCurSetTemp.innerHTML) + 0.5;
 				if (curentTemp > 35.0) curentTemp = 35.0;
 				elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
-				force_update();
+				force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);
 		});			
 	}
 }
