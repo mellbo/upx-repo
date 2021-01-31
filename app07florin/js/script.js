@@ -32,6 +32,7 @@ $(document).ready(function() {
 /*------------------------------------------------------------------------------------------------*/
   /*update fields*/
   function onMessage(event) {
+	  console.log(event.data);
 	let jsonObject = JSON.parse(event.data);
 		document.getElementById("cMillis").innerText = jsonObject['cMs'];
 		for (let i=1; i<=15;i++){
