@@ -23,6 +23,7 @@
   color: rgb(69,67,66);
   font-size: 25px;
   margin-left: 41px;
+  margin-top: 5px;
 }
 
 .lcd_font3 {
@@ -34,7 +35,7 @@
 
 .lcd_icon {
   position: absolute;
-  top: 89px;
+  top: 93px;
   left: 11px;
   font-size: 22px;
   color: rgba(235,97,19,0.88);
