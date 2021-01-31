@@ -57,20 +57,23 @@ function force_update(type, idx, value){
 	let data = {};
 	switch(type){
 		case 'SETZNTEMP':
+			let fxName = "SET"+idx.toString()+"ZNTEMP";
 			data = {
-			  "SET"+idx.toString()+"ZNTEMP" : value
+			  [fxName] : value
 			};
 		break;
 		case 'SETNAME':
+			let fxName = "SET"+idx.toString()+"NAME";
 			data = {
-			  "SET"+idx.toString()+"NAME" : value
+			  [fxName] : value
 			};		
 		break;
 	}
 	
 	let _js = JSON.stringify(data);	
     websocket.send(_js);
-	console.log("update..");	
+	console.log("update..",_js);
+	_js	= null;
 }
 function force_update__(){
 	let data = {
