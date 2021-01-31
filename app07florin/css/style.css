@@ -92,6 +92,16 @@
   font-family: cursive;
 }
 
+.meniuBtn {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  margin: 0px;
+  padding: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
 /* customyze */
 
 .topImgStyle {
@@ -106,3 +116,15 @@
   border-radius: 0px;
   border-bottom: 2px var(--yellow) solid;
 }
+
+/* overwrite card style */
+
+.cardSettings {
+  color: white;
+  background: linear-gradient(rgb(24,48,119) 0%, rgb(33,169,175) 29%);
+}
+
+.inputSettings {
+  background-color: rgba(255,255,255,0.72);
+}
+
