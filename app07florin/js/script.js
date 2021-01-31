@@ -80,8 +80,8 @@ function createZonehtml() {
 	for (let i = 1; i <= 15; i++) {
 		let xHeat = dbH.split("::")[i-1];
 		let clsHeat = xHeat ? "d-none" : "";
-		let xRoomTemp = dbL.split("::")[i-1];
-		let xSetTemp = dbS.split("::")[i-1];
+		let xRoomTemp = ((dbL.split("::")[i-1])/1000).toFixed(1);
+		let xSetTemp = ((dbS.split("::")[i-1])/1000).toFixed(1);
 		let xName = dbN.split("::")[i-1];
 		
 		html_code.push('<div class="col-sm-6 col-md-4 mb-4">');
