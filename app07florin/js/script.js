@@ -10,7 +10,9 @@ $(function() {	//run when doc loaded
 $(document).ready(function() {
 	createZonehtml();
     initWebSocket();
-    initButton();	
+    initButton();
+	let i = 5;
+	document.getElementById(["idRoomTemp-Zone"+i]).innerHTML = ["2"+i];
 });
 /*------------------------------------------------------------------------------------------------*/
   function onOpen(event) {
@@ -30,10 +32,14 @@ $(document).ready(function() {
     websocket.onmessage = onMessage; // <-- add this line
   }
 /*------------------------------------------------------------------------------------------------*/
-  function onMessage(event) { /*update fields*/
+  /*update fields*/
+  function onMessage(event) {
 	let jsonObject = JSON.parse(event.data);
-		document.getElementById("cMillis").innerText = jsonObject["live"]['cMs'];
-		//document.getElementById("state").innerText = jsonObject["live"]['ledState'];
+		document.getElementById("cMillis").innerText = jsonObject['cMs'];
+		for (let i=1; i<=15;i++){
+			document.getElementById(["idRoomTemp-Zone"+i]).innerHTML = jsonObject['LIVE1TEMP'];
+		}
+		//document.getElementById("idRoomTemp-Zone1").innerHTML = jsonObject['LIVE1TEMP'];
   }
 /*------------------------------------------------------------------------------------------------*/
   function initButton() {
