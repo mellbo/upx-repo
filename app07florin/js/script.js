@@ -69,10 +69,10 @@ function force_update(){
 /*REGULAR*/
 /*------------------------------------------------------------------------------------------------*/
 function createZonehtml() {
-	let dbL = document.getElementById("idLiveDataStorage")[0].value;
-	let dbS = document.getElementById("idTempSetInit")[0].value;
-	let dbH = document.getElementById("idZoneHeatingInit")[0].value;
-	let dbN = document.getElementById("idZoneName")[0].value;
+	let dbL = document.getElementById("idLiveDataStorage").value;
+	let dbS = document.getElementById("idTempSetInit").value;
+	let dbH = document.getElementById("idZoneHeatingInit").value;
+	let dbN = document.getElementById("idZoneName").value;
 	
 	let elRowContainer = document.getElementById("idRowContainer");
 	let html_code = [];
