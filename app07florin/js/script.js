@@ -63,9 +63,8 @@ function force_update(type, idx, value){
 			};
 		break;
 		case 'SETNAME':
-			let fxName = "SET"+idx.toString()+"NAME";
 			data = {
-			  [fxName] : value
+			  ["SET"+idx.toString()+"NAME"] : value
 			};		
 		break;
 	}
