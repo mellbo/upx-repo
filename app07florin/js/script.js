@@ -13,14 +13,6 @@ $(document).ready(function() {
     initButton();	
 });
 /*------------------------------------------------------------------------------------------------*/
-  function initWebSocket() {
-    console.log('Trying to open a WebSocket connection...');
-    websocket = new WebSocket(gateway);
-    websocket.onopen    = onOpen;
-    websocket.onclose   = onClose;
-    websocket.onmessage = onMessage; // <-- add this line
-  }
-/*------------------------------------------------------------------------------------------------*/
   function onOpen(event) {
     console.log('Connection opened');
   }
@@ -61,8 +53,48 @@ $(document).ready(function() {
     websocket.send(_js);
   }
 /*------------------------------------------------------------------------------------------------*/
-function force_update(){
-	// ?
+function force_update(type, idx, value){
+	let data = {};
+	switch(type){
+		case 'SETZNTEMP':
+			data = {
+			  "SET"+idx.toString()+"ZNTEMP" : value
+			};
+		break;
+		case 'SETNAME':
+			data = {
+			  "SET"+idx.toString()+"NAME" : value
+			};		
+		break;
+	}
+	
+	let _js = JSON.stringify(data);	
+    websocket.send(_js);
+	console.log("update..");	
+}
+function force_update__(){
+	let data = {
+	/*SENSOR SET*/
+	"SET1ZNTEMP": document.getElementById("idCurSetTemp-Zone1").value,
+	"SET2ZNTEMP": document.getElementById("idCurSetTemp-Zone2").value,
+	"SET3ZNTEMP": document.getElementById("idCurSetTemp-Zone3").value,
+	"SET4ZNTEMP": document.getElementById("idCurSetTemp-Zone4").value,
+	"SET5ZNTEMP": document.getElementById("idCurSetTemp-Zone5").value,
+	"SET6ZNTEMP": document.getElementById("idCurSetTemp-Zone6").value,
+	"SET7ZNTEMP": document.getElementById("idCurSetTemp-Zone7").value,
+	"SET8ZNTEMP": document.getElementById("idCurSetTemp-Zone8").value,
+	"SET9ZNTEMP": document.getElementById("idCurSetTemp-Zone9").value,
+	"SET10ZNTEMP": document.getElementById("idCurSetTemp-Zone10").value,
+	"SET11ZNTEMP": document.getElementById("idCurSetTemp-Zone11").value,
+	"SET12ZNTEMP": document.getElementById("idCurSetTemp-Zone12").value,
+	"SET13ZNTEMP": document.getElementById("idCurSetTemp-Zone13").value,
+	"SET14ZNTEMP": document.getElementById("idCurSetTemp-Zone14").value,
+	"SET15ZNTEMP": document.getElementById("idCurSetTemp-Zone15").value,
+	/*ZONE NAME*/
+	"SET1NAME" : document.getElementById("idZone-1").value
+	};
+	let _js = JSON.stringify(data);	
+    websocket.send(_js);
 	console.log("update..");
 }
 /*------------------------------------------------------------------------------------------------*/
@@ -89,7 +121,7 @@ function createZonehtml() {
 		html_code.push('<div class="card-body mb-0 p-0">');
 		html_code.push('<i class="fa fa-fire lcd_icon mr-2 '+clsHeat+'" id="idHeatOn-Zone'+i.toString()+'"></i>');
 		html_code.push('<h4 class="card-title lcd_font1 m-0 text-center" id="idRoomTemp-Zone'+i.toString()+'">'+xRoomTemp+'</h4>');
-		html_code.push('<h3 class="mb-0 lcd_font2">'+xName+'</h3>');
+		html_code.push('<h3 class="mb-0 lcd_font2" id="idZone-'+i.toString()+'">'+xName+'</h3>');
 		html_code.push('<h3 id="idCurSetTemp-Zone'+i+'" class="mb-0 lcd_font3">'+xSetTemp+'</h3>');
 		html_code.push('<i class="fa fa-backward icon_arrow_left" id="idTempDown-Zone'+i.toString()+'"></i>');
 		html_code.push('<i class="fa fa-forward icon_arrow_right" id="idTempUp-Zone'+i.toString()+'"></i>');
@@ -107,7 +139,7 @@ function createZonehtml() {
 			let curentTemp = parseFloat(elCurSetTemp.innerHTML) - 0.5;
 				if (curentTemp < 5.0) curentTemp = 5.0;
 				elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
-				force_update();
+				force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);
 		});
 
 		let idUpZone = 'idTempUp-Zone'+i.toString();
