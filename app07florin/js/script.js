@@ -142,4 +142,7 @@ function createZonehtml() {
 				}
 		});			
 	}
+	
+	let elWeather = document.getElementById("idWeatherPlace"); 
+		elWeather.innerHTML = '<iframe src="https://www.meteoblue.com/ro/vreme/widget/three?geoloc=detect&nocurrent=0&noforecast=0&days=3&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=dark"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox" style="width: 100%;height: 608px"></iframe>';
 }
