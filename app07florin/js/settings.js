@@ -95,7 +95,9 @@ function restoreESP(){
 	_js	= null;
 	data = null;
 	alert("Sistemul se reseteaza si restarteaza, aproximativ 1 minut.\n"+
-		  "Actualizati (refresh) pagina dupa timp-ul expirat.");	
+		  "Dupa restaurare, este posibil sa fie nevoie sa intrati in SAFEMODE\n"+
+		  "pentru a introduce datele de configurare pentru Internet WIFI.\n"+
+		  "Adresa mea in mod AP este: http://192.168.1.1");	
 }
 /*------------------------------------------------------------------------------------------------*/
 function rebootESP(){
@@ -121,7 +123,11 @@ function rebootInSafeMode(){
 	_js	= null;
 	data = null;
 	alert("Sistemul se restarteaza, si va rula in mod AP.\n"+
-		  "Cautati in lista dispozitivelor WIFI SSID 'UPX-GATEWAY' si conectati-va.");
+		  "Cautati in lista dispozitivelor WIFI SSID 'UPX-GATEWAY' si conectati-va."+
+		  "Adresa mea pentru AP este: http://192.168.1.1");
+	setTimeout(function(){
+		window.location.replace("http://192.168.1.1");
+		}, 3000);		  
 }
 /*------------------------------------------------------------------------------------------------*/
 
