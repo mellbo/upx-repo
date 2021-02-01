@@ -70,7 +70,6 @@
 .features-blue {
   color: #fff;
   background: linear-gradient(93deg, rgb(23,42,116), rgb(151,178,191) 34%, rgb(23,42,116) 52%, rgb(33,169,175) 89%, rgb(0,0,0) 100%);
-  /*background: linear-gradient(135deg, #172a74, #21a9af);*/
   background-color: #184e8e;
   padding-bottom: 30px;
 }
@@ -126,5 +125,55 @@
 
 .inputSettings {
   background-color: rgba(255,255,255,0.72);
+}
+
+/* PAGE SETTINGS */
+
+.actBtnSafeMod {
+  background: #21a9af;
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.actBtnSafeMod:hover {
+  color: red;
+}
+
+.actBtnSafeMod .label {
+  color: rgb(255,255,255);
+  width: 100% !important;
+}
+
+.actBtnReset {
+  background: var(--danger);
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.actBtnReset:hover {
+  color: red;
+}
+
+.actBtnReset .label {
+  color: rgb(255,255,255);
+  width: 100% !important;
+}
+
+.actBtnRestart {
+  background: var(--yellow);
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.actBtnRestart:hover {
+  color: red;
+}
+
+.actBtnRestart .label {
+  color: rgb(0,0,0);
+  width: 100% !important;
 }
 
