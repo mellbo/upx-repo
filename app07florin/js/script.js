@@ -80,8 +80,8 @@ function force_update(type, idx, value){
 	
 	let _js = JSON.stringify(data);	
     websocket.send(_js);
-	console.log("update..",_js);
 	_js	= null;
+	data = null;
 }
 /*------------------------------------------------------------------------------------------------*/
 /*REGULAR*/

@@ -33,18 +33,6 @@ $(document).ready(function() {
   function onMessage(event) {
 	let jsonObject = JSON.parse(event.data);
 		document.getElementById("cMillis").innerText = jsonObject['cMs'];
-		for (let i=1; i<=15;i++){
-			document.getElementById(["idRoomTemp-Zone"+i]).innerHTML = (parseFloat(jsonObject[['LIVE'+i+'TEMP']])/1000).toFixed(1);
-		}
-		for (let i=1; i<=15;i++){
-			let elHeating = document.getElementById(["idHeatOn-Zone"+i]);
-			let isEnable = parseInt(jsonObject[['ZONE'+i+'HEAT']]);
-			if (isEnable) {
-				elHeating.classList.remove("d-none");
-			} else {
-				elHeating.classList.add("d-none");
-			}
-		}
 		jsonObject = null;
   }
 /*------------------------------------------------------------------------------------------------*/
