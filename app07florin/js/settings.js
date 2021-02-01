@@ -51,6 +51,8 @@ $(document).ready(function() {
   function initButton() {
     document.getElementById('idBtnSaveName').addEventListener('click', updAllZoneName);
 	document.getElementById('idBtnSavePsk').addEventListener('click', updConnectData);
+	document.getElementById('idRestoreESP').addEventListener('click', restoreESP);
+	document.getElementById('idRebootESP').addEventListener('click', rebootESP);
   }
 /*------------------------------------------------------------------------------------------------*/
 function updAllZoneName() {
@@ -94,20 +96,30 @@ function updConnectData() {
 	document.getElementById('idBtnSavePsk').disabled = true;
 }
 /*------------------------------------------------------------------------------------------------*/
-function force_update(type, idx, value){
-	let data = {};
-	switch(type){
-		case 'SETNAME':
-			data = {
-			  ["SET"+idx.toString()+"NAME"] : value
-			};		
-		break;		
-	}
+function restoreESP(){
+	let data = {
+		"RESET": 1
+	};
 	
 	let _js = JSON.stringify(data);	
     websocket.send(_js);
 	_js	= null;
 	data = null;
+	alert("Sistemul se reseteaza si restarteaza, aproximativ 1 minut.\n"+
+		  "Actualizati (refresh) pagina dupa timp-ul expirat.");	
+}
+/*------------------------------------------------------------------------------------------------*/
+function rebootESP(){
+	let data = {
+		"RESTART": 1
+	};
+	
+	let _js = JSON.stringify(data);	
+    websocket.send(_js);
+	_js	= null;
+	data = null;
+	alert("Sistemul se restarteaza, 20 secunde.\n"+
+		  "Actualizati (refresh) pagina dupa timp-ul expirat.");
 }
 /*------------------------------------------------------------------------------------------------*/
 /*REGULAR*/
