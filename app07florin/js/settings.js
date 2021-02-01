@@ -110,5 +110,19 @@ function rebootESP(){
 		  "Actualizati (refresh) pagina dupa timp-ul expirat.");
 }
 /*------------------------------------------------------------------------------------------------*/
+function rebootInSafeMode(){
+	let data = {
+		"SAFEMODE": 1
+	};
+	
+	let _js = JSON.stringify(data);	
+    websocket.send(_js);
+	_js	= null;
+	data = null;
+	alert("Sistemul se restarteaza, si va rula in mod AP.\n"+
+		  "Cautati in lista dispozitivelor WIFI SSID 'UPX-GATEWAY' si conectati-va.");
+}
+/*------------------------------------------------------------------------------------------------*/
+
 /*REGULAR*/
 /*------------------------------------------------------------------------------------------------*/
