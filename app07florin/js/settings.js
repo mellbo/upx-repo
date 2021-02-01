@@ -4,6 +4,7 @@
 $(function() {	//run when doc loaded
 	setTimeout(function(){
 		//
+		updAllZoneName();
 	},1000);
 });
 /*------------------------------------------------------------------------------------------------*/
@@ -49,30 +50,64 @@ $(document).ready(function() {
   }
 /*------------------------------------------------------------------------------------------------*/
   function initButton() {
-    //document.getElementById('button').addEventListener('click', toggle);
+    document.getElementById('idBtnSaveName').addEventListener('click', updAllZoneName);
+	document.getElementById('idBtnSavePsk').addEventListener('click', updConnectData);
   }
+/*------------------------------------------------------------------------------------------------*/
+function updAllZoneName() {
+	let data = {
+		"SET1NAME": document.getElementById("Z1NME").value,
+		"SET2NAME": document.getElementById("Z2NME").value,
+		"SET3NAME": document.getElementById("Z3NME").value,
+		"SET4NAME": document.getElementById("Z4NME").value,
+		"SET5NAME": document.getElementById("Z5NME").value,
+		"SET6NAME": document.getElementById("Z6NME").value,
+		"SET7NAME": document.getElementById("Z7NME").value,
+		"SET8NAME": document.getElementById("Z8NME").value,
+		"SET9NAME": document.getElementById("Z9NME").value,
+		"SET10NAME": document.getElementById("Z10NME").value,
+		"SET11NAME": document.getElementById("Z11NME").value,
+		"SET12NAME": document.getElementById("Z12NME").value,
+		"SET13NAME": document.getElementById("Z13NME").value,
+		"SET14NAME": document.getElementById("Z14NME").value,
+		"SET15NAME": document.getElementById("Z15NME").value
+	};
+	
+	let _js = JSON.stringify(data);	
+    websocket.send(_js);
+	_js	= null;
+	data = null;
+	document.getElementById('idBtnSaveName').disabled = true;
+}
+/*------------------------------------------------------------------------------------------------*/
+function updConnectData() {
+	let data = {
+		"STASSID": document.getElementById("SSID").value,
+		"STAPSK": document.getElementById("SSPSK").value,
+		"WEBPASSWORD": document.getElementById("WEBPASS").value
+	};
+	
+	let _js = JSON.stringify(data);	
+    websocket.send(_js);
+	_js	= null;
+	data = null;
+	document.getElementById('idBtnSavePsk').disabled = true;
+}
 /*------------------------------------------------------------------------------------------------*/
 function force_update(type, idx, value){
 	let data = {};
 	switch(type){
-		case 'SETZNTEMP':
-			let fxName = "SET"+idx.toString()+"ZNTEMP";
-			value = (parseFloat(value)*1000).toFixed(0);
-			data = {
-			  [fxName] : value
-			};
-		break;
 		case 'SETNAME':
 			data = {
 			  ["SET"+idx.toString()+"NAME"] : value
 			};		
-		break;
+		break;		
 	}
 	
 	let _js = JSON.stringify(data);	
     websocket.send(_js);
-	console.log("update..",_js);
 	_js	= null;
+	data = null;
 }
 /*------------------------------------------------------------------------------------------------*/
 /*REGULAR*/

@@ -10,7 +10,7 @@ $(function() {	//run when doc loaded
 $(document).ready(function() {
 	createZonehtml();
     initWebSocket();
-    initButton();
+    initButton();	
 });
 /*------------------------------------------------------------------------------------------------*/
   function onOpen(event) {
@@ -76,11 +76,6 @@ function force_update(type, idx, value){
 			  [fxName] : value
 			};
 		break;
-		case 'SETNAME':
-			data = {
-			  ["SET"+idx.toString()+"NAME"] : value
-			};		
-		break;
 	}
 	
 	let _js = JSON.stringify(data);	
@@ -110,7 +105,7 @@ function createZonehtml() {
 		html_code.push('<div class="col-sm-6 col-md-4 mb-4">');
 		html_code.push('<div class="card lcd_style">');
 		html_code.push('<div class="card-body mb-0 p-0">');
-		html_code.push('<i class="fa fa-fire  flash animated infinite lcd_icon mr-2 '+clsHeat+'" id="idHeatOn-Zone'+i.toString()+'"></i>');
+		html_code.push('<i class="fa fa-fire flash animated infinite lcd_icon mr-2 '+clsHeat+'" id="idHeatOn-Zone'+i.toString()+'"></i>');
 		html_code.push('<h1 class="d-flex justify-content-center align-items-center card-title lcd_font1 m-0 text-center" id="idRoomTemp-Zone'+i.toString()+'">'+xRoomTemp+'</h1>');
 		html_code.push('<h3 class="mb-0 lcd_font2" id="idZone-'+i.toString()+'">'+xName+'</h3>');
 		html_code.push('<h3 id="idCurSetTemp-Zone'+i+'" class="mb-0 lcd_font3">'+xSetTemp+'</h3>');
