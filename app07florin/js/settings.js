@@ -4,7 +4,6 @@
 $(function() {	//run when doc loaded
 	setTimeout(function(){
 		//
-		updAllZoneName();
 	},1000);
 });
 /*------------------------------------------------------------------------------------------------*/
@@ -55,6 +54,7 @@ $(document).ready(function() {
   }
 /*------------------------------------------------------------------------------------------------*/
 function updAllZoneName() {
+	console.log('i`m here ??');
 	let data = {
 		"SET1NAME": document.getElementById("Z1NME").value,
 		"SET2NAME": document.getElementById("Z2NME").value,
