@@ -97,7 +97,10 @@ function restoreESP(){
 	alert("Sistemul se reseteaza si restarteaza, aproximativ 1 minut.\n"+
 		  "Dupa restaurare, este posibil sa fie nevoie sa intrati in SAFEMODE\n"+
 		  "pentru a introduce datele de configurare pentru Internet WIFI.\n"+
-		  "Adresa mea in mod AP este: http://192.168.1.1");	
+		  "Adresa mea in mod AP este: http://192.168.1.1");
+	setTimeout(function(){
+		window.location.replace("http://192.168.1.1");
+		}, 3000);			  
 }
 /*------------------------------------------------------------------------------------------------*/
 function rebootESP(){
