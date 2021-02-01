@@ -45,7 +45,6 @@ $(document).ready(function() {
   }
 /*------------------------------------------------------------------------------------------------*/
 function updAllZoneName() {
-	console.log('i`m here ??');
 	let data = {
 		"SET1NAME": document.getElementById("Z1NME").value,
 		"SET2NAME": document.getElementById("Z2NME").value,
@@ -78,7 +77,8 @@ function updConnectData() {
 		"WEBPASSWORD": document.getElementById("WEBPASS").value
 	};
 	
-	let _js = JSON.stringify(data);	
+	let _js = JSON.stringify(data);
+console.log("_js",_js);
     websocket.send(_js);
 	_js	= null;
 	data = null;
