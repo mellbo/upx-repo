@@ -41,6 +41,7 @@ $(document).ready(function() {
 	document.getElementById('idBtnSavePsk').addEventListener('click', updConnectData);
 	document.getElementById('idRestoreESP').addEventListener('click', restoreESP);
 	document.getElementById('idRebootESP').addEventListener('click', rebootESP);
+	document.getElementById('idBtnSafeMod').addEventListener('click', rebootInSafeMode);
   }
 /*------------------------------------------------------------------------------------------------*/
 function updAllZoneName() {
