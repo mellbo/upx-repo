@@ -42,6 +42,7 @@ $(document).ready(function() {
 	document.getElementById('idRestoreESP').addEventListener('click', restoreESP);
 	document.getElementById('idRebootESP').addEventListener('click', rebootESP);
 	document.getElementById('idBtnSafeMod').addEventListener('click', rebootInSafeMode);
+	document.getElementById('idGateway').addEventListener('click', openGatewayLink);
   }
 /*------------------------------------------------------------------------------------------------*/
 function updAllZoneName() {
@@ -133,6 +134,13 @@ function rebootInSafeMode(){
 		}, 3000);		  
 }
 /*------------------------------------------------------------------------------------------------*/
-
+function openGatewayLink() {
+	let elRouterIP = document.getElementById("idRouterIP");
+	let RouterIP = elRouterIP.innerHTML;
+	setTimeout(function(){
+		alert("Pagina se va deschide in fereastra noua.");
+		window.open("http://"+RouterIP);
+		}, 20);
+}
 /*REGULAR*/
 /*------------------------------------------------------------------------------------------------*/
