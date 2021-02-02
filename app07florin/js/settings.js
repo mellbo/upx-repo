@@ -125,7 +125,7 @@ function rebootInSafeMode(){
 	_js	= null;
 	data = null;
 	alert("Sistemul se restarteaza, si va rula in mod AP.\n"+
-		  "Cautati in lista dispozitivelor WIFI SSID 'UPX-GATEWAY' si conectati-va."+
+		  "Cautati in lista WIFI SSID 'UPX-GATEWAY' si conectati-va.\n"+
 		  "Adresa mea pentru AP este: http://192.168.1.1\n\n"+
 		  "Confirmati acest dialog dupa ce sunteti deja conectat la 'UPX-GATEWAY' !");
 	setTimeout(function(){
