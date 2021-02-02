@@ -78,7 +78,6 @@ function updConnectData() {
 	};
 	
 	let _js = JSON.stringify(data);
-console.log("_js",_js);
     websocket.send(_js);
 	_js	= null;
 	data = null;
