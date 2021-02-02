@@ -47,21 +47,21 @@ $(document).ready(function() {
 /*------------------------------------------------------------------------------------------------*/
 function updAllZoneName() {
 	let data = {
-		"SET1NAME": document.getElementById("Z1NME").value,
-		"SET2NAME": document.getElementById("Z2NME").value,
-		"SET3NAME": document.getElementById("Z3NME").value,
-		"SET4NAME": document.getElementById("Z4NME").value,
-		"SET5NAME": document.getElementById("Z5NME").value,
-		"SET6NAME": document.getElementById("Z6NME").value,
-		"SET7NAME": document.getElementById("Z7NME").value,
-		"SET8NAME": document.getElementById("Z8NME").value,
-		"SET9NAME": document.getElementById("Z9NME").value,
-		"SET10NAME": document.getElementById("Z10NME").value,
-		"SET11NAME": document.getElementById("Z11NME").value,
-		"SET12NAME": document.getElementById("Z12NME").value,
-		"SET13NAME": document.getElementById("Z13NME").value,
-		"SET14NAME": document.getElementById("Z14NME").value,
-		"SET15NAME": document.getElementById("Z15NME").value
+		"SET1NAME": document.getElementById("Z1NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET2NAME": document.getElementById("Z2NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET3NAME": document.getElementById("Z3NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET4NAME": document.getElementById("Z4NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET5NAME": document.getElementById("Z5NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET6NAME": document.getElementById("Z6NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET7NAME": document.getElementById("Z7NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET8NAME": document.getElementById("Z8NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET9NAME": document.getElementById("Z9NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET10NAME": document.getElementById("Z10NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET11NAME": document.getElementById("Z11NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET12NAME": document.getElementById("Z12NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET13NAME": document.getElementById("Z13NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET14NAME": document.getElementById("Z14NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"SET15NAME": document.getElementById("Z15NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
 	};
 	
 	let _js = JSON.stringify(data);	
@@ -73,9 +73,9 @@ function updAllZoneName() {
 /*------------------------------------------------------------------------------------------------*/
 function updConnectData() {
 	let data = {
-		"STASSID": document.getElementById("SSID").value,
-		"STAPSK": document.getElementById("SSPSK").value,
-		"WEBPASSWORD": document.getElementById("WEBPASS").value
+		"STASSID": document.getElementById("SSID").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"STAPSK": document.getElementById("SSPSK").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+		"WEBPASSWORD": document.getElementById("WEBPASS").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
 	};
 	
 	let _js = JSON.stringify(data);
