@@ -33,7 +33,6 @@ $(document).ready(function() {
   /*update fields*/
   function onMessage(event) {
 	let jsonObject = JSON.parse(event.data);
-	console.log(event.data);
 		document.getElementById("cMillis").innerText = jsonObject['cMs'];
 		for (let i=1; i<=15;i++){
 			document.getElementById(["idRoomTemp-Zone"+i]).innerHTML = (parseFloat(jsonObject[['LIVE'+i+'TEMP']])/1000).toFixed(1);
