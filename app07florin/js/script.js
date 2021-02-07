@@ -10,7 +10,6 @@ $(function() {	//run when doc loaded
 $(document).ready(function() {
 	createZonehtml();
     initWebSocket();
-    //initButton();	
 });
 /*------------------------------------------------------------------------------------------------*/
   function onOpen(event) {
@@ -70,11 +69,11 @@ function force_update(type, idx, value){
 /*REGULAR*/
 /*------------------------------------------------------------------------------------------------*/
 function decodeTemperature(Tbyte, pasT = 0.5) {
-  return (Tbyte * pasT);
+  return (parseInt(Tbyte) * pasT);
 }
 /*------------------------------------------------------------------------------------------------*/
 function encodeTemperature(fTemp, pasT = 0.5) {
-  return  (fTemp / pasT);
+  return  parseInt(fTemp / pasT);
 }
 /*------------------------------------------------------------------------------------------------*/
 function createZonehtml() {
