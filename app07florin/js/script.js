@@ -10,7 +10,7 @@ $(function() {	//run when doc loaded
 $(document).ready(function() {
 	createZonehtml();
     initWebSocket();
-    initButton();	
+    //initButton();	
 });
 /*------------------------------------------------------------------------------------------------*/
   function onOpen(event) {
@@ -35,7 +35,7 @@ $(document).ready(function() {
 	let jsonObject = JSON.parse(event.data);
 		document.getElementById("cMillis").innerText = jsonObject['cMs'];
 		for (let i=1; i<=15;i++){
-			document.getElementById(["idRoomTemp-Zone"+i]).innerHTML = (parseFloat(jsonObject[['LIVE'+i+'TEMP']])/1000).toFixed(1);
+			document.getElementById(["idRoomTemp-Zone"+i]).innerHTML = parseFloat(decodeTemperature((jsonObject[['LIVE'+i+'TEMP']]),0.25)).toFixed(1);
 		}
 		for (let i=1; i<=15;i++){
 			let elHeating = document.getElementById(["idHeatOn-Zone"+i]);
@@ -49,29 +49,12 @@ $(document).ready(function() {
 		jsonObject = null;
   }
 /*------------------------------------------------------------------------------------------------*/
-  function initButton() {
-    //document.getElementById('button').addEventListener('click', toggle);
-  }
-/*------------------------------------------------------------------------------------------------*/
-  function toggle(){
-	let data = {
-	"live": {
-		"toggle":"1"
-		},
-	"settings":{
-			"ssid":"cacat",
-			"sspass":"muie"
-		}};
-	let _js = JSON.stringify(data);	
-    websocket.send(_js);
-  }
-/*------------------------------------------------------------------------------------------------*/
 function force_update(type, idx, value){
 	let data = {};
 	switch(type){
 		case 'SETZNTEMP':
 			let fxName = "SET"+idx.toString()+"ZNTEMP";
-			value = (parseFloat(value)*1000).toFixed(0);
+			value = (encodeTemperature(parseFloat(value), 0.5)).toFixed(0);
 			data = {
 			  [fxName] : value
 			};
@@ -86,6 +69,14 @@ function force_update(type, idx, value){
 /*------------------------------------------------------------------------------------------------*/
 /*REGULAR*/
 /*------------------------------------------------------------------------------------------------*/
+function decodeTemperature(Tbyte, pasT = 0.5) {
+  return (Tbyte * pasT);
+}
+/*------------------------------------------------------------------------------------------------*/
+function encodeTemperature(fTemp, pasT = 0.5) {
+  return  (fTemp / pasT);
+}
+/*------------------------------------------------------------------------------------------------*/
 function createZonehtml() {
 	let dbL = document.getElementById("idLiveDataStorage").value;
 	let dbS = document.getElementById("idTempSetInit").value;
@@ -98,8 +89,8 @@ function createZonehtml() {
 	for (let i = 1; i <= 15; i++) {
 		let xHeat = dbH.split("::")[i-1];
 		let clsHeat = xHeat ? "d-none" : "";
-		let xRoomTemp = ((dbL.split("::")[i-1])/1000).toFixed(1);
-		let xSetTemp = ((dbS.split("::")[i-1])/1000).toFixed(1);
+		let xRoomTemp = (decodeTemperature(parseInt(dbL.split("::")[i-1]),0.25)).toFixed(1);
+		let xSetTemp = ((decodeTemperature(parseInt(dbS.split("::")[i-1]),0.5))).toFixed(1);
 		let xName = dbN.split("::")[i-1];
 		
 		html_code.push('<div class="col-sm-6 col-md-4 mb-4">');
