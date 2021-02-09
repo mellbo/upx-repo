@@ -116,10 +116,12 @@ function createZonehtml() {
 				
 				if (curentTemp >= 5.0) {
 					elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
-						setTimeout(function(i){
+					 var lstTimeOut = setTimeout(function(i){
 							force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);		
 						},1000);
-
+					for (let x=0;x<lstTimeOut;x++) {
+						clearTimeout(x);
+					}
 				}
 		});
 
@@ -131,9 +133,12 @@ function createZonehtml() {
 				
 				if (curentTemp <= 35.0) {
 					elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
-						setTimeout(function(){
+					 var lstTimeOut = setTimeout(function(i){
 							force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);		
 						},1000);
+					for (let x=0;x<lstTimeOut;x++) {
+						clearTimeout(x);
+					}
 				}
 		});			
 	}
