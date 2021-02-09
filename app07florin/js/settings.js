@@ -8,6 +8,7 @@ $(function() {	//run when doc loaded
 });
 /*------------------------------------------------------------------------------------------------*/
 $(document).ready(function() {
+	createZonesByDb();
     initWebSocket();
     initButton();	
 });
@@ -44,28 +45,62 @@ $(document).ready(function() {
 	document.getElementById('idBtnSafeMod').addEventListener('click', rebootInSafeMode);
 	document.getElementById('idGateway').addEventListener('click', openGatewayLink);
 	document.getElementById('idBtnSaveHisterizis').addEventListener('click', updHisterizis);	
-	document.getElementById('idHisterizis').addEventListener('change', updLabelHisterizis);
   }
 /*------------------------------------------------------------------------------------------------*/
-function updAllZoneName() {
-	let data = {
-		"SET1NAME": document.getElementById("Z1NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET2NAME": document.getElementById("Z2NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET3NAME": document.getElementById("Z3NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET4NAME": document.getElementById("Z4NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET5NAME": document.getElementById("Z5NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET6NAME": document.getElementById("Z6NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET7NAME": document.getElementById("Z7NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET8NAME": document.getElementById("Z8NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET9NAME": document.getElementById("Z9NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET10NAME": document.getElementById("Z10NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET11NAME": document.getElementById("Z11NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET12NAME": document.getElementById("Z12NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET13NAME": document.getElementById("Z13NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET14NAME": document.getElementById("Z14NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-		"SET15NAME": document.getElementById("Z15NME").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-	};
+function createZonesByDb(){
+	let dbN = document.getElementById("idInitNmeZone").value;
+	let dbH = document.getElementById("idInitHistZones").value;
 	
+	let html_code = [];
+	let elContainerZoneName = document.getElementById("idContainerZoneName");
+	/*Name Zones*/
+	for (let i = 1; i <= 15; i++) {		
+		let xName = dbN.split("::")[i-1];
+		let xLblName = "Zona "+i.toString();
+		
+		html_code.push('<div class="input-group input-group-sm mb-2 inputSettings">');
+		html_code.push('<div class="input-group-prepend inputSettings">');
+		html_code.push('<span class="input-group-text inputSettings">'+xLblName+'</span></div>');
+		html_code.push('<input type="text" class="form-control inputSettings" id="Z'+i.toString()+'NME" autocomplete="off" maxlength="12" value="'+xName+'" /></div>');
+	}
+	elContainerZoneName.innerHTML = html_code.join("");
+	html_code = null;
+	
+	/* Histerizis Zones */
+	let elContainerHisterizis = document.getElementById("idContainerHisterizis");
+	html_code = [];
+	html_code.push('<p class="m-0 mb-2 ml-2">Global Histerizis</p>');
+	for (let i = 1; i <= 15; i++) {
+		let xHist = (decodeTemperature(parseInt(dbH.split("::")[i-1]),0.25)).toFixed(1);
+		let xLblName = "Histerizis Zona: " + i.toString();		
+		html_code.push('<div class="form-group p-0 pl-4 pr-4 mb-2">');
+		html_code.push('<label class="m-0 p-0" for>'+xLblName+'<br />');
+		html_code.push('<span id="idLblValHistZ'+i.toString()+'" class="m-0 p-0">'+xHist+'</span></label>');
+		html_code.push('<input type="range" class="form-control-range" id="Z'+i.toString()+'HST" min="0.25" max="2.5" step="0.25" value="'+xHist+'" /></div>');
+	}
+	elContainerHisterizis.innerHTML = html_code.join("");
+	html_code = null;
+	
+	/*addEventListener*/
+	// update tracking value
+	for (let i = 1; i <= 15; i++) {
+		let idxTracking = "Z"+i.toString()+"HST";
+		let idxLblTracing = "idLblValHistZ"+i.toString()
+		document.getElementById(idxTracking).addEventListener('change', function(e){
+			document.getElementById(idxLblTracing).innerHTML = document.getElementById(idxTracking).value.toString();
+		});
+	}
+}
+/*------------------------------------------------------------------------------------------------*/
+function updAllZoneName() {	
+	let data = {};
+	for (let i = 1; i <= 15; i++) {
+		let idxField = "Z"+i.toString()+"NME";
+		let nme = "SET"+i.toString()+"NAME";
+		let val = document.getElementById([idxField]).value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+		data[[nme]] = val;
+	}
+		
 	let _js = JSON.stringify(data);	
     websocket.send(_js);
 	_js	= null;
@@ -73,20 +108,22 @@ function updAllZoneName() {
 	document.getElementById('idBtnSaveName').disabled = true;
 }
 /*------------------------------------------------------------------------------------------------*/
+function decodeTemperature(Tbyte, pasT = 0.5) {
+  return (parseInt(Tbyte) * pasT);
+}
+/*------------------------------------------------------------------------------------------------*/
 function encodeTemperature(fTemp, pasT = 0.5) {
   return  parseInt(fTemp / pasT);
 }
 /*------------------------------------------------------------------------------------------------*/
-function updLabelHisterizis() {
-	let valHisterizis = document.getElementById("idHisterizis").value;
-	document.getElementById("idHisterzisLabel").innerHTML = parseFloat(valHisterizis).toFixed(2);
-	
-}
-/*----------*/
 function updHisterizis() {
-	let data = {
-		"HISTERIZIS": (encodeTemperature(parseFloat(document.getElementById("idHisterizis").value), 0.25)).toFixed(0)
-	};
+	let data = {};
+	for (let i = 1; i <= 15; i++) {
+		let idxTrack = "Z"+i.toString()+"HST"; /* Z1HST | histerizis */
+		let nme = "SET"+i.toString()+"ZNHIST";
+		let val = (encodeTemperature(parseFloat(document.getElementById([idxTrack]).value), 0.25)).toFixed(0);
+		data[[nme]] = val;
+	}	
 
 	let _js = JSON.stringify(data);
     websocket.send(_js);
