@@ -44,10 +44,13 @@ $(document).ready(function() {
 	document.getElementById('idRebootESP').addEventListener('click', rebootESP);
 	document.getElementById('idBtnSafeMod').addEventListener('click', rebootInSafeMode);
 	document.getElementById('idGateway').addEventListener('click', openGatewayLink);
-	document.getElementById('idBtnSaveHisterizis').addEventListener('click', updHisterizis);	
+	document.getElementById('idBtnSaveHisterizis').addEventListener('click', updHisterizis);
+	document.getElementById('idEnableEditHisterizis').addEventListener('click', enableEditHisterizis);
+	
   }
 /*------------------------------------------------------------------------------------------------*/
 function createZonesByDb(){
+	document.getElementById('idBtnSaveHisterizis').disabled = true;
 	let dbN = document.getElementById("idInitNmeZone").value;
 	let dbH = document.getElementById("idInitHistZones").value;
 	
@@ -61,7 +64,7 @@ function createZonesByDb(){
 		html_code.push('<div class="input-group input-group-sm mb-2 inputSettings">');
 		html_code.push('<div class="input-group-prepend inputSettings">');
 		html_code.push('<span class="input-group-text inputSettings">'+xLblName+'</span></div>');
-		html_code.push('<input type="text" class="form-control inputSettings" id="Z'+i.toString()+'NME" autocomplete="off" maxlength="12" value="'+xName+'" /></div>');
+		html_code.push('<input type="text" class="form-control inputSettings" id="Z'+i.toString()+'NME" autocomplete="off" maxlength="12" value="'+xName+'"/></div>');
 	}
 	elContainerZoneName.innerHTML = html_code.join("");
 	html_code = null;
@@ -69,14 +72,15 @@ function createZonesByDb(){
 	/* Histerizis Zones */
 	let elContainerHisterizis = document.getElementById("idContainerHisterizis");
 	html_code = [];
-	html_code.push('<p class="m-0 mb-2 ml-2">Global Histerizis</p>');
+	//html_code.push('<p class="m-0 mb-2 ml-2">Global Histerizis</p>');
 	for (let i = 1; i <= 15; i++) {
 		let xHist = (decodeTemperature(parseInt(dbH.split("::")[i-1]),0.25)).toFixed(2);
-		let xLblName = "Histerizis Zona: " + i.toString();		
+		let xLblName = "Histerizis Zona(" + i.toString()+ "): ";
+		let xName = dbN.split("::")[i-1];		
 		html_code.push('<div class="form-group p-0 pl-4 pr-4 mb-2">');
-		html_code.push('<label class="m-0 p-0" for>'+xLblName+'<br />');
+		html_code.push('<label class="small m-0 p-0" for>'+xLblName+xName+'<br />');
 		html_code.push('<span id="idLblValHistZ'+i.toString()+'" class="m-0 p-0">'+xHist+'</span></label>');
-		html_code.push('<input type="range" class="form-control-range" id="Z'+i.toString()+'HST" min="0.25" max="2.5" step="0.25" value="'+xHist+'" /></div>');
+		html_code.push('<input type="range" class="form-control-range clsRange" id="Z'+i.toString()+'HST" min="0.25" max="2.5" step="0.25" value="'+xHist+'" disabled /></div>');
 	}
 	elContainerHisterizis.innerHTML = html_code.join("");
 	html_code = null;
@@ -125,11 +129,25 @@ function updHisterizis() {
 		data[[nme]] = val;
 	}	
 
+	document.getElementById('idBtnSaveHisterizis').disabled = true;
+	document.getElementById('idEnableEditHisterizis').disabled = false;
+	$(".clsRange").attr("disabled");
+
 	let _js = JSON.stringify(data);
     websocket.send(_js);
 	_js	= null;
 	data = null;
 	document.getElementById('idBtnSaveHisterizis').disabled = true;
+	document.getElementById('idEnableEditHisterizis').disabled = false;
+	$(".clsRange").attr("disabled");
+}
+/*------------------------------------------------------------------------------------------------*/
+
+function enableEditHisterizis() {
+	$(".clsRange").removeAttr("disabled");
+	document.getElementById('idBtnSaveHisterizis').disabled = false;
+	document.getElementById('idEnableEditHisterizis').disabled = true;
+	
 }
 /*------------------------------------------------------------------------------------------------*/
 function updConnectData() {
