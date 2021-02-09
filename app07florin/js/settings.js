@@ -139,7 +139,7 @@ function updHisterizis() {
 	data = null;
 	document.getElementById('idBtnSaveHisterizis').disabled = true;
 	document.getElementById('idEnableEditHisterizis').disabled = false;
-	$(".clsRange").attr("disabled");
+	$(".clsRange").attr("disabled", true);
 }
 /*------------------------------------------------------------------------------------------------*/
 
