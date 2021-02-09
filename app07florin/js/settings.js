@@ -43,6 +43,8 @@ $(document).ready(function() {
 	document.getElementById('idRebootESP').addEventListener('click', rebootESP);
 	document.getElementById('idBtnSafeMod').addEventListener('click', rebootInSafeMode);
 	document.getElementById('idGateway').addEventListener('click', openGatewayLink);
+	document.getElementById('idBtnSaveHisterizis').addEventListener('click', updHisterizis);	
+	document.getElementById('idHisterizis').addEventListener('change', updLabelHisterizis);
   }
 /*------------------------------------------------------------------------------------------------*/
 function updAllZoneName() {
@@ -69,6 +71,28 @@ function updAllZoneName() {
 	_js	= null;
 	data = null;
 	document.getElementById('idBtnSaveName').disabled = true;
+}
+/*------------------------------------------------------------------------------------------------*/
+function encodeTemperature(fTemp, pasT = 0.5) {
+  return  parseInt(fTemp / pasT);
+}
+/*------------------------------------------------------------------------------------------------*/
+function updLabelHisterizis() {
+	let valHisterizis = document.getElementById("idHisterizis").value;
+	document.getElementById("idHisterzisLabel").innerHTML = parseFloat(valHisterizis).toFixed(2);
+	
+}
+/*----------*/
+function updHisterizis() {
+	let data = {
+		"HISTERIZIS": (encodeTemperature(parseFloat(document.getElementById("idHisterizis").value), 0.25)).toFixed(0)
+	};
+
+	let _js = JSON.stringify(data);
+    websocket.send(_js);
+	_js	= null;
+	data = null;
+	document.getElementById('idBtnSaveHisterizis').disabled = true;
 }
 /*------------------------------------------------------------------------------------------------*/
 function updConnectData() {
