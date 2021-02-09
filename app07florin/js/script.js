@@ -117,7 +117,6 @@ function createZonehtml() {
 				if (curentTemp >= 5.0) {
 					elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
 						setTimeout(function(i){
-							let elCurSetTemp = document.getElementById(idCurentSetTemp);
 							force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);		
 						},1000);
 
@@ -132,8 +131,7 @@ function createZonehtml() {
 				
 				if (curentTemp <= 35.0) {
 					elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
-						setTimeout(function(i){
-							let elCurSetTemp = document.getElementById(idCurentSetTemp);
+						setTimeout(function(){
 							force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);		
 						},1000);
 				}
