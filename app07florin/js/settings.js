@@ -71,7 +71,7 @@ function createZonesByDb(){
 	html_code = [];
 	html_code.push('<p class="m-0 mb-2 ml-2">Global Histerizis</p>');
 	for (let i = 1; i <= 15; i++) {
-		let xHist = (decodeTemperature(parseInt(dbH.split("::")[i-1]),0.25)).toFixed(1);
+		let xHist = (decodeTemperature(parseInt(dbH.split("::")[i-1]),0.25)).toFixed(2);
 		let xLblName = "Histerizis Zona: " + i.toString();		
 		html_code.push('<div class="form-group p-0 pl-4 pr-4 mb-2">');
 		html_code.push('<label class="m-0 p-0" for>'+xLblName+'<br />');
