@@ -115,8 +115,11 @@ function createZonehtml() {
 			let curentTemp = parseFloat(elCurSetTemp.innerHTML) - 0.5;
 				
 				if (curentTemp >= 5.0) {
-					elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
-					force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);
+						setTimeout(function(elCurSetTemp){
+							elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
+							force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);		
+						},1000);
+
 				}
 		});
 
@@ -127,8 +130,10 @@ function createZonehtml() {
 			let curentTemp = parseFloat(elCurSetTemp.innerHTML) + 0.5;
 				
 				if (curentTemp <= 35.0) {
-					elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
-					force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);
+						setTimeout(function(elCurSetTemp){
+							elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
+							force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);		
+						},1000);
 				}
 		});			
 	}
