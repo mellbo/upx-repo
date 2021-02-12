@@ -191,8 +191,11 @@ function rebootESP(){
     websocket.send(_js);
 	_js	= null;
 	data = null;
-	alert("Sistemul se restarteaza, 20 secunde.\n"+
+	alert("Sistemul se restarteaza, 40 secunde.\n"+
 		  "Actualizati (refresh) pagina dupa timp-ul expirat.");
+	setTimeout(function(){
+		location.reload();
+		}, 3000);		  
 }
 /*------------------------------------------------------------------------------------------------*/
 function rebootInSafeMode(){
@@ -204,7 +207,7 @@ function rebootInSafeMode(){
     websocket.send(_js);
 	_js	= null;
 	data = null;
-	alert("Sistemul se restarteaza, si va rula in mod AP.\n"+
+	alert("Sistemul se restarteaza, si va rula in mod AP-SAFEMODE.\n"+
 		  "Cautati in lista WIFI SSID 'UPX-GATEWAY' si conectati-va.\n"+
 		  "Adresa mea pentru AP este: http://192.168.1.1\n\n"+
 		  "Confirmati acest dialog dupa ce sunteti deja conectat la 'UPX-GATEWAY' !");
