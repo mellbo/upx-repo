@@ -72,7 +72,6 @@ function createZonesByDb(){
 	let elContainerHisterizis = document.getElementById("idZoneHisterizisContainer");
 	html_code = [];
 	for (let i = 1; i <= 15; i++) {
-		//let xHist = (decodeTemperature(parseInt(dbH.split("::")[i-1]),0.25)).toFixed(2);
 		let xLblName = "Histerizis Zona(" + i.toString()+ "): ";
 		let xName = dbN.split("::")[i-1];
 		html_code.push('<option value="'+i.toString()+'">'+xLblName+xName+'</option>');			
@@ -101,6 +100,11 @@ function createZonesByDb(){
 	
 	/*addEventListener*/
 	// update tracking value
+	document.getElementById("idSelectZoneHisterizis").addEventListener('change', function(e){
+		let zoneIDSelected = $('#idSelectZoneHisterizis option:selected').val();
+	    let xHist = (decodeTemperature(parseInt(dbH.split("::")[zoneIDSelected-1]),0.25)).toFixed(2);
+		document.getElementById("idHisterizisValue").value = xHist;
+	});	
 	document.getElementById("idHisterizisValue").addEventListener('change', function(e){	
 		document.getElementById("idLblValHisterizis").innerHTML = document.getElementById("idHisterizisValue").value.toString();
 	});
