@@ -45,7 +45,6 @@ $(document).ready(function() {
 	document.getElementById('idBtnSafeMod').addEventListener('click', rebootInSafeMode);
 	document.getElementById('idGateway').addEventListener('click', openGatewayLink);
 	document.getElementById('idBtnSaveHisterizis').addEventListener('click', updHisterizis);
-	document.getElementById('idEnableEditHisterizis').addEventListener('click', enableEditHisterizis);
 	document.getElementById('idBtnSaveCalibrations').addEventListener('click', updCalibSensor);	
   }
 /*------------------------------------------------------------------------------------------------*/
@@ -71,20 +70,22 @@ function createZonesByDb(){
 	html_code = null;
 	
 	/* Histerizis Zones */
-	let elContainerHisterizis = document.getElementById("idContainerHisterizis");
+	let elContainerHisterizis = document.getElementById("idZoneHisterizisContainer");
 	html_code = [];
-	//html_code.push('<p class="m-0 mb-2 ml-2">Global Histerizis</p>');
 	for (let i = 1; i <= 15; i++) {
-		let xHist = (decodeTemperature(parseInt(dbH.split("::")[i-1]),0.25)).toFixed(2);
+		//let xHist = (decodeTemperature(parseInt(dbH.split("::")[i-1]),0.25)).toFixed(2);
 		let xLblName = "Histerizis Zona(" + i.toString()+ "): ";
-		let xName = dbN.split("::")[i-1];		
-		html_code.push('<div class="form-group p-0 pl-4 pr-4 mb-2">');
-		html_code.push('<label class="small m-0 p-0" for>'+xLblName+xName+'<br />');
-		html_code.push('<span id="idLblValHistZ'+i.toString()+'" class="m-0 p-0">'+xHist+'</span></label>');
-		html_code.push('<input type="range" class="form-control-range clsRange" id="Z'+i.toString()+'HST" min="0.25" max="2.5" step="0.25" value="'+xHist+'" disabled /></div>');
+		let xName = dbN.split("::")[i-1];
+		html_code.push('<option value="'+i.toString()+'">'+xLblName+xName+'</option>');			
+		//html_code.push('<div class="form-group p-0 pl-4 pr-4 mb-2">');
+		//html_code.push('<label class="small m-0 p-0" for>'+xLblName+xName+'<br />');
+		//html_code.push('<span id="idLblValHistZ'+i.toString()+'" class="m-0 p-0">'+xHist+'</span></label>');
+		//html_code.push('<input type="range" class="form-control-range clsRange" id="Z'+i.toString()+'HST" min="0.25" max="2.5" step="0.25" value="'+xHist+'" disabled /></div>');
 	}
 	elContainerHisterizis.innerHTML = html_code.join("");
 	html_code = null;
+	document.getElementById("idHisterizisValue").value = (decodeTemperature(parseInt(dbH.split("::")[0]),0.25)).toFixed(2);
+	document.getElementById("idLblValHisterizis").innerHTML = document.getElementById("idHisterizisValue").value.toString();
 	
 	/* Calibration zone */
 	let elSelectZoneCalib = document.getElementById("idZoneCalibContainer");
@@ -101,13 +102,9 @@ function createZonesByDb(){
 	
 	/*addEventListener*/
 	// update tracking value
-	for (let i = 1; i <= 15; i++) {
-		let idxTracking = "Z"+i.toString()+"HST";
-		let idxLblTracing = "idLblValHistZ"+i.toString()
-		document.getElementById(idxTracking).addEventListener('change', function(e){
-			document.getElementById(idxLblTracing).innerHTML = document.getElementById(idxTracking).value.toString();
-		});
-	}
+	document.getElementById("idHisterizisValue").addEventListener('change', function(e){	
+		document.getElementById("idLblValHisterizis").innerHTML = document.getElementById("idHisterizisValue").value.toString();
+	});
 	
 	/* for change calibration */
 	document.getElementById("idSelectZoneCalib").addEventListener('change', function(e){
@@ -159,24 +156,21 @@ function encodeTemperature(fTemp, pasT = 0.5) {
 /*------------------------------------------------------------------------------------------------*/
 function updHisterizis() {
 	let data = {};
-	for (let i = 1; i <= 15; i++) {
-		let idxTrack = "Z"+i.toString()+"HST"; /* Z1HST | histerizis */
-		let nme = "SET"+i.toString()+"ZNHIST";
-		let val = (encodeTemperature(parseFloat(document.getElementById([idxTrack]).value), 0.25)).toFixed(0);
-		data[[nme]] = val;
-	}	
+	let newHistVal = document.getElementById("idHisterizisValue").value;
+	let zoneID = $('#idSelectZoneHisterizis option:selected').val();
+	let nme = "SET"+zoneID.toString()+"ZNHIST";
+	let val = (encodeTemperature(parseFloat(newHistVal), 0.25)).toFixed(0);
+	data[[nme]] = val;
 
 	document.getElementById('idBtnSaveHisterizis').disabled = true;
-	document.getElementById('idEnableEditHisterizis').disabled = false;
-	$(".clsRange").attr("disabled");
+	setTimeout(function(){
+		document.getElementById('idBtnSaveHisterizis').disabled = false;
+	}, 2000);
 
 	let _js = JSON.stringify(data);
     websocket.send(_js);
 	_js	= null;
 	data = null;
-	document.getElementById('idBtnSaveHisterizis').disabled = true;
-	document.getElementById('idEnableEditHisterizis').disabled = false;
-	$(".clsRange").attr("disabled", true);
 }
 /*------------------------------------------------------------------------------------------------*/
 
