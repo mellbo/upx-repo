@@ -10,7 +10,12 @@ $(function() {	//run when doc loaded
 $(document).ready(function() {
 	createZonesByDb();
     initWebSocket();
-    initButton();	
+    initButton();
+	
+	let rT = 22.50;
+	let uT = 22.00;
+	let diff = uT-rT;
+	console.log(encodeCalibration(diff));
 });
 /*------------------------------------------------------------------------------------------------*/
   function onOpen(event) {
@@ -53,6 +58,7 @@ function createZonesByDb(){
 	document.getElementById('idBtnSaveHisterizis').disabled = true;
 	let dbN = document.getElementById("idInitNmeZone").value;
 	let dbH = document.getElementById("idInitHistZones").value;
+	let dbC = document.getElementById("idInitCalibSZ").value;
 	
 	let html_code = [];
 	let elContainerZoneName = document.getElementById("idContainerZoneName");
@@ -85,6 +91,17 @@ function createZonesByDb(){
 	elContainerHisterizis.innerHTML = html_code.join("");
 	html_code = null;
 	
+	/* Calibration zone */
+	let elSelectZoneCalib = document.getElementById("idZoneCalibContainer");
+	html_code = [];
+	for (let i = 1; i <= 15; i++) {		
+		let xLblName = "Zona(" + i.toString()+ "): ";
+		let xName = dbN.split("::")[i-1];
+		html_code.push('<option value="'+i.toString()+'">'+xLblName+xName+'</option>');		
+	}
+	elSelectZoneCalib.innerHTML = html_code.join("");
+	html_code = null;
+	
 	/*addEventListener*/
 	// update tracking value
 	for (let i = 1; i <= 15; i++) {
@@ -94,6 +111,13 @@ function createZonesByDb(){
 			document.getElementById(idxLblTracing).innerHTML = document.getElementById(idxTracking).value.toString();
 		});
 	}
+	
+	/* for change calibration */
+	document.getElementById("idSelectZoneCalib").addEventListener('change', function(e){
+		let zoneIDSelected = $('#idSelectZoneCalib option:selected').val();
+		let xCalibValue = dbC.split("::")[zoneIDSelected];
+		document.getElementById("idInpCalibValue").value = decodeCalibration(xCalibValue);
+	});
 }
 /*------------------------------------------------------------------------------------------------*/
 function updAllZoneName() {	
@@ -224,5 +248,19 @@ function openGatewayLink() {
 		window.open("http://"+RouterIP);
 		}, 20);
 }
-/*REGULAR*/
+/*------------------------------------------------------------------------------------------------*/
+function fmap(x, in_min, in_max, out_min, out_max) {
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+/*------------------------------------------------------------------------------------------------*/
+function encodeCalibration(inTemp){
+	if ((inTemp > 5) || (inTemp < -5)) return 0;
+	let result = fmap(inTemp, -5.0, 5.0, 5000, 15000); // -5...0...5 => 5000..10000..15000
+	return parseFloat((result).toFixed(0));
+}
+/*------------------------------------------------------------------------------------------------*/
+function decodeCalibration(inCalib) {
+	let result = fmap(inCalib, 5000, 15000, -5.0, 5.0);
+	return (result).toFixed(2);
+}
 /*------------------------------------------------------------------------------------------------*/
