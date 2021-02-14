@@ -112,7 +112,7 @@ function createZonesByDb(){
 	/* for change calibration */
 	document.getElementById("idSelectZoneCalib").addEventListener('change', function(e){
 		let zoneIDSelected = $('#idSelectZoneCalib option:selected').val();
-		let xCalibValue = dbC.split("::")[zoneIDSelected];
+		let xCalibValue = dbC.split("::")[zoneIDSelected-1];
 		document.getElementById("idInpCalibValue").value = decodeCalibration(xCalibValue);
 	});
 	document.getElementById("idMinusCalib").addEventListener('click', function(e){
