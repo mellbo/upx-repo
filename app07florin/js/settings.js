@@ -51,7 +51,7 @@ $(document).ready(function() {
 	document.getElementById('idGateway').addEventListener('click', openGatewayLink);
 	document.getElementById('idBtnSaveHisterizis').addEventListener('click', updHisterizis);
 	document.getElementById('idEnableEditHisterizis').addEventListener('click', enableEditHisterizis);
-	
+	document.getElementById('idBtnSaveCalibrations').addEventListener('click', updCalibSensor);	
   }
 /*------------------------------------------------------------------------------------------------*/
 function createZonesByDb(){
@@ -97,10 +97,12 @@ function createZonesByDb(){
 	for (let i = 1; i <= 15; i++) {		
 		let xLblName = "Zona(" + i.toString()+ "): ";
 		let xName = dbN.split("::")[i-1];
-		html_code.push('<option value="'+i.toString()+'">'+xLblName+xName+'</option>');		
+		html_code.push('<option value="'+[i-1].toString()+'">'+xLblName+xName+'</option>');		
 	}
 	elSelectZoneCalib.innerHTML = html_code.join("");
 	html_code = null;
+	document.getElementById("idInpCalibValue").value = decodeCalibration(dbC.split("::")[0]);
+	
 	
 	/*addEventListener*/
 	// update tracking value
@@ -118,6 +120,22 @@ function createZonesByDb(){
 		let xCalibValue = dbC.split("::")[zoneIDSelected];
 		document.getElementById("idInpCalibValue").value = decodeCalibration(xCalibValue);
 	});
+	document.getElementById("idMinusCalib").addEventListener('click', function(e){
+		let elInpCalibValue = document.getElementById("idInpCalibValue");
+		let valInp = parseFloat(elInpCalibValue.value);
+			if (valInp > -5.0) {
+				valInp -= 0.25;
+				elInpCalibValue.value = valInp;
+			}
+	});
+	document.getElementById("idPlusCalib").addEventListener('click', function(e){
+		let elInpCalibValue = document.getElementById("idInpCalibValue");
+		let valInp = parseFloat(elInpCalibValue.value);
+			if (valInp < 5.0) {
+				valInp += 0.25;
+				elInpCalibValue.value = valInp;
+			}
+	});	
 }
 /*------------------------------------------------------------------------------------------------*/
 function updAllZoneName() {	
@@ -249,6 +267,8 @@ function openGatewayLink() {
 		}, 20);
 }
 /*------------------------------------------------------------------------------------------------*/
+/*Calibration*/
+/*------------------------------------------------------------------------------------------------*/
 function fmap(x, in_min, in_max, out_min, out_max) {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
@@ -262,5 +282,24 @@ function encodeCalibration(inTemp){
 function decodeCalibration(inCalib) {
 	let result = fmap(inCalib, 5000, 15000, -5.0, 5.0);
 	return (result).toFixed(2);
+}
+/*------------------------------------------------------------------------------------------------*/
+function updCalibSensor() {
+	let data = {};
+	let newCalibVal = document.getElementById("idSelectZoneCalib").value;
+	let zoneID = $('#idSelectZoneCalib option:selected').val();
+	let nme = "SET"+zoneID.toString()+"CALIBSZ";
+	let val = (encodeCalibration(newCalibVal)).toFixed(0);
+	data[[nme]] = val;
+
+	document.getElementById('idBtnSaveCalibrations').disabled = true;
+	setTimeout(function(){
+		document.getElementById('idBtnSaveCalibrations').disabled = false;
+	}, 2000);
+
+	let _js = JSON.stringify(data);
+    websocket.send(_js);
+	_js	= null;
+	data = null;
 }
 /*------------------------------------------------------------------------------------------------*/
