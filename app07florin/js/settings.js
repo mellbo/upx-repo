@@ -281,7 +281,7 @@ function decodeCalibration(inCalib) {
 /*------------------------------------------------------------------------------------------------*/
 function updCalibSensor() {
 	let data = {};
-	let newCalibVal = document.getElementById("idSelectZoneCalib").value;
+	let newCalibVal = document.getElementById("idInpCalibValue").value;
 	let zoneID = $('#idSelectZoneCalib option:selected').val();
 	let nme = "SET"+zoneID.toString()+"CALIBSZ";
 	let val = (encodeCalibration(parseFloat(newCalibVal))).toFixed(0);
