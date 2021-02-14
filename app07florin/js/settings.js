@@ -49,7 +49,6 @@ $(document).ready(function() {
   }
 /*------------------------------------------------------------------------------------------------*/
 function createZonesByDb(){
-	document.getElementById('idBtnSaveHisterizis').disabled = true;
 	let dbN = document.getElementById("idInitNmeZone").value;
 	let dbH = document.getElementById("idInitHistZones").value;
 	let dbC = document.getElementById("idInitCalibSZ").value;
@@ -287,7 +286,6 @@ function updCalibSensor() {
 	}, 2000);
 
 	let _js = JSON.stringify(data);
-	console.log(_js);
     websocket.send(_js);
 	_js	= null;
 	data = null;
