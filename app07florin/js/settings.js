@@ -11,11 +11,6 @@ $(document).ready(function() {
 	createZonesByDb();
     initWebSocket();
     initButton();
-	
-	let rT = 22.50;
-	let uT = 22.00;
-	let diff = uT-rT;
-	console.log(encodeCalibration(diff));
 });
 /*------------------------------------------------------------------------------------------------*/
   function onOpen(event) {
@@ -97,7 +92,7 @@ function createZonesByDb(){
 	for (let i = 1; i <= 15; i++) {		
 		let xLblName = "Zona(" + i.toString()+ "): ";
 		let xName = dbN.split("::")[i-1];
-		html_code.push('<option value="'+[i-1].toString()+'">'+xLblName+xName+'</option>');		
+		html_code.push('<option value="'+i.toString()+'">'+xLblName+xName+'</option>');		
 	}
 	elSelectZoneCalib.innerHTML = html_code.join("");
 	html_code = null;
@@ -289,7 +284,7 @@ function updCalibSensor() {
 	let newCalibVal = document.getElementById("idSelectZoneCalib").value;
 	let zoneID = $('#idSelectZoneCalib option:selected').val();
 	let nme = "SET"+zoneID.toString()+"CALIBSZ";
-	let val = (encodeCalibration(newCalibVal)).toFixed(0);
+	let val = (encodeCalibration(parseFloat(newCalibVal))).toFixed(0);
 	data[[nme]] = val;
 
 	document.getElementById('idBtnSaveCalibrations').disabled = true;
@@ -298,6 +293,7 @@ function updCalibSensor() {
 	}, 2000);
 
 	let _js = JSON.stringify(data);
+	console.log(_js);
     websocket.send(_js);
 	_js	= null;
 	data = null;
