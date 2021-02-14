@@ -168,14 +168,14 @@ function updHisterizis() {
 	data[[nme]] = val;
 
 	document.getElementById('idBtnSaveHisterizis').disabled = true;
-	setTimeout(function(){
-		document.getElementById('idBtnSaveHisterizis').disabled = false;
-	}, 2000);
 
 	let _js = JSON.stringify(data);
     websocket.send(_js);
 	_js	= null;
 	data = null;
+	setTimeout(function(){
+		location.reload();
+	}, 500);	
 }
 /*------------------------------------------------------------------------------------------------*/
 function updConnectData() {
@@ -279,13 +279,13 @@ function updCalibSensor() {
 	data[[nme]] = val;
 
 	document.getElementById('idBtnSaveCalibrations').disabled = true;
-	setTimeout(function(){
-		document.getElementById('idBtnSaveCalibrations').disabled = false;
-	}, 2000);
 
 	let _js = JSON.stringify(data);
     websocket.send(_js);
 	_js	= null;
 	data = null;
+	setTimeout(function(){
+		location.reload();
+	}, 500);	
 }
 /*------------------------------------------------------------------------------------------------*/
