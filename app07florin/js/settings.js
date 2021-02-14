@@ -172,14 +172,6 @@ function updHisterizis() {
 	data = null;
 }
 /*------------------------------------------------------------------------------------------------*/
-
-function enableEditHisterizis() {
-	$(".clsRange").removeAttr("disabled");
-	document.getElementById('idBtnSaveHisterizis').disabled = false;
-	document.getElementById('idEnableEditHisterizis').disabled = true;
-	
-}
-/*------------------------------------------------------------------------------------------------*/
 function updConnectData() {
 	let data = {
 		"STASSID": document.getElementById("SSID").value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
