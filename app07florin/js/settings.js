@@ -92,7 +92,7 @@ function createZonesByDb(){
 	for (let i = 1; i <= 15; i++) {		
 		let xLblName = "Zona(" + i.toString()+ "): ";
 		let xName = dbN.split("::")[i-1];
-		html_code.push('<option value="'i.toString()+'">'+xLblName+xName+'</option>');		
+		html_code.push('<option value="'+i.toString()+'">'+xLblName+xName+'</option>');		
 	}
 	elSelectZoneCalib.innerHTML = html_code.join("");
 	html_code = null;
