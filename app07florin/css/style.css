@@ -1,1 +1,233 @@
-*{-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;}.lcd_style{background-color: rgba(0,224,255,0.6); box-shadow: 0px 0px 4px 3px var(--yellow);}.lcd_font1{height: 80px; margin: 0; font-family: digital-7; font-size: 91px; color: rgb(65,63,63);}.lcd_font2{font-family: digital-7; color: rgb(69,67,66); font-size: 25px; margin-left: 41px; margin-top: 5px;}.lcd_font3{font-family: digital-7; color: rgb(174,63,0); text-align: center; font-size: 50px;}.lcd_icon{position: absolute; top: 88px; left: 11px; font-size: 22px; color: rgba(235,97,19,0.88);}.icon_arrow_left{font-size: 30px; color: rgb(65,63,63); position: absolute; left: 20px; bottom: 15px; box-shadow: 0px 0px 4px 1px;}.icon_arrow_left:hover{color: rgb(51,0,255);}.icon_arrow_right{font-size: 30px; color: rgb(65,63,63); position: absolute; right: 20px; bottom: 15px; box-shadow: 0px 0px 4px 1px;}.icon_arrow_right:hover{color: red;}.features-blue{color: #fff; background: linear-gradient(93deg, rgb(23,42,116), rgb(151,178,191) 34%, rgb(23,42,116) 52%, rgb(33,169,175) 89%, rgb(0,0,0) 100%); background-color: #184e8e; padding-bottom: 30px;}.titleStyle{font-size: 2.6rem; text-shadow: 0px 0px 20px, -3px 0px 15px var(--yellow), 0px -3px 3px var(--danger);}@media screen and (min-width: 640px){.titleStyle{font-size: 4rem;}}.upx_logo{font-size: 16px; color: rgb(150,150,150); font-family: cursive;}.meniuBtn{position: absolute; right: 10px; bottom: 10px; margin: 0px; padding: 0px; padding-left: 5px; padding-right: 5px;}.logoutBtn{position: absolute; right: 70px; bottom: 10px; margin: 0px; padding: 0px; padding-left: 5px; padding-right: 5px;}/* customyze */.topImgStyle{border-radius: 0px;}.cardStyle{min-width: 100%; box-shadow: none; border: 0 none; border-radius: 0px; border-bottom: 2px var(--yellow) solid;}/* overwrite card style */.cardSettings{color: white; background: linear-gradient(rgb(24,48,119) 0%, rgb(33,169,175) 29%);}.inputSettings{background-color: rgba(255,255,255,0.72);}/* PAGE SETTINGS */.actBtnSafeMod{background: #21a9af; box-shadow: 0px 0px 7px 3px; text-align: center; cursor: pointer;}.actBtnSafeMod:hover{color: red;}.actBtnSafeMod .label{color: rgb(255,255,255); width: 100% !important;}.actBtnReset{background: var(--danger); box-shadow: 0px 0px 7px 3px; text-align: center; cursor: pointer;}.actBtnReset:hover{color: red;}.actBtnReset .label{color: rgb(255,255,255); width: 100% !important;}.actBtnRestart{background: var(--yellow); box-shadow: 0px 0px 7px 3px; text-align: center; cursor: pointer;}.actBtnRestart:hover{color: red;}.actBtnRestart .label{color: rgb(0,0,0); width: 100% !important;}.actBtnGateway{background: var(--pink); box-shadow: 0px 0px 7px 3px; text-align: center; cursor: pointer;}.actBtnGateway:hover{color: rgb(255,214,0);}.actBtnGateway .label{color: rgb(255,255,255); width: 100% !important;}.btnEdHist{position: absolute; top: 10px; right: 10px;}
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.lcd_style {
+  background-color: rgba(0,224,255,0.6);
+  box-shadow: 0px 0px 4px 3px var(--yellow);
+}
+
+.lcd_font1 {
+  height: 80px;
+  margin: 0;
+  font-family: digital-7;
+  font-size: 91px;
+  color: rgb(65,63,63);
+}
+
+.lcd_font2 {
+  font-family: digital-7;
+  color: rgb(69,67,66);
+  font-size: 25px;
+  margin-left: 41px;
+  margin-top: 5px;
+}
+
+.lcd_font3 {
+  font-family: digital-7;
+  color: rgb(174,63,0);
+  text-align: center;
+  font-size: 50px;
+}
+
+.lcd_icon {
+  position: absolute;
+  top: 88px;
+  left: 11px;
+  font-size: 22px;
+  color: rgba(235,97,19,0.88);
+}
+
+.icon_arrow_left {
+  font-size: 30px;
+  color: rgb(65,63,63);
+  position: absolute;
+  left: 20px;
+  bottom: 15px;
+  box-shadow: 0px 0px 4px 1px;
+}
+
+.icon_arrow_left:hover {
+  color: rgb(51,0,255);
+}
+
+.icon_arrow_right {
+  font-size: 30px;
+  color: rgb(65,63,63);
+  position: absolute;
+  right: 20px;
+  bottom: 15px;
+  box-shadow: 0px 0px 4px 1px;
+}
+
+.icon_arrow_right:hover {
+  color: red;
+}
+
+.features-blue {
+  color: #fff;
+  background: linear-gradient(93deg, rgb(23,42,116), rgb(151,178,191) 34%, rgb(23,42,116) 52%, rgb(33,169,175) 89%, rgb(0,0,0) 100%);
+  background-color: #184e8e;
+  padding-bottom: 30px;
+}
+
+.titleStyle {
+  font-size: 2.6rem;
+  text-shadow: 0px 0px 20px, -3px 0px 15px var(--yellow), 0px -3px 3px var(--danger);
+}
+
+@media screen and (min-width: 640px) {
+  .titleStyle {
+    font-size: 4rem;
+  }
+}
+
+.upx_logo {
+  font-size: 16px;
+  color: rgb(150,150,150);
+  font-family: cursive;
+}
+
+.meniuBtn {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  margin: 0px;
+  padding: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.logoutBtn {
+  position: absolute;
+  right: 70px;
+  bottom: 10px;
+  margin: 0px;
+  padding: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/* customyze */
+
+.topImgStyle {
+  border-radius: 0px;
+}
+
+.cardStyle {
+  min-width: 100%;
+  box-shadow: none;
+  border: 0 none;
+  border-radius: 0px;
+  border-bottom: 2px var(--yellow) solid;
+}
+
+/* overwrite card style */
+
+.cardSettings {
+  color: white;
+  background: linear-gradient(rgb(24,48,119) 0%, rgb(33,169,175) 29%);
+}
+
+.inputSettings {
+  background-color: rgba(255,255,255,0.72);
+}
+
+/* PAGE SETTINGS */
+
+.actBtnSafeMod {
+  background: #21a9af;
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.actBtnSafeMod:hover {
+  color: red;
+}
+
+.actBtnSafeMod .label {
+  color: rgb(255,255,255);
+  width: 100% !important;
+}
+
+.actBtnReset {
+  background: var(--danger);
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.actBtnReset:hover {
+  color: red;
+}
+
+.actBtnReset .label {
+  color: rgb(255,255,255);
+  width: 100% !important;
+}
+
+.actBtnRestart {
+  background: var(--yellow);
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.actBtnRestart:hover {
+  color: red;
+}
+
+.actBtnRestart .label {
+  color: rgb(0,0,0);
+  width: 100% !important;
+}
+
+.actBtnGateway {
+  background: var(--pink);
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.actBtnGateway:hover {
+  color: rgb(255,214,0);
+}
+
+.actBtnGateway .label {
+  color: rgb(255,255,255);
+  width: 100% !important;
+}
+
+.btnEdHist {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Calibration style */
+
+.edInpCalib {
+  text-align: center;
+}
+
+.btnMinusCalib {
+  position: absolute;
+  left: 32px;
+  top: 126px;
+  height: 16%;
+  width: 10%;
+}
+
+.btnPlusCalib {
+  position: absolute;
+  right: 32px;
+  top: 126px;
+  height: 16%;
+  width: 10%;
+  position: absolute;
+}
+
