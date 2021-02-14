@@ -104,6 +104,8 @@ function createZonesByDb(){
 		let zoneIDSelected = $('#idSelectZoneHisterizis option:selected').val();
 	    let xHist = (decodeTemperature(parseInt(dbH.split("::")[zoneIDSelected-1]),0.25)).toFixed(2);
 		document.getElementById("idHisterizisValue").value = xHist;
+		document.getElementById("idLblValHisterizis").innerHTML = document.getElementById("idHisterizisValue").value.toString();
+
 	});	
 	document.getElementById("idHisterizisValue").addEventListener('change', function(e){	
 		document.getElementById("idLblValHisterizis").innerHTML = document.getElementById("idHisterizisValue").value.toString();
