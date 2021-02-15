@@ -46,7 +46,7 @@ $(document).ready(function() {
 	document.getElementById('idGateway').addEventListener('click', openGatewayLink);
 	document.getElementById('idBtnSaveHisterizis').addEventListener('click', updHisterizis);
 	document.getElementById('idBtnSaveCalibrations').addEventListener('click', updCalibSensor);	
-	document.getElementById('idPWRMODE').addEventListener('click', doPowerMode);
+	document.getElementById('idPWRMODE').addEventListener('change', doPowerMode);
   }
   
 /*------------------------------------------------------------------------------------------------*/
@@ -229,9 +229,8 @@ function rebootESP(){
 }
 /*------------------------------------------------------------------------------------------------*/
 function doPowerMode(){
-	let val = parseInt(document.getElementById("idPWRMODE").value);
 	let data = {
-		"PWRMODE": val
+		"PWRMODE": document.getElementById("idPWRMODE").value
 	};
 	
 	let _js = JSON.stringify(data);	
