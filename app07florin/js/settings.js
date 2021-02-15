@@ -226,6 +226,21 @@ function rebootESP(){
 		}, 3000);		  
 }
 /*------------------------------------------------------------------------------------------------*/
+function doPowerMode(){
+	let data = {
+		"PWRMODE": document.getElementById("idPWRMODE").value
+	};
+	
+	let _js = JSON.stringify(data);	
+    websocket.send(_js);
+	_js	= null;
+	data = null;
+	alert("Sistemul va intra in StandBy.\nFunctia Anti-Inghet Activa.");
+	setTimeout(function(){
+		location.reload();
+		}, 1000);		  
+}
+/*------------------------------------------------------------------------------------------------*/
 function rebootInSafeMode(){
 	let data = {
 		"SAFEMODE": 1
