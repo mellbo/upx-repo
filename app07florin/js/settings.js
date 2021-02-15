@@ -46,7 +46,9 @@ $(document).ready(function() {
 	document.getElementById('idGateway').addEventListener('click', openGatewayLink);
 	document.getElementById('idBtnSaveHisterizis').addEventListener('click', updHisterizis);
 	document.getElementById('idBtnSaveCalibrations').addEventListener('click', updCalibSensor);	
+	document.getElementById('idPWRMODE').addEventListener('click', doPowerMode);
   }
+  
 /*------------------------------------------------------------------------------------------------*/
 function createZonesByDb(){
 	let dbN = document.getElementById("idInitNmeZone").value;
