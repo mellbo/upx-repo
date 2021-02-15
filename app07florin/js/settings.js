@@ -229,8 +229,9 @@ function rebootESP(){
 }
 /*------------------------------------------------------------------------------------------------*/
 function doPowerMode(){
+	let val = parseInt(document.getElementById("idPWRMODE").value);
 	let data = {
-		"PWRMODE": document.getElementById("idPWRMODE").value
+		"PWRMODE": val
 	};
 	
 	let _js = JSON.stringify(data);	
