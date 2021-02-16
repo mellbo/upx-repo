@@ -8,6 +8,7 @@ $(function() {	//run when doc loaded
 });
 /*------------------------------------------------------------------------------------------------*/
 $(document).ready(function() {
+	createZonesByDb();
     initWebSocket();
     initButton();
 });
