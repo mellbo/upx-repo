@@ -118,7 +118,7 @@ function createZonehtml() {
 					elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
 					 var lstTimeOut = setTimeout(function(){
 							force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);		
-						},1000);
+						},2000);
 					for (let x=0;x<lstTimeOut;x++) {
 						clearTimeout(x);
 					}
@@ -135,7 +135,7 @@ function createZonehtml() {
 					elCurSetTemp.innerHTML = (curentTemp).toFixed(1).toString();
 					 var lstTimeOut = setTimeout(function(){
 							force_update('SETZNTEMP', i, elCurSetTemp.innerHTML);		
-						},1000);
+						},2000);
 					for (let x=0;x<lstTimeOut;x++) {
 						clearTimeout(x);
 					}
