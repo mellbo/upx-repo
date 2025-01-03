@@ -98,6 +98,7 @@ function doSavePortCOM(){
 }
 /*------------------------------------------------------------------------------------------------*/
 function setDFUNow(){
+	if (document.getElementById("idDFU_state").textContent == 'DFU ON') return;
 	let data = {
 		"DFU_MODE": 1
 	};
