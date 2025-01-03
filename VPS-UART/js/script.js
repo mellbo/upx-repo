@@ -42,12 +42,16 @@ function onMessage(event) {
 /*------------------------------------------------------------------------------------------------*/
 /*REGULAR*/
 /*------------------------------------------------------------------------------------------------*/
+function mapRange(value, inMin, inMax, outMin, outMax) {
+    return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+}
+/*------------------------------------------------------------------------------------------------*/
 function InitiateWithData() { 
     /* SIGNALPWR::VPS_CONNECTED::DFU_MODE::COMPORT::COMSPEED*/
 	let dbData = document.getElementById("idInitData").value;
 	
 	let SIGNALPWR_RAW = parseInt(dbData.split("::")[0], 10);
-	let _SIGNALPWR = Math.max(0, Math.min(100, Math.map(SIGNALPWR_RAW, -100, -40, 0, 100)));
+	let _SIGNALPWR = Math.max(0, Math.min(100, mapRange(SIGNALPWR_RAW, -100, -40, 0, 100)));
 	
 	let SIGNALPWR = _SIGNALPWR.toString()+"%";		
 	let VPS_CONNECTED = dbData.split("::")[1] ? "CONNECTED" : "NOT CONNECTED";
