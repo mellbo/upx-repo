@@ -53,7 +53,7 @@ function InitiateWithData() {
 	let SIGNALPWR_RAW = parseInt(dbData.split("::")[0], 10);
 	let _SIGNALPWR = Math.max(0, Math.min(100, mapRange(SIGNALPWR_RAW, -100, -40, 0, 100)));
 	
-	let SIGNALPWR = _SIGNALPWR.toString()+"%";		
+	let SIGNALPWR = Math.round(_SIGNALPWR).toString()+"%";		
 	let VPS_CONNECTED = dbData.split("::")[1] ? "CONNECTED" : "NOT CONNECTED";
 	let DFU_MODE = dbData.split("::")[2] ? "DFU ON" : "TX/RX";
 	let COMPORT = parseInt(dbData.split("::")[3]);
