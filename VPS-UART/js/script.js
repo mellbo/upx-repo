@@ -46,7 +46,7 @@ function InitiateWithData() {
     /* SIGNALPWR::VPS_CONNECTED::DFU_MODE::COMPORT::COMSPEED*/
 	let dbData = document.getElementById("idInitData").value;
 	
-	let SIGNALPWR_RAW = Integer.parseInt(dbData.split("::")[0]);
+	let SIGNALPWR_RAW = parseInt(dbData.split("::")[0], 10);
 	let _SIGNALPWR = Math.max(0, Math.min(100, Math.map(SIGNALPWR_RAW, -100, -40, 0, 100)));
 	
 	let SIGNALPWR = _SIGNALPWR.toString()+"%";		
