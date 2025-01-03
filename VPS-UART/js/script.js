@@ -56,7 +56,7 @@ function InitiateWithData() {
 	document.getElementById("idRSSI_level").innerHTML = SIGNALPWR;
 	document.getElementById("idDFU_state").innerHTML = DFU_MODE;
 	document.getElementById("idPortCom").value = COMPORT;
-	document.getElementById("idPortCom").value = COMPORT;	
+	document.getElementById("idPortSpeed").value = COMSPEED;	
 }
 /*------------------------------------------------------------------------------------------------*/
   function initButton() {
