@@ -70,7 +70,7 @@ function InitiateWithData() {
 /*------------------------------------------------------------------------------------------------*/
 function doSavePortSpeed(){
 	let data = {
-		"PORTSPEED": document.getElementById("idPortSpeed").value;
+		"PORTSPEED": document.getElementById("idPortSpeed").value
 	};
 	
 	let _js = JSON.stringify(data);	
@@ -81,7 +81,7 @@ function doSavePortSpeed(){
 /*------------------------------------------------------------------------------------------------*/
 function doSavePortCOM(){
 	let data = {
-		"COMPORT": document.getElementById("idPortCom").value;
+		"COMPORT": document.getElementById("idPortCom").value
 	};
 	
 	let _js = JSON.stringify(data);	
