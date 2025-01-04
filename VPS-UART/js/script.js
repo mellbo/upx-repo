@@ -178,8 +178,8 @@ function checkMillis() {
   if (currentMillis === checkMillis.lastMillis) {
 	if (DFU_MODE == "TX/RX") {
 		alert("LEGATURA A FOST INTRERUPTA");
-		location.reload(true);
 	}	
+	location.reload(true);
   } else {
     checkMillis.lastMillis = currentMillis;
   }
