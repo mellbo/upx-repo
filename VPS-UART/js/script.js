@@ -1,6 +1,7 @@
   var gateway = `ws://${window.location.hostname}/ws`;
   var websocket;
   var millis_esp = 0;
+  var DFU_MODE = 0;
 /*------------------------------------------------------------------------------------------------*/
 $(function() {	//run when doc loaded
 	setTimeout(function(){
@@ -35,6 +36,7 @@ $(document).ready(function() {
 function onMessage(event) {
 	let jsonObject = JSON.parse(event.data);
 		millis_esp = parseInt(jsonObject['cMs'], 10);
+		DFU_MODE = jsonObject['VPS_CONNECTED'];
 		document.getElementById("cMillis").innerText = jsonObject['cMs'];
 		document.getElementById("idVPS_state").innerHTML = jsonObject['VPS_CONNECTED'];
 		document.getElementById("idRSSI_level").innerHTML = jsonObject['SIGNALPWR'] + "%";
@@ -174,8 +176,10 @@ function checkMillis() {
   }
   // Comparăm currentMillis cu ultima valoare salvată
   if (currentMillis === checkMillis.lastMillis) {
-    alert("LEGATURA A FOST INTRERUPTA");
-	location.reload(true); 
+	if (DFU_MODE == "TX/RX") {
+		alert("LEGATURA A FOST INTRERUPTA");
+		location.reload(true);
+	}	
   } else {
     checkMillis.lastMillis = currentMillis;
   }
