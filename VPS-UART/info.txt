@@ -1,1 +1,3 @@
-
+#define RST_PIN 14
+#define PIN_LED 2
+http://upx-vsp.local/
