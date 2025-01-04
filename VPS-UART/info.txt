@@ -1,3 +1,6 @@
-#define RST_PIN 14
-#define PIN_LED 2
-http://upx-vsp.local/
+Output pins
+RST  = GPIO14
+LED  = GPIO2
+LocalIP: DHCP
+WebPage: http://upx-vsp.local/
+IP for AP (safemode): 192.168.1.1/24
