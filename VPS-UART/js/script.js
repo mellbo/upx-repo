@@ -176,10 +176,10 @@ function checkMillis() {
   }
   // Comparăm currentMillis cu ultima valoare salvată
   if (currentMillis === checkMillis.lastMillis) {
-	if (DFU_MODE == "TX/RX") {
+	//if (DFU_MODE == "TX/RX") {
 		alert("LEGATURA A FOST INTRERUPTA" + DFU_MODE);
 		location.reload(true);
-	}	
+	//}	
   } else {
     checkMillis.lastMillis = currentMillis;
   }
