@@ -36,7 +36,7 @@ $(document).ready(function() {
 function onMessage(event) {
 	let jsonObject = JSON.parse(event.data);
 		millis_esp = parseInt(jsonObject['cMs'], 10);
-		DFU_MODE = jsonObject['VPS_CONNECTED'];
+		DFU_MODE = jsonObject['DFU_MODE'];
 		document.getElementById("cMillis").innerText = jsonObject['cMs'];
 		document.getElementById("idVPS_state").innerHTML = jsonObject['VPS_CONNECTED'];
 		document.getElementById("idRSSI_level").innerHTML = jsonObject['SIGNALPWR'] + "%";
@@ -67,7 +67,8 @@ function InitiateWithData() {
 	document.getElementById("idRSSI_level").innerHTML = SIGNALPWR;
 	document.getElementById("idDFU_state").innerHTML = DFU_MODE;
 	document.getElementById("idPortCom").value = COMPORT;
-	document.getElementById("idPortSpeed").value = COMSPEED;	
+	document.getElementById("idPortSpeed").value = COMSPEED;
+	window.DFU_MODE = DFU_MODE;
 }
 /*------------------------------------------------------------------------------------------------*/
   function initButton() {
@@ -174,16 +175,14 @@ function checkMillis() {
   if (typeof checkMillis.lastMillis === 'undefined') {
     checkMillis.lastMillis = 0;
   }
-  // Comparăm currentMillis cu ultima valoare salvată
   if (currentMillis === checkMillis.lastMillis) {
-	//if (DFU_MODE == "TX/RX") {
-		alert("LEGATURA A FOST INTRERUPTA" + DFU_MODE);
+	if (DFU_MODE == "TX/RX") {
+		alert("LEGATURA A FOST INTRERUPTA");
 		location.reload(true);
-	//}	
+	}	
   } else {
     checkMillis.lastMillis = currentMillis;
   }
-  // Auto-apelare la fiecare 1000ms (1 secundă)
   setTimeout(checkMillis, 1000);
 }
 
