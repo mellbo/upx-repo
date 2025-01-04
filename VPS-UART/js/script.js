@@ -1,9 +1,10 @@
   var gateway = `ws://${window.location.hostname}/ws`;
   var websocket;
+  var millis_esp = 0;
 /*------------------------------------------------------------------------------------------------*/
 $(function() {	//run when doc loaded
 	setTimeout(function(){
-		//
+		checkMillis();
 	},1000);
 });
 /*------------------------------------------------------------------------------------------------*/
@@ -33,6 +34,7 @@ $(document).ready(function() {
   /*update fields*/
 function onMessage(event) {
 	let jsonObject = JSON.parse(event.data);
+		millis_esp = parseInt(jsonObject['cMs'], 10);
 		document.getElementById("cMillis").innerText = jsonObject['cMs'];
 		document.getElementById("idVPS_state").innerHTML = jsonObject['VPS_CONNECTED'];
 		document.getElementById("idRSSI_level").innerHTML = jsonObject['SIGNALPWR'] + "%";
@@ -164,4 +166,21 @@ function rebootInSafeMode(){
 		window.location.replace("http://192.168.1.1");
 		}, 3000);		  
 }
+/*------------------------------------------------------------------------------------------------*/
+function checkMillis() {
+  let currentMillis = millis_esp;
+  if (typeof checkMillis.lastMillis === 'undefined') {
+    checkMillis.lastMillis = 0;
+  }
+  // Comparăm currentMillis cu ultima valoare salvată
+  if (currentMillis === checkMillis.lastMillis) {
+    alert("LEGATURA A FOST INTRERUPTA");
+	location.reload(true); 
+  } else {
+    checkMillis.lastMillis = currentMillis;
+  }
+  // Auto-apelare la fiecare 1000ms (1 secundă)
+  setTimeout(checkMillis, 1000);
+}
+
 /*------------------------------------------------------------------------------------------------*/
