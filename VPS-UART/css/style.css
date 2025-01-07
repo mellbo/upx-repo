@@ -24,7 +24,7 @@ td, th {
   font-family: digital-7;
   color: rgb(69,67,66);
   font-size: 20px;
-  margin-left: 30px;
+  margin-left: 35px;
 }
 
 .rssi_icon {
@@ -318,5 +318,13 @@ td, th {
 .font_dig7 {
   font-family: digital-7;
   font-size: inherit;
+}
+
+.battery_icon {
+  position: absolute;
+  top: 136px;
+  left: 9px;
+  font-size: 20px;
+  color: rgb(5,255,0);
 }
 
