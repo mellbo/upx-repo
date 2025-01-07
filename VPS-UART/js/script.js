@@ -41,6 +41,7 @@ function onMessage(event) {
 		document.getElementById("idVPS_state").innerHTML = jsonObject['VPS_CONNECTED'];
 		document.getElementById("idRSSI_level").innerHTML = jsonObject['SIGNALPWR'] + "%";
 		document.getElementById("idDFU_state").innerHTML = jsonObject['DFU_MODE'];
+		document.getElementById("idBATT_VCC").innerHTML = jsonObject['BATT_VCC'] + "V";
 		jsonObject = null;
 }
 /*------------------------------------------------------------------------------------------------*/
@@ -62,13 +63,16 @@ function InitiateWithData() {
 	let DFU_MODE = dbData.split("::")[2] ? "TX/RX":"DFU ON";
 	let COMPORT = parseInt(dbData.split("::")[3]);
 	let COMSPEED = parseInt(dbData.split("::")[4]);
+	let BATT_VCC = parseFloat(dbData.split("::")[5]);
 	
 	document.getElementById("idVPS_state").innerHTML = VPS_CONNECTED;
 	document.getElementById("idRSSI_level").innerHTML = SIGNALPWR;
 	document.getElementById("idDFU_state").innerHTML = DFU_MODE;
 	document.getElementById("idPortCom").value = COMPORT;
 	document.getElementById("idPortSpeed").value = COMSPEED;
+	document.getElementById("idBATT_VCC").innerHTML = BATT_VCC;
 	window.DFU_MODE = DFU_MODE;
+	
 }
 /*------------------------------------------------------------------------------------------------*/
   function initButton() {
