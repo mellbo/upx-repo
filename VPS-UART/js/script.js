@@ -72,6 +72,7 @@ function InitiateWithData() {
 	document.getElementById("idPortSpeed").value = COMSPEED;
 	document.getElementById("idBATT_VCC").innerHTML = BATT_VCC;
 	window.DFU_MODE = DFU_MODE;
+	
 }
 /*------------------------------------------------------------------------------------------------*/
   function initButton() {
@@ -107,12 +108,6 @@ function doSavePortCOM(){
 /*------------------------------------------------------------------------------------------------*/
 function setDFUNow(){
 	if (document.getElementById("idDFU_state").textContent == 'DFU ON') return;
-	let selectedSpeed = document.querySelector('#idPortSpeed').value;
-	if (selectedSpeed != 115200) {
-		alert("For DFU mode please select VSP speed to 115200 first");
-		return;
-	}
-	
 	let data = {
 		"DFU_MODE": 1
 	};
@@ -189,7 +184,7 @@ function checkMillis() {
   }
   if (currentMillis === checkMillis.lastMillis) {
 	if (DFU_MODE == "TX/RX") {
-		alert("LEGATURA A FOST INTRERUPTA");
+		alert("Lost connexion or busy server.");
 	}	
 	location.reload(true);
   } else {
