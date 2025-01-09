@@ -5,7 +5,8 @@ LocalIP: DHCP
 WebPage: http://upx-vsp.local/  
 IP for AP (safemode): 192.168.1.1/24  
 
-# Application must be installed for VSP: 
+# Application must be installed for VSP:
+  Tibbo Device Server Toolkit   
   https://tibbo.com/support/downloads/tdst.html
   
 `[tvsp-setup]`
@@ -23,5 +24,5 @@ IP for AP (safemode): 192.168.1.1/24
 - DestinationIp=255.255.255.255
 - DestinationEthernet=0.0.0.0.0.0
 - DestinationHostName=upx-vsp.local
-- RemoteDataPort=1001
-`More info in /TibboVPS`
+- RemoteDataPort=1001  
+`More info (photo) in VPS-UART/TibboVPS/Settings`
