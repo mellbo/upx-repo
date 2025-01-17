@@ -5,7 +5,7 @@ LocalIP: DHCP
 WebPage: http://upx-vsp.local/  
 IP for AP (safemode): 192.168.1.1/24  
 
-# Application must be installed for VSP:
+# Application must be installed  VSP (virtual serial port over WIFI):
   Tibbo Device Server Toolkit   
   https://tibbo.com/support/downloads/tdst.html
   
