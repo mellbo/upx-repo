@@ -1,2 +1,2 @@
 # Recommended case
-[PP008AN-SSUPERTRONIC](https://www.tme.eu/ro/details/pp029n/carcase-universale/supertronic/pp029n-s/)
+[PP008AN-SSUPERTRONIC](https://www.tme.eu/ro/details/pp8an/carcase-universale/supertronic/pp008an-s/)
