@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html style="font-family:Aldrich, sans-serif;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>SMART HOME</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=News+Cycle:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/aos.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-slider.css">
+    <link rel="stylesheet" href="assets/css/dtPicker/bootstrap-clockpicker.min.css">
+    <link rel="stylesheet" href="assets/css/dtPicker/jquery-clockpicker.min.css">
+    <link rel="stylesheet" href="assets/css/Features-Blue.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="assets/css/Highlight-Blue.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean1.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body style="color:rgb(42,96,170);height:auto;">
+    <div style="background-color:transparent;">
+        <div class="visible-xs-block xyzzy" data-size="xs"></div>
+        <div class="visible-sm-block xyzzy" data-size="sm"></div>
+        <div class="visible-md-block xyzzy" data-size="md"></div>
+        <div class="visible-lg-block xyzzy" data-size="lg"></div>
+    </div>
+    <div style="background-color:transparent;">
+        <nav class="navbar navbar-inverse navigation-clean" style="font-family:Aldrich, sans-serif;font-size:15px;">
+            <div class="container-fluid">
+                <div class="navbar-header"><a class="navbar-brand" style="font-size:24px;" href="#"> <i class="fa fa-microchip icon" style="font-size:22px;width:33px;color:rgb(255,0,0);"></i> SMART HOME by UPX</a><button data-toggle="collapse" class="navbar-toggle collapsed" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="nav navbar-nav navbar-right" style="font-size:20px;font-family:'News Cycle', sans-serif;">
+                        <li><a href="index.html">Interfata </a></li>
+                        <li><a href="thermostat.html">Termostat</a></li>
+                        <li class="active"><a style="background-color:rgba(255,255,255,0.1);color:rgb(255,204,30);" href="#">Setari sistem</a></li>
+                        <li><a href="logs.html">Informatie</a></li>
+                        <li><a id="LockID" href="index.html">Blocheaza Setarile</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="intro" style="height:2px;background-color:#ffcc1e;"></div>
+    <div class="container-fluid" id="settingsContainerID" style="background:linear-gradient(135deg, #172a74, #21a9af);font-size:13px;font-family:'News Cycle', sans-serif;">
+        <div style="height:15px;"></div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="container-fluid">
+                    <div class="panel panel-info" data-aos="fade-up" data-aos-duration="950" data-aos-once="true" style="background-color:transparent;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" style="font-family:Aldrich, sans-serif;color:#ffcc1e;"><i class="glyphicon glyphicon-fire" data-bss-hover-animate="shake" style="padding:0px;margin:0;width:22px;color:#ffcc1e;"></i>Setari Incalzire</h3>
+                        </div>
+                        <div class="panel-body" style="color:rgb(255,255,255);font-family:Aldrich, sans-serif;">
+                            <div class="col-md-6 col-sm-6">
+                                <p>Temperatura exterioara in calcul</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="checkbox" style="color:rgb(255,255,255);"><label><input type="checkbox" data-bss-hover-animate="flash" id="set_THERMOSTAT_OUTSIDE_ENABLE">DA</label></div>
+                            </div>
+                            <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
+                            <div class="col-md-6 col-sm-6">
+                                <p>Histerizis termostat Centrala</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6"><span id="param1Value" class="pull-left">0 </span>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_CENTRALA_ON_HISTERIZIS" value="0.20" min="0.2" max="5.0" step="0.1"></div>
+                            </div>
+                            <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
+                            <div class="col-md-6 col-sm-6">
+                                <p style="width:186px;">Metoda calcul Interior</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6"><span id="param2Value" class="pull-left">0 </span>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_TEMP_INDOOR_CALCULATION_METHOD" value="1" min="0" max="5" step="1"></div>
+                            </div>
+                            <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
+                            <div class="panel-group" role="tablist" aria-multiselectable="true" id="accordion-1" style="margin:0px;">
+                                <div class="panel panel-info" style="background-color:transparent;">
+                                    <div class="panel-heading" role="tab" style="background-color:#336699;height:21px;padding:0px;">
+                                        <h4 class="panel-title"><i class="fa fa-info-circle" style="padding:3px;width:22px;color:#ffcc1e;font-size:13px;"></i><a role="button" data-toggle="collapse" aria-expanded="false" data-parent="#accordion-1" href="#accordion-1 .item-1" style="font-size:14px;margin:-4px;font-family:'News Cycle', sans-serif;color:#ffcc1e;">Informatii - Metoda calcul Interior</a></h4>
+                                    </div>
+                                    <div class="panel-collapse collapse item-1" role="tabpanel" id="metodaCalculBtn" style="background-color:transparent;">
+                                        <div class="panel-body">
+                                            <div class="row" style="color:#75a6d7;">
+                                                <div class="col-md-12">
+                                                    <p style="height:100%;width:100%;">Metoda 0: &nbsp;SELECTIE AUTOMATA</p>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <p style="height:100%;width:100%;">Metoda 1: <span>&nbsp; &nbsp;Temperatura living</span></p>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <p style="height:100%;width:100%;">Metoda 2: <span>&nbsp; (media[dormitor2+dormitor1]+living)/2)</span></p>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <p style="height:100%;width:100%;">Metoda 3: <span>&nbsp; (media[dormitor2+dormitor1+living]/3)</span></p>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <p style="height:100%;width:100%;">Metoda 4: <span>&nbsp; Temperatura Dormitor2</span></p>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <p style="height:100%;width:100%;">Metoda 5: <span>&nbsp; Temperatura Dormitor1</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:15px;"></div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div id="calendar" style="font-family:'Source Sans Pro', sans-serif;color:rgb(255,255,255);font-size:12px;width:250px;"></div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6"><button class="btn btn-info btn-xs inline-block" data-bss-hover-animate="flash" id="reload_callendar" style="font-size:10px;margin:5px;" type="button">Actualizare </button><button class="btn btn-danger btn-xs inline-block" data-bss-hover-animate="flash" id="del_itm_calendar" style="font-size:10px;margin:5px;" type="button">Sterge Selectia</button></div>
+                                        <div class="col-md-6 col-sm-6"><button class="btn btn-success btn-xs inline-block" data-bss-hover-animate="flash" id="reset_cal_month" style="font-size:10px;margin:6px;" type="button">Reset Month</button><button class="btn btn-primary btn-xs inline-block" data-bss-hover-animate="flash" id="reset_cal_all" style="font-size:10px;margin:4px;" type="button">Reset All</button></div>
+                                    </div>
+                                    <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
+                                    <div style="display:inline-block !important;width:100%;height:100%;background-color:rgba(255,255,255,0.09);border-radius:10px;">
+                                        <div class="col-md-12 col-sm-12"><span class="inline-block" style="font-family:'Source Sans Pro', sans-serif;font-size:13px;"><i class="glyphicon glyphicon-time inline-block" style="font-size:22px;color:#ffcc1e;padding:12px 5px 10px;"></i></span><!-- https://weareoutman.github.io/clockpicker/ -->
+<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
+	<input readonly="true" placeholder='07:42' align ='center' style="display:inline-block !important;background-color:transparent; color:white;height:25px;font-size:12px" id='dtPicker' type="text" class="form-control addThermostat" value="">
+<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
+        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
+    </span>
+-->
+</div> <input type="number" data-bss-hover-animate="flash" id="gradeCelsius" class="addThermostat" style="border-radius:5px;border-width:1px;border-style:solid;width:85px;height:25px;background-color:transparent;font-size:12px;padding:10px;" placeholder="   23ºC" min="5.0" max="50.0" step="0.1"></div>
+                                        <div class="col-md-12 col-sm-12">
+                                            <div style="height:15px;"></div><i class="fa fa-thermometer-three-quarters" style="font-size:22px;color:#ffcc1e;padding:5px 5px 5px;"></i><input type="range" id="set_NewTEMPInCALL" class="addThermostat inline-block" style="width:100%;" value="22.0" min="5.0" max="50.0" step="0.1">
+                                        </div>
+                                        <div class="col-md-12 col-sm-12"><span style="font-size:15px;display:inline-block !important;"><small id="dtOut" style="margin:5px;"> </small></span><button class="btn btn-default btn-xs" id="adaugaInThermostat" style="font-size:21px;height:36px;width:90%;margin:20px;background-color:transparent;color:#ffcc1e;" type="button">Set Thermostat</button>
+                                            <div style="height:15px;"></div>
+                                            <div class="panel-group" role="tablist" aria-multiselectable="true" id="accordion-2" style="margin:0px;">
+                                                <div class="panel panel-info" style="background-color:transparent;">
+                                                    <div class="panel-heading" role="tab" style="background-color:#336699;height:21px;padding:0px;">
+                                                        <h4 class="panel-title"><i class="fa fa-fire" style="padding:3px;width:22px;color:#ffcc1e;font-size:13px;"></i><a role="button" data-toggle="collapse" aria-expanded="false" data-parent="#accordion-2" href="#accordion-2 .item-1" style="font-size:14px;margin:-4px;font-family:'News Cycle', sans-serif;color:#ffcc1e;">Setup Smart Heating for 'Welcome"</a></h4>
+                                                    </div>
+                                                    <div class="panel-collapse collapse item-1" role="tabpanel" id="metodaCalculBtn" style="background-color:transparent;">
+                                                        <div class="panel-body text-left">
+                                                            <div class="col-md-12 col-sm-12">
+                                                                <div class="checkbox"><label><input type="checkbox" id="smartWelcomeEnable" checked="">Functie activa</label></div>
+                                                            </div>
+                                                            <div class="col-md-6 col-sm-6">
+                                                                <div class="row" style="color: #75a6d7;">
+                                                                    <div class="col-md-12 col-sm-12"><label for="welcome_Luni">Luni &nbsp; &nbsp; &nbsp; &nbsp;</label><!-- https://weareoutman.github.io/clockpicker/ -->
+<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
+	<input disabled readonly="true" placeholder='N/A' align ='center' style="border: none; display:inline-block !important;background-color:transparent; color:lime;height:20px;font-size:12px" id='welcome_Luni' type="text" class="form-control smartWelcome" value="">
+<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
+        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
+    </span>
+-->
+</div> </div>
+                                                                    <div class="col-md-12 col-sm-12"><label for="welcome_Marti">Marti &nbsp; &nbsp; &nbsp;</label><!-- https://weareoutman.github.io/clockpicker/ -->
+<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
+	<input readonly="true" placeholder='N/A' align ='center' style="border: none; display:inline-block !important;background-color:transparent; color:lime;height:20px;font-size:12px" id='welcome_Marti' type="text" class="form-control smartWelcome" value="">
+<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
+        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
+    </span>
+-->
+</div> </div>
+                                                                    <div class="col-md-12 col-sm-12"><label for="welcome_Miercuri">Miercuri&nbsp;</label><!-- https://weareoutman.github.io/clockpicker/ -->
+<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
+	<input readonly="true" placeholder='N/A' align ='center' style="border: none; display:inline-block !important;background-color:transparent; color:lime;height:20px;font-size:12px" id='welcome_Miercuri' type="text" class="form-control smartWelcome" value="">
+<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
+        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
+    </span>
+-->
+</div> </div>
+                                                                    <div class="col-md-12 col-sm-12"><label for="welcome_Joi">Joi &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label><!-- https://weareoutman.github.io/clockpicker/ -->
+<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
+	<input readonly="true" placeholder='N/A' align ='center' style="border: none; display:inline-block !important;background-color:transparent; color:lime;height:20px;font-size:12px" id='welcome_Joi' type="text" class="form-control smartWelcome" value="">
+<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
+        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
+    </span>
+-->
+</div> </div>
+                                                                    <div class="col-md-12 col-sm-12"><label for="welcome_Vineri">Vineri &nbsp; &nbsp;&nbsp;</label><!-- https://weareoutman.github.io/clockpicker/ -->
+<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
+	<input readonly="true" placeholder='N/A' align ='center' style="border: none; display:inline-block !important;background-color:transparent; color:lime;height:20px;font-size:12px" id='welcome_Vineri' type="text" class="form-control smartWelcome" value="">
+<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
+        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
+    </span>
+-->
+</div> </div>
+                                                                    <div class="col-md-12 col-sm-12"><label for="welcome_Sambata">Sambata</label><!-- https://weareoutman.github.io/clockpicker/ -->
+<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
+	<input readonly="true" placeholder='N/A' align ='center' style="border: none; display:inline-block !important;background-color:transparent; color:lime;height:20px;font-size:12px" id='welcome_Sambata' type="text" class="form-control smartWelcome" value="">
+<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
+        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
+    </span>
+-->
+</div> </div>
+                                                                    <div class="col-md-12 col-sm-12"><label for="welcome_Duminica">Duminica</label><!-- https://weareoutman.github.io/clockpicker/ -->
+<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
+	<input readonly="true" placeholder='N/A' align ='center' style="border: none; display:inline-block !important;background-color:transparent; color:lime;height:20px;font-size:12px" id='welcome_Duminica' type="text" class="form-control smartWelcome" value="">
+<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
+        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
+    </span>
+-->
+</div> </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 col-sm-6"><i class="glyphicon glyphicon-cog" style="font-size: 70px;"></i>
+                                                                <div class="checkbox"><label><input type="checkbox" id="smartWelcomeAutoSetup" checked="">Ajusteaza automat</label></div>
+                                                                <p class="form-control-static" style="font-size: 10px;color: #51b5e0;">Modul automat, seteaza o ora mai mare de ora 15, cand utilizatorul revine acasa dupa o perioada mai mare de 2h.</p><button class="btn btn-default btn-xs" data-bss-hover-animate="flash" id="save2" style="background-color: rgb(255,204,30);font-family: Aldrich, sans-serif;font-size: 18px;color: rgb(24,55,122);" type="button">Aplica</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="height:15px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="container-fluid">
+                    <div class="panel panel-info" data-aos="fade-up" data-aos-duration="950" data-aos-once="true" style="background-color:transparent;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" style="font-family:Aldrich, sans-serif;color:#ffcc1e;"><i class="glyphicon glyphicon-user" style="padding:0px;margin:0;width:22px;color:#ffcc1e;"></i>Setari Jaluzele</h3>
+                        </div>
+                        <div class="panel-body" style="color:rgb(255,255,255);font-family:Aldrich, sans-serif;">
+                            <div class="col-md-6 col-sm-6">
+                                <p class="text-right text-muted"> </p>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="pull-right" style="width:100%;font-size:10px;"><a id="MROFF" class="pull-left" style="font-size:10px;">OFF </a><a id="MRUP" style="color:rgb(36,255,0);padding:19px;"> UP </a><a id="MRDOWN" style="color:#ffcc1e;margin:6px;">DOWN </a><a id="MRAUTOMAT" class="pull-right" style="color:#ff1ef6;">AUTO </a></div>
+                            </div>
+                            <div style="height:42px;width:90%;"></div>
+                            <div class="col-md-6 col-sm-6">
+                                <p>Tip Mod Automat </p>
+                            </div>
+                            <div class="col-md-6 col-sm-6"><span id="param3Value" class="pull-left">0 </span>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_jalAutoModeRun" value="0" min="0" max="900" step="1"></div>
+                            </div>
+                            <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
+                            <div class="col-md-6 col-sm-6">
+                                <p>Prag Zi/Noapte</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6"><span id="param4Value" class="pull-left">0 </span>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_LowLightPoint" value="20" min="0" max="500" step="1"></div>
+                            </div>
+                            <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
+                            <div class="col-md-6 col-sm-6">
+                                <p>Histerizis Jaluzele</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6"><span id="param5Value" class="pull-left">0 </span>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_jaluzHisterizis" value="20" min="0" max="200" step="1"></div>
+                            </div>
+                            <div style="height:53px;"></div>
+                            <div class="col-md-12">
+                                <div class="container-fluid">
+                                    <div class="panel panel-info" data-aos="fade-left" data-aos-duration="950" data-aos-delay="500" data-aos-once="true" style="background-color:transparent;">
+                                        <div class="panel-heading" style="height:25px;">
+                                            <h3 class="panel-title text-left" style="font-family:'News Cycle', sans-serif;color:#ffcc1e;font-size:14px;margin:-7px;"><i class="fa fa-info-circle" style="padding:0px;margin:0;width:22px;color:#ffcc1e;"></i>Informatii</h3>
+                                        </div>
+                                        <div class="panel-body" style="color:rgb(255,255,255);font-family:Aldrich, sans-serif;font-size:15px;"><small style="font-family:'News Cycle', sans-serif;">Prin selectarea "Tip Mod Automat" la [0] sistemul va lasa neatinse jaluzelele. [1] vor fi ridicate complet, [2] inchise complet, [3] poziitionat automat, [&gt;3] pozitionare impusa.</small></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div style="width:100%;height:100%;font-size:15px;background-color:rgba(255,255,255,0.09);border-radius:10px;padding:10px;">
+                                    <p class="text-primary bg-success" style="font-family:'Source Sans Pro', sans-serif;background-color:transparent;"><span data-bss-hover-animate="flash" id="preff_ldr" style="color:#ffcc1e;">SALVEAZA&nbsp;</span> LDR CA SI POZITIE PREFERATA&nbsp;</p>
+                                    <p style="color:rgb(66,139,202);">LDR:&nbsp;<span id="dormitorLDR">0 </span></p>
+                                    <p style="color:rgb(66,139,202);">Valoare Salvata:&nbsp;<span id="prefLDRShow" style="color:#ffcc1e;">0 </span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height:15px;"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="container-fluid">
+                    <div class="panel panel-info" data-aos="fade-up" data-aos-duration="950" data-aos-once="true" style="background-color:transparent;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" style="font-family:Aldrich, sans-serif;color:#ffcc1e;"><i class="icon ion-android-settings" style="padding:0px;margin:0;width:22px;color:#ffcc1e;"></i> Alte setari</h3>
+                        </div>
+                        <div class="panel-body" style="color:rgb(255,255,255);font-family:Aldrich, sans-serif;">
+                            <div class="col-md-6 col-sm-6 inline-block">
+                                <p style="margin:6px;padding:5px;">Climatizare</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6" style="padding:10px;">
+                                <div data-aos="fade" style="padding:0px 0px 10px 25px;"><select id="climatizareOption" style="background-color:#336699;font-size:13px;">
+                                        <option value="0" selected="">OPRITA</option>
+                                        <option value="1">21ºC</option>
+                                        <option value="2">22ºC</option>
+                                        <option value="3">23ºC</option>
+                                        <option value="4">24ºC</option>
+                                        <option value="5">24.5ºC</option>
+                                        <option value="6">25ºC</option>
+                                        <option value="7">25.5ºC</option>
+                                        <option value="8">26ºC</option>
+                                        <option value="9">ENERGY SAViNG</option>
+                                        <option value="10">Pornit 1 ora</option>
+                                        <option value="11">AUTO HEATING</option>
+                                    </select></div>
+                            </div>
+                            <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
+                            <div class="col-md-6 col-sm-6 inline-block">
+                                <p style="margin:6px;padding:5px;">Selectati o metoda de notificare (beep)</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6" style="padding:10px;">
+                                <div data-aos="fade" style="padding:0px 0px 10px 25px;"><select id="beepModeID" style="background-color:#336699;font-size:13px;">
+                                        <option value="0" selected="">Fara Notificare</option>
+                                        <option value="1">Doar notificari de sistem</option>
+                                        <option value="2">Doar notificari importante</option>
+                                        <option value="3">Toate notificarile</option>
+                                    </select></div>
+                            </div>
+                            <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
+                            <div class="col-md-6 col-sm-6">
+                                <p style="margin:6px;">Forteaza deschidere pentru usa principala, de la intrare</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="checkbox" style="color:rgb(255,255,255);"><label><input type="checkbox" data-bss-hover-animate="flash" id="set_forceMainDoorOpen">DA</label></div>
+                            </div>
+                            <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
+                            <div class="col-md-6 col-sm-6">
+                                <p style="margin:6px;">Dupa ultilmul membru din casa plecat, inchide luminile ramase</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="checkbox" style="color:rgb(255,255,255);"><label><input type="checkbox" data-bss-hover-animate="flash" id="set_AlowLightOFF">DA</label></div>
+                            </div>
+                            <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
+                            <div class="col-md-6 col-sm-6">
+                                <p>Porneste ventilatia PCB daca temperatura PC este mai mare de</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6"><span id="param6Value" class="pull-left">0 </span>
+                                <div class="pull-right" style="width:68%;"><input type="range" id="set_FunTemperatureTrigger" value="24.0" min="20.0" max="50.0" step="0.25"></div>
+                            </div>
+                            <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
+                            <div class="col-md-6 col-sm-6">
+                                <p>TEST LIVOLO ID (trimite puls de configurare pentru LIVOLO)</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6"><input type="number" data-bss-hover-animate="flash" id="setLivoloTestID" style="border-radius:5px;border-width:1px;border-style:solid;width:85px;height:25px;background-color:transparent;font-size:12px;padding:10px;" value="0" placeholder="LIVOLO ID" min="0" max="999" step="1"></div>
+                            <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
+                            <div class="col-md-6 col-sm-6 inline-block">
+                                <p style="margin:6px;padding:5px;">Forteaza centrala ON 24ºC</p>
+                            </div>
+                            <div class="col-md-6 col-sm-6" style="padding:10px;">
+                                <div data-aos="fade" style="padding:0px 0px 10px 25px;"><select id="force24Thermo" style="background-color:#336699;font-size:13px;">
+                                        <option value="0" selected="">Inactiv</option>
+                                        <option value="1">Activat</option>
+                                    </select></div>
+                            </div>
+                            <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" data-aos="fade-up" data-aos-duration="200" data-aos-delay="100">
+            <div class="col-md-12">
+                <div class="container-fluid">
+                    <div class="panel panel-info" style="background-color:transparent;">
+                        <div class="panel-heading" style="background-color:#336699;">
+                            <h3 class="panel-title" style="background-color:transparent;color:#ffcc1e;"><i class="icon ion-android-settings" style="padding:0px;margin:0;width:22px;color:#ffcc1e;"></i> KEY SETUP</h3>
+                        </div>
+                        <div class="panel-body" style="color:rgb(255,255,255);">
+                            <div class="col-md-3 col-sm-3" style="background-color:#336699;"><i class="icon ion-radio-waves" style="font-size:20px;"></i><span style="font-size:20px;font-family:Aldrich, sans-serif;"> KEY 110</span>
+                                <div class="checkbox" data-bss-hover-animate="flash"><label><input type="checkbox" id="setKEY110_ENABLE">ACTIVAT</label></div><label style="font-size:15px;" for="SetKEY110NAME">NAME :</label><input type="text" data-bss-hover-animate="flash" id="SetKEY110NAME" style="border-radius:5px;border-width:1px;border-style:solid;height:25px;background-color:transparent;font-size:12px;padding:10px;margin:4px;" value="default" placeholder="Set Name for KEY" autocomplete="on">
+                            </div>
+                            <div class="col-md-3 col-sm-3" style="background-color:#346ca4;"><i class="icon ion-radio-waves" style="font-size:20px;"></i><span style="font-size:20px;font-family:Aldrich, sans-serif;"> KEY 120</span>
+                                <div class="checkbox" data-bss-hover-animate="flash"><label><input type="checkbox" id="setKEY120_ENABLE">ACTIVAT</label></div><label style="font-size:15px;" for="SetKEY120NAME">NAME :</label><input type="text" data-bss-hover-animate="flash" id="SetKEY120NAME" style="border-radius:5px;border-width:1px;border-style:solid;height:25px;background-color:transparent;font-size:12px;padding:10px;margin:4px;" value="default" placeholder="Set Name for KEY" autocomplete="on">
+                            </div>
+                            <div class="col-md-3 col-sm-3" style="background-color:#336699;"><i class="icon ion-radio-waves" style="font-size:20px;"></i><span style="font-size:20px;font-family:Aldrich, sans-serif;"> KEY 130</span>
+                                <div class="checkbox"><label data-bss-hover-animate="flash"><input type="checkbox" id="setKEY130_ENABLE">ACTIVAT</label></div><label style="font-size:15px;" for="SetKEY130NAME">NAME :</label><input type="text" data-bss-hover-animate="flash" id="SetKEY130NAME" style="border-radius:5px;border-width:1px;border-style:solid;height:25px;background-color:transparent;font-size:12px;padding:10px;margin:4px;" value="default" placeholder="Set Name for KEY" autocomplete="on">
+                            </div>
+                            <div class="col-md-3 col-sm-3" style="background-color:#4b739c;"><i class="icon ion-radio-waves" style="font-size:20px;"></i><span style="font-size:20px;font-family:Aldrich, sans-serif;"> KEY 255</span>
+                                <div class="checkbox"><label data-bss-hover-animate="flash"><input type="checkbox" id="setKEY255_ENABLE">ACTIVAT</label></div><label style="font-size:15px;" for="SetKEY255NAME">NAME :</label><input type="text" data-bss-hover-animate="flash" id="SetKEY255NAME" style="border-radius:5px;border-width:1px;border-style:solid;height:25px;background-color:transparent;font-size:12px;padding:10px;margin:4px;" value="default" placeholder="Set Name for KEY" autocomplete="on">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div align="center">
+                    <div id="replySave" style="padding:5px;"></div><button class="btn btn-default btn-xs" data-bss-hover-animate="flash" id="save" style="background-color:rgb(255,204,30);font-family:Aldrich, sans-serif;font-size:24px;color:rgb(24,55,122);width:285px;" type="button">Aplica aceste setari</button>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div style="height:20px;"></div>
+                <div class="hidden-xs hidden-sm intro" style="height:4px;background-color:#ff0f00;"></div>
+                <div style="height:15px;"></div>
+            </div>
+            <div class="col-md-12 hidden-xs hidden-sm">
+                <form id="upload" action="php/upload.php" name="upload" method="post" enctype="multipart/form-data">
+                    <p class="col-sm-6" style="color:rgba(255,204,30,0.75);font-size:16px;font-family:Aldrich, sans-serif;">Atentie. Aceasta zona este destinata unui update de firmware system. Aveti nevoie de un fisier valid pentru update firmare.</p>
+                    <div class="form-group pull-right">
+                        <div class="col-sm-4"><label class="control-label col-sm-2 pull-right" style="color:#ffcc1e;padding:8px 12px;width:134px;font-size:16px;" for="inputFileID">UPDATE SYSTEM</label></div>
+                        <div class="col-sm-4"><input type="file" id="inputFileID" class="btn btn-primary" name="fisier" required="" accept=".bin"></div>
+                        <div class="col-sm-4"><button class="btn btn-info" type="submit">UPGRADE</button></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div style="height:15px;"></div>
+    </div>
+    <div id="loginID" class="fullscreen home-product rounded" style="background-color:#336699;">
+        <div class="container">
+            <div style="height:60px;"></div>
+            <div class="row rounded" data-bss-hover-animate="pulse" style="background-color:rgba(0,0,0,0.14); border-radius: 25px;">
+                <div class="col-md-2 col-sm-2 align-top"><i class="icon ion-ios-locked-outline" style="color:#ffcc1e;font-size:149px;"></i></div>
+                <div class="col-md-8 col-sm-8">
+                    <div class="hidden-xs" style="height:47px;"></div><input class="input-lg" type="password" id="edPswd" style="width:100%;height:100%;background-color:rgba(255,255,255,0.72);" placeholder="INTRODUCETI PAROLA" autocomplete="off">
+                </div>
+                <div class="col-md-12 hidden-sm hidden-md hidden-lg">
+                    <div style="height:15px;"></div>
+                </div>
+                <div class="col-md-2 col-sm-2 pull-center">
+                    <div class="hidden-xs" style="height:47px;"></div><button class="btn btn-primary btn-block btn-lg btn-primary" id="checkBtnID" style="width:100%;height:100%;" type="button">INTRA </button>
+                    <div class="hidden-xs" style="height:47px;"></div>
+                </div>
+            </div>
+            <div style="height:15px;"></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="loginErrorID" style="font-family:'Source Sans Pro', sans-serif;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/aos.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/bootstrap-slider.js"></script>
+    <script src="assets/js/dtPickerJs/bootstrap-clockpicker.min.js"></script>
+    <script src="assets/js/dtPickerJs/jquery-clockpicker.min.js"></script>
+    <script src="assets/js/myJavascript.js"></script>
+</body>
+
+</html>

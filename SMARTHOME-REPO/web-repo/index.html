@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html style="font-family:Aldrich, sans-serif;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>SMARTHOME</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=News+Cycle:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/aos.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-slider.css">
+    <link rel="stylesheet" href="assets/css/dtPicker/bootstrap-clockpicker.min.css">
+    <link rel="stylesheet" href="assets/css/dtPicker/jquery-clockpicker.min.css">
+    <link rel="stylesheet" href="assets/css/Features-Blue.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="assets/css/Highlight-Blue.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean1.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body style="color:rgb(42,96,170);height:auto;font-family:'News Cycle', sans-serif; overflow:hiden;">
+    <div style="background-color:transparent;">
+        <div class="visible-xs-block xyzzy" data-size="xs"></div>
+        <div class="visible-sm-block xyzzy" data-size="sm"></div>
+        <div class="visible-md-block xyzzy" data-size="md"></div>
+        <div class="visible-lg-block xyzzy" data-size="lg"></div>
+    </div>
+    <div id="interfaceContainer" class="home-product" style="width:100%;height:100%;color:rgb(255,255,255);">
+        <nav class="navbar navbar-inverse navigation-clean" style="font-family:Aldrich, sans-serif;font-size:15px;">
+            <div class="container-fluid">
+                <div class="navbar-header"><a class="navbar-brand" style="font-family:Aldrich, sans-serif;font-size:24px;" href="#"> <i class="fa fa-microchip icon" style="font-size:22px;width:33px;color:#ffcc1e;"></i> SMART HOME by UPX</a><button data-toggle="collapse" class="navbar-toggle collapsed" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="nav navbar-nav navbar-right" style="font-size:20px;font-family:'News Cycle', sans-serif;">
+                        <li id="sumarID"><a href="dashboard.html">Sumar</a></li>
+                        <li><a href="thermostat.html">Termostat</a></li>
+                        <li><a href="settings.html">Setari sistem</a></li>
+                        <li><a href="logs.html">Informatie</a></li>
+                        <li><a id="LockID" href="index.html">Blocheaza Setarile</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="intro" style="height:1px;background-color:#ffcc1e;"></div>
+        <div style="padding:0;margin:0;height:15px;font-size:2px;background-color:rgba(23,47,118,0.62);"></div>
+        <div style="width:100%;height:100%;padding:0px 25px;background-color:rgba(23,47,118,0.62);color:rgb(135,135,135);">
+            <div class="container" style="height:auto;color:rgb(255,255,255);">
+                <div class="row features" style="width:auto;height:auto;">
+                    <div class="col-md-4 col-sm-6 col-xs-12" data-aos="zoom-in-down" data-aos-once="true" style="padding:0px 5px;">
+                        <h3 class="name" style="color:rgb(255,204,30);font-size:18px;margin:2px;font-family:Aldrich, sans-serif;"><i class="fa fa-thermometer-empty icon" data-bss-hover-animate="swing" style="font-size:21px;padding:6px;"></i>Temperatura </h3>
+                        <div style="margin:0;padding:0;">
+                            <div class="table-responsive" style="width:90%;border:none;">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td style="height:0;width:99px;">Dormitor: </td>
+                                            <td id="TEMP_DORMITOR" style="height:0px;">Load...<br></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dormitor2: </td>
+                                            <td id="TEMP_DORMITOR2">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Living: </td>
+                                            <td id="TEMP_HOL">Load... <i class="icon ion-ios-flame hidden"></i></td>
+                                        </tr>
+                                        <tr class="hidden-sm hidden-md hidden-lg">
+                                            <td>Bucatarie: </td>
+                                            <td id="TEMP_BUCATARIE">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:14px;">Exterior: </td>
+                                            <td id="TEMP_EXTERN">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td>PCB: </td>
+                                            <td id="TEMP_GATEWAY">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color:#ffcc1e;">Feel Temp: </td>
+                                            <td id="TEMP_MATRIX">Load... </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12" data-aos="zoom-in-down" data-aos-once="true">
+                        <h3 class="name" style="color:rgb(255,204,30);font-size:18px;font-family:Aldrich, sans-serif;margin:2px;"><i class="fa fa-plug icon" data-bss-hover-animate="jello" style="font-size:21px;padding:6px;"></i>Tensiune </h3>
+                        <div style="margin:0;padding:0;">
+                            <div class="table-responsive" style="width:90%;border:none;">
+                                <table class="table">
+                                    <tbody style="height:183px;">
+                                        <tr>
+                                            <td style="height:0;width:115px;">Acumulator: </td>
+                                            <td id="VOLTAGE_BATTERY" style="height:0px;">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Retea 12V:</td>
+                                            <td id="VOLTAGE_RAIL12">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Main Supply :</td>
+                                            <td id="VOLTAGE_MAIN">Load... </td>
+                                        </tr>
+                                        <tr style="height:17px;">
+                                            <td style="font-size:10px;">Vcc KEY110:</td>
+                                            <td id="KEY110BATTERY" style="font-size:10px;">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:10px;">Vcc KEY120:</td>
+                                            <td id="KEY120BATTERY" style="font-size:10px;">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:63px;font-size:10px;">Vcc KEY130:</td>
+                                            <td id="KEY130BATTERY" style="font-size:10px;">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:10px;">Vcc KEY255:</td>
+                                            <td id="KEY255BATTERY" style="font-size:10px;">Load... </td>
+                                        </tr>
+                                        <tr class="hidden-sm hidden-md hidden-lg">
+                                            <td style="font-size:10px;">Vcc Calor1:</td>
+                                            <td id="CALOR1_VCC" style="font-size:10px;">Load... </td>
+                                        </tr>
+                                        <tr class="hidden-sm hidden-md hidden-lg">
+                                            <td style="font-size:10px;">Vcc Calor2:</td>
+                                            <td id="CALOR2_VCC" style="font-size:10px;">Load... </td>
+                                        </tr>
+                                        <tr class="hidden-sm hidden-md hidden-lg">
+                                            <td style="font-size:10px;">Vcc Calor3:</td>
+                                            <td id="CALOR3_VCC" style="font-size:10px;">Load... </td>
+                                        </tr>
+                                        <tr class="hidden-sm hidden-md hidden-lg">
+                                            <td style="font-size:10px;">Vcc Calor4:</td>
+                                            <td id="CALOR4_VCC" style="font-size:10px;">Load... </td>
+                                        </tr>
+                                        <tr class="hidden-sm hidden-md hidden-lg">
+                                            <td style="font-size:10px;">Vcc Calor5:</td>
+                                            <td id="CALOR5_VCC" style="font-size:10px;">Load... </td>
+                                        </tr>
+                                        <tr class="hidden-sm hidden-md hidden-lg">
+                                            <td style="font-size:10px;">Vcc Calor6:</td>
+                                            <td id="CALOR6_VCC" style="font-size:10px;">Load... </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12" data-aos="zoom-in-down" data-aos-once="true">
+                        <h3 class="name" style="color:rgb(255,204,30);font-size:18px;margin:9px;font-family:Aldrich, sans-serif;"><i class="glyphicon glyphicon-oil icon" data-bss-hover-animate="flash" style="font-size:21px;padding:6px;"></i>Jaluzele </h3>
+                        <div style="margin:0;padding:0;">
+                            <div class="table-responsive" style="width:90%;border:none;">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td style="height:0;width:99px;">Auto Mode:</td>
+                                            <td id="jalAutoModeRun" style="height:0px;">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:118px;">Prag Noapte: </td>
+                                            <td id="LowLightPoint">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Histerizis Jal:</td>
+                                            <td id="jaluzHisterizis">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mod actual: </td>
+                                            <td id="jalModeNow">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:144px;">Lumina Interior: </td>
+                                            <td id="dormitorLDR">Load... </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Lumina Exterior: </td>
+                                            <td id="outdoorLDR">Load... </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12" data-aos="zoom-in-down" data-aos-once="true">
+                        <h3 class="name" style="color:rgb(255,204,30);font-size:18px;margin:2px;font-family:Aldrich, sans-serif;"><i class="fa fa-fire icon" data-bss-hover-animate="rubberBand" style="font-size:21px;padding:6px;"></i>Parametrii Incalzire</h3>
+                        <div style="margin:0;padding:0;">
+                            <div class="table-responsive" style="width:90%;border:none;">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td style="height:0;width:102px;color:#ffcc1e;"><strong>Termostat: </strong></td>
+                                            <td id="THERMOSTAT" style="height:0px;">Load.. </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:141px;">Incalzire : </td>
+                                            <td id="CentralaOn">Load. </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:141px;">Racire: </td>
+                                            <td id="ClimaON">Load. </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:165px;">Tip Calculare: </td>
+                                            <td id="TEMP_INDOOR_CALCULATION_METHOD">Load. </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color:rgb(255,204,30);">Temperatura Casa </td>
+                                            <td id="MATRIX_INDOOR">Load. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Histerizis: </td>
+                                            <td id="CENTRALA_ON_HISTERIZIS">Load. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Exterior Calculat</td>
+                                            <td id="THERMOSTAT_OUTSIDE_ENABLE">Load. </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12" data-aos="zoom-in-down" data-aos-once="true">
+                        <h3 class="name" style="font-size:18px;margin:2px;font-family:Aldrich, sans-serif;color:rgb(255,204,30);"><i class="fa fa-wrench icon" data-bss-hover-animate="wobble" style="font-size:21px;padding:6px;"></i>Setari curente</h3>
+                        <div style="margin:0;padding:0;">
+                            <div class="table-responsive" style="width:90%;border:none;">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td style="height:0;width:102px;">ILUMINAT AUTOMAT: </td>
+                                            <td id="AlowLightOFF" style="height:0px;">Load. </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:141px;">JAL AUTO RAW</td>
+                                            <td id="jalAutoModeRunDSP">Load. </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:165px;">KEY 110 ACTIV: </td>
+                                            <td id="KEY110ENABLE">Load. </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color:rgb(255,255,255);">KEY 120 ACTIV:</td>
+                                            <td id="KEY120ENABLE">Load. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>KEY 130 ACTIV: </td>
+                                            <td id="KEY130ENABLE">Load. </td>
+                                        </tr>
+                                        <tr>
+                                            <td>KEY 255 ACTIV: </td>
+                                            <td id="KEY255ENABLE">Load. </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12" data-aos="zoom-in-down" data-aos-once="true" style="height:260px;">
+                        <div style="height:25px;"></div>
+                        <div style="font-size:10px;height:100%;width:100%;">
+                            <ul class="nav nav-tabs" role="tablist" style="width:272px;height:49px;">
+                                <li class="active" role="presentation"><a role="tab" data-toggle="tab" style="color:#ffffff;background-color:transparent;width:54px;" href="#tab-1">Key110 </a></li>
+                                <li role="presentation"><a role="tab" data-toggle="tab" style="color:#ffffff;background-color:transparent;width:72px;" href="#tab-2"> Key 120</a></li>
+                                <li role="presentation"><a role="tab" data-toggle="tab" style="color:#ffffff;background-color:transparent;width:69px;" href="#tab-3">Key130 </a></li>
+                                <li role="presentation"><a role="tab" data-toggle="tab" style="color:#ffffff;background-color:transparent;width:69px;" href="#tab-4">Key255 </a></li>
+                            </ul>
+                            <div class="tab-content" style="color:rgb(255,255,255);">
+                                <div class="tab-pane fade in active" role="tabpanel" id="tab-1">
+                                    <div style="margin:0;padding:0;font-size:12px;">
+                                        <div class="table-responsive" style="width:90%;border:none;font-size:15px;margin:0px;padding:1px;">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width:13px;height:0px;">SEEN: </td>
+                                                        <td id="KEY110LASTSEEN" style="height:0px;width:141px;">Load. </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:18px;">PREZENT: </td>
+                                                        <td id="KEY110HOME" style="height:14px;">Load. </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:73px;">NAME:</td>
+                                                        <td id="KEY110NAME">Load. </td>
+                                                    </tr>
+                                                    <tr></tr>
+                                                    <tr></tr>
+                                                    <tr></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" role="tabpanel" id="tab-2">
+                                    <div style="margin:0;padding:0;font-size:12px;">
+                                        <div class="table-responsive" style="width:260px;border:none;font-size:15px;margin:0px;padding:1px;">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width:13px;height:0px;">SEEN: </td>
+                                                        <td id="KEY120LASTSEEN" style="height:0px;width:141px;">27.01.2018 15:28:30 </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:18px;">PREZENT: </td>
+                                                        <td id="KEY120HOME" style="height:14px;">DA </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:73px;">NAME:</td>
+                                                        <td id="KEY120NAME">ANDREEA-MARIA </td>
+                                                    </tr>
+                                                    <tr></tr>
+                                                    <tr></tr>
+                                                    <tr></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" role="tabpanel" id="tab-3">
+                                    <div style="margin:0;padding:0;font-size:12px;">
+                                        <div class="table-responsive" style="width:260px;border:none;font-size:15px;margin:0px;padding:1px;">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width:13px;height:0px;">SEEN: </td>
+                                                        <td id="KEY130LASTSEEN" style="height:0px;width:141px;">27.01.2018 15:28:30 </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:18px;">PREZENT: </td>
+                                                        <td id="KEY130HOME" style="height:14px;">DA </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:73px;">NAME:</td>
+                                                        <td id="KEY130NAME">CAMELIA </td>
+                                                    </tr>
+                                                    <tr></tr>
+                                                    <tr></tr>
+                                                    <tr></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" role="tabpanel" id="tab-4">
+                                    <div style="margin:0;padding:0;font-size:12px;">
+                                        <div class="table-responsive" style="width:260px;border:none;font-size:15px;margin:0px;padding:1px;">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width:13px;height:0px;">SEEN: </td>
+                                                        <td id="KEY255LASTSEEN" style="height:0px;width:141px;">27.01.2018 15:28:30 </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:18px;">PREZENT: </td>
+                                                        <td id="KEY255HOME" style="height:14px;">DA </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:73px;">NAME:</td>
+                                                        <td id="KEY255NAME">default </td>
+                                                    </tr>
+                                                    <tr></tr>
+                                                    <tr></tr>
+                                                    <tr></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-xs-12"><span class="label label-info hidden-xs inline-block" style="font-size:10px;font-family:'News Cycle', sans-serif;">COMPLET AUTOMAT: </span><span class="label label-danger hidden-xs inline-block" id="HomeIsAlone" style="font-size:10px;">? </span><span class="label label-danger inline-block pull-right" id="updateTime" style="font-size:10px;width:auto;height:auto;">? </span><span class="label label-info inline-block pull-right" style="font-size:10px;font-family:'News Cycle', sans-serif;width:auto;height:auto;">Update Time:</span></div>
+                </div>
+                <div style="height:132px;"></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/aos.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/bootstrap-slider.js"></script>
+    <script src="assets/js/dtPickerJs/bootstrap-clockpicker.min.js"></script>
+    <script src="assets/js/dtPickerJs/jquery-clockpicker.min.js"></script>
+    <script src="assets/js/myJavascript.js"></script>
+</body>
+
+</html>

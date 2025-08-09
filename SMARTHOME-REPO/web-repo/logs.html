@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>SMART HOME - Logs</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=News+Cycle:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/aos.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-slider.css">
+    <link rel="stylesheet" href="assets/css/dtPicker/bootstrap-clockpicker.min.css">
+    <link rel="stylesheet" href="assets/css/dtPicker/jquery-clockpicker.min.css">
+    <link rel="stylesheet" href="assets/css/Features-Blue.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="assets/css/Highlight-Blue.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean1.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body style="background-color:rgb(29,123,153);">
+    <div style="background-color:transparent;">
+        <div class="visible-xs-block xyzzy" data-size="xs"></div>
+        <div class="visible-sm-block xyzzy" data-size="sm"></div>
+        <div class="visible-md-block xyzzy" data-size="md"></div>
+        <div class="visible-lg-block xyzzy" data-size="lg"></div>
+    </div>
+    <div style="background-color:transparent;">
+        <nav class="navbar navbar-inverse navigation-clean" style="font-family:Aldrich, sans-serif;font-size:15px;">
+            <div class="container-fluid">
+                <div class="navbar-header"><a class="navbar-brand" style="font-size:24px;" href="#"> <i class="fa fa-microchip icon" style="font-size:22px;width:33px;color:rgb(5,255,0);"></i> SMART HOME by UPX</a><button data-toggle="collapse" class="navbar-toggle collapsed" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="nav navbar-nav navbar-right" style="font-size:20px;font-family:'News Cycle', sans-serif;">
+                        <li><a href="index.html">Interfata </a></li>
+                        <li><a href="thermostat.html">Termostat</a></li>
+                        <li><a href="settings.html">Setari sistem</a></li>
+                        <li class="active"><a style="color:#ffcc1e;background-color:rgba(255,255,255,0.1);" href="#">Informatie</a></li>
+                        <li><a id="LockID" href="index.html">Blocheaza Setarile</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="intro" style="height:1px;background-color:#ffcc1e;"></div>
+    <div id="LogsContainerID" class="features-blue home-product" style="font-family:'Allerta Stencil', sans-serif;height:auto;color:transparent;background-color:rgba(51,102,153,0.36);">
+        <div style="padding:0;margin:0;height:15px;font-size:2px;background-color:rgba(51,102,153,0.36);"></div>
+        <div class="container-fluid" style="height:auto;background-color:rgba(51,102,153,0.36);">
+            <div class="row" style="background-color:transparent;">
+                <div class="col-md-4 col-sm-4">
+                    <div class="panel panel-success" data-aos="slide-down" style="min-height:400px;background-color:rgba(0,0,0,0.22);">
+                        <div class="panel-heading" style="background-color:rgba(34,178,76,0.71);">
+                            <h3 class="panel-title">INFORMATII </h3>
+                        </div>
+                        <div class="panel-body" style="font-size:10px;"><span id="idLogInfo" style="width:100%;height:100%;font-family:'Source Sans Pro', sans-serif;font-size:12px;color:#ffffff;">Nu exista informatii.</span>
+                            <div style="height:15px;"></div><button class="btn btn-success btn-xs pull-right" id="btnLogInfo" type="button">Actualizeaza </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="panel panel-danger" data-aos="zoom-out-up" style="min-height:400px;background-color:rgba(0,0,0,0.14);">
+                        <div class="panel-heading" style="background-color:rgba(245,122,0,0.71);">
+                            <h3 class="panel-title">ATENTIONARI </h3>
+                        </div>
+                        <div class="panel-body" style="font-size:10px;"><span id="idLogWarning" style="color:#ffffff;width:100%;height:100%;font-family:'Source Sans Pro', sans-serif;font-size:12px;">Nu exista informatii.</span>
+                            <div style="height:15px;"></div><button class="btn btn-danger btn-xs pull-right" id="btnLogWarning" type="button">Actualizeaza </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="panel panel-primary" data-aos="fade-down-left" style="min-height:400px;background-color:rgba(0,0,0,0.22);">
+                        <div class="panel-heading" style="background-color:rgba(235,104,100,0.71);">
+                            <h3 class="panel-title">ERORI </h3>
+                        </div>
+                        <div class="panel-body" style="font-size:10px;"><span id="idLogError" style="color:#ffffff;width:100%;height:100%;font-family:'Source Sans Pro', sans-serif;font-size:12px;">Nu exista informatii.</span>
+                            <div style="height:15px;"></div><button class="btn btn-primary btn-xs pull-right" id="btnLogError" type="button">Actualizeaza </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height:15px;"></div>
+            <div class="row" style="background-color:transparent;">
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div class="panel panel-success" data-aos="fade-up-left" style="min-height:600px;background-color:rgba(0,0,0,0.22);border-radius:15px;">
+                        <div class="panel-body" style="font-size:10px;"><span id="idKeyInfo" style="color:rgb(255,255,255);width:100%;height:100%;font-family:'Source Sans Pro', sans-serif;">Nu exista informatii.</span>
+                            <div style="height:15px;"></div><button class="btn btn-success btn-xs pull-right" id="btnKeyInfo" type="button">Actualizeaza </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-12 col-xs-12 hidden-xs" data-aos="zoom-in">
+                    <div data-bss-hover-animate="pulse" style="width:auto;height:auto;background-color:rgba(0,0,0,0.14); border-radius: 25px;" align="center"><iframe src="https://www.meteoblue.com/ro/vreme/widget/three/hunedoara_rom%c3%a2nia_675918?geoloc=fixed&nocurrent=0&noforecast=0&days=5&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=dark"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox" style="width: 575px;height: 608px"></iframe><div class="invisible"><!-- DO NOT REMOVE THIS LINK --><a class="invisible" href="https://www.meteoblue.com/ro/vreme/prognoza/s%C4%83pt%C4%83m%C3%A2na/hunedoara_rom%c3%a2nia_675918?utm_source=weather_widget&utm_medium=linkus&utm_content=three&utm_campaign=Weather%2BWidget" target="_blank"></a></div></div>
+                </div>
+            </div>
+            <div style="height:15px;"></div>
+        </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/aos.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/bootstrap-slider.js"></script>
+    <script src="assets/js/dtPickerJs/bootstrap-clockpicker.min.js"></script>
+    <script src="assets/js/dtPickerJs/jquery-clockpicker.min.js"></script>
+    <script src="assets/js/myJavascript.js"></script>
+</body>
+
+</html>
