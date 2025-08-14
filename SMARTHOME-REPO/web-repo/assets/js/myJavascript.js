@@ -140,6 +140,19 @@ function pool_info_page() {
 		}, 1000);		
 }
 /*-----------------------------------------------------------------------------------*/
+function checkMillis() {
+  let currentMillis = millis_esp;
+  if (typeof checkMillis.lastMillis === 'undefined') {
+    checkMillis.lastMillis = 0;
+  }
+  if (currentMillis === checkMillis.lastMillis) {
+	location.reload(true);
+  } else {
+    checkMillis.lastMillis = currentMillis;
+  }
+  setTimeout(checkMillis, 1500);
+}
+/*-----------------------------------------------------------------------------------*/
 
   
 /*SECTION SLIDERS*/
