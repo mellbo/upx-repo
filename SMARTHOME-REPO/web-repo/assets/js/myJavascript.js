@@ -6,8 +6,16 @@ var LAST_OUTDOOR_LDR = 0;
 var idleTime = 0;
 var THERMOSTATLAST = '';
 
+/*ESP WebSocket*/
+var gateway = window.location.port 
+  ? `ws://${window.location.hostname}:${window.location.port}/ws` 
+  : `ws://${window.location.hostname}/ws`;  
+  var websocket;
+  var websck_is_connected = false;
+  var millis_esp = 0;
+  
 $(document).ready(function() {
-        
+    initWebSocket(); //ESP WebSocket  
     var page = window.location.pathname;
         page = page.split("/").pop();
 		if (page == '') page = 'index.html';
@@ -55,7 +63,85 @@ $(document).ready(function() {
 	}
 }); //end onLoad		
 
+/*ESP WebSocket*/
+/*------------------------------------------------------------------------------------*/
+  function onOpen(event) {
+    websck_is_connected = 1;
+    pool_info_page();
+		verificaVersiune();
+    setTimeout(function(){
+      checkMillis(); // check if is OK page
+    },2000);    
+    console.log('Connection opened');
+  }
+/*-----------------------------------------------------------------------------------*/
+  function onClose(event) {
+    websck_is_connected = 0;
+    console.log('Connection closed');
+    setTimeout(initWebSocket, 2000);
+  }
+/*-----------------------------------------------------------------------------------*/
+  function initWebSocket() {
+    console.log('Trying to open a WebSocket connection...');
+    websocket = new WebSocket(gateway);
+    websocket.onopen    = onOpen;
+    websocket.onclose   = onClose;
+    websocket.onmessage = onMessage;
+  }
+/*-----------------------------------------------------------------------------------*/  
+  /*update fields*/
+function onMessage(event) {
+	let jsonObject = JSON.parse(event.data);
+		millis_esp = parseInt(jsonObject['cMs'], 10);
+		//document.getElementById("cMillis").innerText = jsonObject['cMs'];
+		jsonObject = null;
+}
+/*-----------------------------------------------------------------------------------*/
+async function verificaVersiune() {
+	let VERSION = '';
+    const versionElement = document.getElementById("idVersion");
+    if (versionElement) {
+        VERSION = versionElement.innerHTML.trim();
+    } else return;
+		  
+    const dataRaw = await fetch('https://mellbo.github.io/upx-repo/VPS-UART/firmware/version');
+    const data = await dataRaw.text();
+    const ini = Object.fromEntries(
+        data.split('\n').map(line => line.split('=').map(param => param.trim()))
+    );
+	console.log("Check VERSION..");
+    if (ini.version !== VERSION) {
+		console.log("Update available!"); 
+		const idNewFirmware = document.getElementById("idNewFirmware");
+		if (idNewFirmware) {
+			const idNewFirmwareURL = document.getElementById("idNewFirmwareURL");
+			if (idNewFirmwareURL) {
+				idNewFirmwareURL.href = ini.url;
+				idNewFirmware.classList.remove('d-none');
+			}
+		}			
+    } else {
+		console.log("No update available"); 
+	}
+}
+/*-----------------------------------------------------------------------------------*/
+function pool_info_page() {
+  	let data = {
+		"INDEX_PAGE": 1
+	};
+	
+	let _js = JSON.stringify(data);	
+  if (websck_is_connected) websocket.send(_js);
+	_js	= null;
+	data = null;
 
+	setTimeout(function(){
+		pool_info_page();
+		}, 1000);		
+}
+/*-----------------------------------------------------------------------------------*/
+
+  
 /*SECTION SLIDERS*/
 //set_NewTEMPInCALL
 $('#set_NewTEMPInCALL').slider({
