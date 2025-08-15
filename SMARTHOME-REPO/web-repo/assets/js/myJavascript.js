@@ -19,26 +19,25 @@ $(document).ready(function() {
     var page = window.location.pathname;
         page = page.split("/").pop();
 		if (page == '') page = 'index.html';
-      if (page == 'settings.html') {
-        checkLogin('false');
-      }
-
+    
     checkIfMobile();
     
 	/*TIMER1*/
+  /*
 	if ((page == 'index.html') || (page == 'dashboard.html')) {
 		setInterval(function(){				
 					$.ajax({
 					url: "../php/liveParamToJson.php",
 					data: "",
 					success: function(data) {
-                        /*PRELUARE DATE*/
 						updateHomeData(data);
 					}
 				});
 		}, 5000);
-	}	
+	}
+  */
 	/*END TIMER1*/
+  
     /*TIMER2*/
     var idleInterval = setInterval(timerIncrement, 60000);
     $(this).mousemove(function (e) {
@@ -94,6 +93,8 @@ function onMessage(event) {
 	let jsonObject = JSON.parse(event.data);
 		millis_esp = parseInt(jsonObject['cMs'], 10);
 		//document.getElementById("cMillis").innerText = jsonObject['cMs'];
+    //updateHomeData(jsonObject);
+    console.log(jsonObject);
 		jsonObject = null;
 }
 /*-----------------------------------------------------------------------------------*/
@@ -134,10 +135,11 @@ function pool_info_page() {
   if (websck_is_connected) websocket.send(_js);
 	_js	= null;
 	data = null;
-
-	setTimeout(function(){
-		pool_info_page();
-		}, 1000);		
+  if (websck_is_connected) {
+    setTimeout(function(){
+      pool_info_page();
+      }, 1000);	
+  }    
 }
 /*-----------------------------------------------------------------------------------*/
 function checkMillis() {
@@ -153,8 +155,7 @@ function checkMillis() {
   setTimeout(checkMillis, 1500);
 }
 /*-----------------------------------------------------------------------------------*/
-
-  
+/*-----------------------------------------------------------------------------------*/
 /*SECTION SLIDERS*/
 //set_NewTEMPInCALL
 $('#set_NewTEMPInCALL').slider({
@@ -328,21 +329,6 @@ $('#gradeCelsius').keyup(function(event){
     }    
 });
 
-$("#edPswd").keyup(function(event) {
-    if (event.keyCode === 13) {
-        $("#checkBtnID").click();
-    }
-});
-
-$('#LockID').on('click', function(){
-    checkLogin('true');
-});
-
-$('#checkBtnID').on('click', function(){
-    checkLogin('false');
-    //location.reload(true);
-});
-
 $('#preff_ldr').on('click',function(){
    PREFERED_LIGHT_DORMITOR = LAST_OUTDOOR_LDR; 
    saveSettings(); 
@@ -471,12 +457,10 @@ function processCalorPos(id,calSt,calReq) {
   return res;
 }
 
-function updateHomeData(dataFromPhp) {
-				//-->OUT TEXT JSON
-				var jsonData = JSON.parse(dataFromPhp);
+function updateHomeData(jsonData) {
 				//-->UPDATE ITEMS BY ID & INI 'NAME' ITEM
 				var DaSauNu = "";
-                var blinkClass = "";
+        var blinkClass = "";
 				var cal1St,cal1Req,cal1Vcc;
 				var cal2St,cal2Req,cal2Vcc;
 				var cal3St,cal3Req,cal3Vcc;
@@ -814,46 +798,6 @@ function timerIncrement() {
     } else {
         $("body").css({'overflow': 'auto'});
     }
-}
-
-function checkLogin(lock){
-    var MD5 = Math.round(
-            new Date().getTime() + 
-            (Math.random() * 100)
-    );
-    
-    var mod = '';
-    if (lock == 'false') {
-      mod = $('#edPswd').val();
-    } else {
-		document.cookie = 'home_login' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-        mod = '*';
-    }
-    
-	$.ajax({
-		url: "../php/login.php",
-        type:'post',
-		async:false,
-		dataType: 'json',
-		cache: false,
-		timeout: 10000,		
-		data: {'act':MD5,'passwd':mod},
-		success: function(data) {
-            if (data[0] == (MD5*42)){
-                $('#loginID').addClass('hidden');
-                $('#settingsContainerID').removeClass('hidden');
-            } else {
-                $('#loginID').removeClass('hidden');
-                $('#settingsContainerID').addClass('hidden'); 
-                $('#loginErrorID').html(data[0]);
-                $('#edPswd').val('');
-            }
-			if (data[1] == 1) location.reload(true);
-		},
-		error: function(e){
-			console.log(e);
-		}		
-	});    
 }
 
 function checkValueForBlink(value,minVal,MaxVal) {
