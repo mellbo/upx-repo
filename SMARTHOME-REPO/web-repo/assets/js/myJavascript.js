@@ -1,4 +1,4 @@
-/*SECTION UPDATE livePARAM*/
+/*SECTION UPDATE livePARAM */
 var AddNewTemperatureInMonth = '';
 var resetThermostat = '0';
 var PREFERED_LIGHT_DORMITOR = '0';
