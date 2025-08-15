@@ -148,6 +148,7 @@ function checkMillis() {
     checkMillis.lastMillis = 0;
   }
   if (currentMillis === checkMillis.lastMillis) {
+  alert("currentMmillis is SAME!");
 	location.reload(true);
   } else {
     checkMillis.lastMillis = currentMillis;
