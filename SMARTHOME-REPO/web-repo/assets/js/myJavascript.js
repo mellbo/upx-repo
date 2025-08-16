@@ -93,7 +93,7 @@ function onMessage(event) {
 	let jsonObject = JSON.parse(event.data);
 		millis_esp = parseInt(jsonObject['cMs'], 10);
 		//document.getElementById("cMillis").innerText = jsonObject['cMs'];
-    //updateHomeData(jsonObject);
+    updateHomeData(jsonObject);
     console.log(jsonObject);
 		jsonObject = null;
 }
