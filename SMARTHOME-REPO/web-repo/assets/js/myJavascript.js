@@ -1,4 +1,4 @@
-/*SECTION UPDATE livePARAM */
+/*SECTION UPDATE livePARAM*/
 var AddNewTemperatureInMonth = '';
 var resetThermostat = '0';
 var PREFERED_LIGHT_DORMITOR = '0';
@@ -469,124 +469,124 @@ function updateHomeData(jsonData) {
 				var cal5St,cal5Req,cal5Vcc;
 				var cal6St,cal6Req,cal6Vcc;
 				 
-				 cal1Req = jsonData.LIVE["CALOR1_SET_STATE"];
-				 cal2Req = jsonData.LIVE["CALOR2_SET_STATE"];
-				 cal3Req = jsonData.LIVE["CALOR3_SET_STATE"];
-				 cal4Req = jsonData.LIVE["CALOR4_SET_STATE"];
-				 cal5Req = jsonData.LIVE["CALOR5_SET_STATE"];
-				 cal6Req = jsonData.LIVE["CALOR6_SET_STATE"];
+				 cal1Req = jsonData["CALOR1_SET_STATE"];
+				 cal2Req = jsonData["CALOR2_SET_STATE"];
+				 cal3Req = jsonData["CALOR3_SET_STATE"];
+				 cal4Req = jsonData["CALOR4_SET_STATE"];
+				 cal5Req = jsonData["CALOR5_SET_STATE"];
+				 cal6Req = jsonData["CALOR6_SET_STATE"];
 				 
-				 cal1St = jsonData.LIVE["CALOR1_CUR_STATE"];
-				 cal2St = jsonData.LIVE["CALOR2_CUR_STATE"];
-				 cal3St = jsonData.LIVE["CALOR3_CUR_STATE"];
-				 cal4St = jsonData.LIVE["CALOR4_CUR_STATE"];
-				 cal5St = jsonData.LIVE["CALOR5_CUR_STATE"];
-				 cal6St = jsonData.LIVE["CALOR6_CUR_STATE"];
+				 cal1St = jsonData["CALOR1_CUR_STATE"];
+				 cal2St = jsonData["CALOR2_CUR_STATE"];
+				 cal3St = jsonData["CALOR3_CUR_STATE"];
+				 cal4St = jsonData["CALOR4_CUR_STATE"];
+				 cal5St = jsonData["CALOR5_CUR_STATE"];
+				 cal6St = jsonData["CALOR6_CUR_STATE"];
 				 
-				 blinkClass = checkValueForBlink(jsonData.LIVE["CALOR1_VCC"],2100,3300);
-				 $("#CALOR1_VCC").html('<div class="'+blinkClass+'">'+jsonData.LIVE["CALOR1_VCC"]+'mV</div>');
-				 blinkClass = checkValueForBlink(jsonData.LIVE["CALOR2_VCC"],2100,3300);
-				 $("#CALOR2_VCC").html('<div class="'+blinkClass+'">'+jsonData.LIVE["CALOR2_VCC"]+'mV</div>');
-				 blinkClass = checkValueForBlink(jsonData.LIVE["CALOR3_VCC"],2100,3300);
-				 $("#CALOR3_VCC").html('<div class="'+blinkClass+'">'+jsonData.LIVE["CALOR3_VCC"]+'mV</div>');				 
-				 blinkClass = checkValueForBlink(jsonData.LIVE["CALOR4_VCC"],2100,3300);
-				 $("#CALOR4_VCC").html('<div class="'+blinkClass+'">'+jsonData.LIVE["CALOR4_VCC"]+'mV</div>');				 
-				 blinkClass = checkValueForBlink(jsonData.LIVE["CALOR5_VCC"],2100,3300);
-				 $("#CALOR5_VCC").html('<div class="'+blinkClass+'">'+jsonData.LIVE["CALOR5_VCC"]+'mV</div>');
-				 blinkClass = checkValueForBlink(jsonData.LIVE["CALOR6_VCC"],2100,3300);
-				 $("#CALOR6_VCC").html('<div class="'+blinkClass+'">'+jsonData.LIVE["CALOR6_VCC"]+'mV</div>');
+				 blinkClass = checkValueForBlink(jsonData["CALOR1_VCC"],2100,3300);
+				 $("#CALOR1_VCC").html('<div class="'+blinkClass+'">'+jsonData["CALOR1_VCC"]+'mV</div>');
+				 blinkClass = checkValueForBlink(jsonData["CALOR2_VCC"],2100,3300);
+				 $("#CALOR2_VCC").html('<div class="'+blinkClass+'">'+jsonData["CALOR2_VCC"]+'mV</div>');
+				 blinkClass = checkValueForBlink(jsonData["CALOR3_VCC"],2100,3300);
+				 $("#CALOR3_VCC").html('<div class="'+blinkClass+'">'+jsonData["CALOR3_VCC"]+'mV</div>');				 
+				 blinkClass = checkValueForBlink(jsonData["CALOR4_VCC"],2100,3300);
+				 $("#CALOR4_VCC").html('<div class="'+blinkClass+'">'+jsonData["CALOR4_VCC"]+'mV</div>');				 
+				 blinkClass = checkValueForBlink(jsonData["CALOR5_VCC"],2100,3300);
+				 $("#CALOR5_VCC").html('<div class="'+blinkClass+'">'+jsonData["CALOR5_VCC"]+'mV</div>');
+				 blinkClass = checkValueForBlink(jsonData["CALOR6_VCC"],2100,3300);
+				 $("#CALOR6_VCC").html('<div class="'+blinkClass+'">'+jsonData["CALOR6_VCC"]+'mV</div>');
 				 				 
-				 $("#THERMOSTAT").html(jsonData.LIVE["THERMOSTAT"]);
-				 $("#TEMP_BUCATARIE").html(jsonData.LIVE["TEMP_BUCATARIE"]);
-				 $("#TEMP_DORMITOR").html('<div>'+jsonData.LIVE["TEMP_DORMITOR"]+'&nbsp;&nbsp;'+processCalorPos("cal6",cal5St,cal5Req)+'</div>');
+				 $("#THERMOSTAT").html(jsonData["THERMOSTAT"]);
+				 $("#TEMP_BUCATARIE").html(jsonData["TEMP_BUCATARIE"]);
+				 $("#TEMP_DORMITOR").html('<div>'+jsonData["TEMP_DORMITOR"]+'&nbsp;&nbsp;'+processCalorPos("cal6",cal5St,cal5Req)+'</div>');
 				 
-				 //$("#TEMP_DORMITOR2").html(jsonData.LIVE["TEMP_DORMITOR2"]);
-                 blinkClass = checkValueForBlink(jsonData.LIVE["HUM_DORMITOR2"],20,65);
-				 $("#TEMP_DORMITOR2").html('<div class="'+blinkClass+'">'+jsonData.LIVE["TEMP_DORMITOR2"]+
-										   '&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+jsonData.LIVE["HUM_DORMITOR2"] +
+				 //$("#TEMP_DORMITOR2").html(jsonData["TEMP_DORMITOR2"]);
+                 blinkClass = checkValueForBlink(jsonData["HUM_DORMITOR2"],20,65);
+				 $("#TEMP_DORMITOR2").html('<div class="'+blinkClass+'">'+jsonData["TEMP_DORMITOR2"]+
+										   '&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+jsonData["HUM_DORMITOR2"] +
 										   '%&nbsp;&nbsp;'+processCalorPos("cal5",cal6St,cal6Req)+'</div>');				 
 				 
-                 blinkClass = checkValueForBlink(jsonData.LIVE["HOL_HUMIDITY"],20,65);
-				 $("#TEMP_HOL").html('<div class="'+blinkClass+'">'+jsonData.LIVE["TEMP_HOL"]+
-									 '&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+jsonData.LIVE["HOL_HUMIDITY"] +
+                 blinkClass = checkValueForBlink(jsonData["HOL_HUMIDITY"],20,65);
+				 $("#TEMP_HOL").html('<div class="'+blinkClass+'">'+jsonData["TEMP_HOL"]+
+									 '&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+jsonData["HOL_HUMIDITY"] +
 									 '%&nbsp;&nbsp;'+processCalorPos("cal1",cal1St,cal1Req)+processCalorPos("cal2",cal2St,cal2Req)+
 									 processCalorPos("cal3",cal3St,cal3Req)+
 									 processCalorPos("cal4",cal4St,cal4Req)+'</div>');
 									 
-				 $("#TEMP_EXTERN").html(jsonData.LIVE["TEMP_EXTERN"]+'&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+jsonData.LIVE["HUMIDITY_EXT"] + '%');
-				 blinkClass = checkValueForBlink(jsonData.LIVE["VOLTAGE_BATTERY"],12.0,13.9);
-				 $("#VOLTAGE_BATTERY").html('<div class="'+blinkClass+'">'+jsonData.LIVE["VOLTAGE_BATTERY"]+'</div>');
-				 blinkClass = checkValueForBlink(jsonData.LIVE["VOLTAGE_RAIL12"],11.8,12.5);
-				 $("#VOLTAGE_RAIL12").html('<div class="'+blinkClass+'">'+jsonData.LIVE["VOLTAGE_RAIL12"]+'</div>');				 				 				 
-				 blinkClass = checkValueForBlink(jsonData.LIVE["VOLTAGE_MAIN"],14.9,15.6);
-				 $("#VOLTAGE_MAIN").html('<div class="'+blinkClass+'">'+jsonData.LIVE["VOLTAGE_MAIN"]+'</div>');
+				 $("#TEMP_EXTERN").html(jsonData["TEMP_EXTERN"]+'&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+jsonData["HUMIDITY_EXT"] + '%');
+				 blinkClass = checkValueForBlink(jsonData["VOLTAGE_BATTERY"],12.0,13.9);
+				 $("#VOLTAGE_BATTERY").html('<div class="'+blinkClass+'">'+jsonData["VOLTAGE_BATTERY"]+'</div>');
+				 blinkClass = checkValueForBlink(jsonData["VOLTAGE_RAIL12"],11.8,12.5);
+				 $("#VOLTAGE_RAIL12").html('<div class="'+blinkClass+'">'+jsonData["VOLTAGE_RAIL12"]+'</div>');				 				 				 
+				 blinkClass = checkValueForBlink(jsonData["VOLTAGE_MAIN"],14.9,15.6);
+				 $("#VOLTAGE_MAIN").html('<div class="'+blinkClass+'">'+jsonData["VOLTAGE_MAIN"]+'</div>');
 				 
-				if (jsonData.LIVE["CentralaOn"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#CentralaOn").html(DaSauNu + ' de ' + jsonData.LIVE["IncalzireSecondsLastState"]);
-				if (jsonData.LIVE["ClimaOn"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				if (jsonData["CentralaOn"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				 $("#CentralaOn").html(DaSauNu + ' de ' + jsonData["IncalzireSecondsLastState"]);
+				if (jsonData["ClimaOn"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
 				 $("#ClimaON").html(DaSauNu);				 
-				 $("#jalAutoModeRun").html(decodeJalAutoMode(jsonData.LIVE["jalAutoModeRun"]));
-				 $("#LowLightPoint").html(jsonData.LIVE["LowLightPoint"]);
-				if (jsonData.LIVE["AlowLightOFF"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				 $("#jalAutoModeRun").html(decodeJalAutoMode(jsonData["jalAutoModeRun"]));
+				 $("#LowLightPoint").html(jsonData["LowLightPoint"]);
+				if (jsonData["AlowLightOFF"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
 				 $("#AlowLightOFF").html(DaSauNu);
-				if (jsonData.LIVE["HomeIsAlone"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				if (jsonData["HomeIsAlone"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
 				 $("#HomeIsAlone").html(DaSauNu);
-				 $("#jaluzHisterizis").html(jsonData.LIVE["jaluzHisterizis"]);
+				 $("#jaluzHisterizis").html(jsonData["jaluzHisterizis"]);
     
-				 blinkClass = checkValueForBlink(jsonData.LIVE["KEY110BATTERY"],2.75,3.30);
-				 $("#KEY110BATTERY").html('<div class="'+blinkClass+'">'+jsonData.LIVE["KEY110BATTERY"]+'</div>');				 				 
-				 $("#KEY110CONTOR").html(jsonData.LIVE["KEY110CONTOR"]);
-				 $("#KEY110LASTSEEN").html(jsonData.LIVE["KEY110LASTSEEN"]);
-				if (jsonData.LIVE["KEY110ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				 blinkClass = checkValueForBlink(jsonData["KEY110BATTERY"],2.75,3.30);
+				 $("#KEY110BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY110BATTERY"]+'</div>');				 				 
+				 $("#KEY110CONTOR").html(jsonData["KEY110CONTOR"]);
+				 $("#KEY110LASTSEEN").html(jsonData["KEY110LASTSEEN"]);
+				if (jsonData["KEY110ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
 				 $("#KEY110ENABLE").html(DaSauNu);
-				if (jsonData.LIVE["KEY110HOME"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#KEY110HOME").html(DaSauNu +', de '+jsonData.LIVE['KEY110LASTCHANGE']);
-				 $("#KEY110NAME").html(jsonData.LIVE["KEY110NAME"]);
+				if (jsonData["KEY110HOME"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				 $("#KEY110HOME").html(DaSauNu +', de '+jsonData['KEY110LASTCHANGE']);
+				 $("#KEY110NAME").html(jsonData["KEY110NAME"]);
 
-				 blinkClass = checkValueForBlink(jsonData.LIVE["KEY120BATTERY"],2.75,3.30);
-				 $("#KEY120BATTERY").html('<div class="'+blinkClass+'">'+jsonData.LIVE["KEY120BATTERY"]+'</div>');					 
-				 $("#KEY120CONTOR").html(jsonData.LIVE["KEY120CONTOR"]);
-				 $("#KEY120LASTSEEN").html(jsonData.LIVE["KEY120LASTSEEN"]);
-				if (jsonData.LIVE["KEY120ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				 blinkClass = checkValueForBlink(jsonData["KEY120BATTERY"],2.75,3.30);
+				 $("#KEY120BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY120BATTERY"]+'</div>');					 
+				 $("#KEY120CONTOR").html(jsonData["KEY120CONTOR"]);
+				 $("#KEY120LASTSEEN").html(jsonData["KEY120LASTSEEN"]);
+				if (jsonData["KEY120ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
 				 $("#KEY120ENABLE").html(DaSauNu);
-				if (jsonData.LIVE["KEY120HOME"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#KEY120HOME").html(DaSauNu +', de '+jsonData.LIVE['KEY120LASTCHANGE']);
-				 $("#KEY120NAME").html(jsonData.LIVE["KEY120NAME"]);
+				if (jsonData["KEY120HOME"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				 $("#KEY120HOME").html(DaSauNu +', de '+jsonData['KEY120LASTCHANGE']);
+				 $("#KEY120NAME").html(jsonData["KEY120NAME"]);
 
-				 blinkClass = checkValueForBlink(jsonData.LIVE["KEY130BATTERY"],2.75,3.30);
-				 $("#KEY130BATTERY").html('<div class="'+blinkClass+'">'+jsonData.LIVE["KEY130BATTERY"]+'</div>'); 
-				 $("#KEY130CONTOR").html(jsonData.LIVE["KEY130CONTOR"]);
-				 $("#KEY130LASTSEEN").html(jsonData.LIVE["KEY130LASTSEEN"]);
-				if (jsonData.LIVE["KEY130ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				 blinkClass = checkValueForBlink(jsonData["KEY130BATTERY"],2.75,3.30);
+				 $("#KEY130BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY130BATTERY"]+'</div>'); 
+				 $("#KEY130CONTOR").html(jsonData["KEY130CONTOR"]);
+				 $("#KEY130LASTSEEN").html(jsonData["KEY130LASTSEEN"]);
+				if (jsonData["KEY130ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
 				 $("#KEY130ENABLE").html(DaSauNu);
-				if (jsonData.LIVE["KEY130HOME"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#KEY130HOME").html(DaSauNu +', de '+jsonData.LIVE['KEY130LASTCHANGE']);
-				 $("#KEY130NAME").html(jsonData.LIVE["KEY130NAME"]);
+				if (jsonData["KEY130HOME"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				 $("#KEY130HOME").html(DaSauNu +', de '+jsonData['KEY130LASTCHANGE']);
+				 $("#KEY130NAME").html(jsonData["KEY130NAME"]);
 
-				 blinkClass = checkValueForBlink(jsonData.LIVE["KEY255BATTERY"],2.75,3.30);
-				 $("#KEY255BATTERY").html('<div class="'+blinkClass+'">'+jsonData.LIVE["KEY255BATTERY"]+'</div>'); 				 
-				 $("#KEY255CONTOR").html(jsonData.LIVE["KEY255CONTOR"]);
-				 $("#KEY255LASTSEEN").html(jsonData.LIVE["KEY255LASTSEEN"]);
-				if (jsonData.LIVE["KEY255ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				 blinkClass = checkValueForBlink(jsonData["KEY255BATTERY"],2.75,3.30);
+				 $("#KEY255BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY255BATTERY"]+'</div>'); 				 
+				 $("#KEY255CONTOR").html(jsonData["KEY255CONTOR"]);
+				 $("#KEY255LASTSEEN").html(jsonData["KEY255LASTSEEN"]);
+				if (jsonData["KEY255ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
 				 $("#KEY255ENABLE").html(DaSauNu);
-				if (jsonData.LIVE["KEY255HOME"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#KEY255HOME").html(DaSauNu +', de '+jsonData.LIVE['KEY255LASTCHANGE']);
-				 $("#KEY255NAME").html(jsonData.LIVE["KEY255NAME"]);
+				if (jsonData["KEY255HOME"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				 $("#KEY255HOME").html(DaSauNu +', de '+jsonData['KEY255LASTCHANGE']);
+				 $("#KEY255NAME").html(jsonData["KEY255NAME"]);
     
-				 $("#TEMP_INDOOR_CALCULATION_METHOD").html(jsonData.LIVE["TEMP_INDOOR_CALCULATION_METHOD"]);
-				 $("#CENTRALA_ON_HISTERIZIS").html(jsonData.LIVE["CENTRALA_ON_HISTERIZIS"]);
-				if (jsonData.LIVE["THERMOSTAT_OUTSIDE_ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				 $("#TEMP_INDOOR_CALCULATION_METHOD").html(jsonData["TEMP_INDOOR_CALCULATION_METHOD"]);
+				 $("#CENTRALA_ON_HISTERIZIS").html(jsonData["CENTRALA_ON_HISTERIZIS"]);
+				if (jsonData["THERMOSTAT_OUTSIDE_ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
 				 $("#THERMOSTAT_OUTSIDE_ENABLE").html(DaSauNu);
-				 $("#ThisUpdateTime").html(jsonData.LIVE["ThisUpdateTime"]);
-				 $("#TEMP_GATEWAY").html(jsonData.LIVE["TEMP_GATEWAY"]);
-				 $("#TEMP_MATRIX").html((temp_resimtita(parseFloat(jsonData.LIVE["MATRIX_INDOOR"]), parseFloat(jsonData.LIVE["HOL_HUMIDITY"]), 0.2))).toString();
-				 $("#jalModeNow").html(decodeJalModeNow(jsonData.LIVE["jalModeNow"]));
-				 $("#outdoorLDR").html(jsonData.LIVE["outdoorLDR"]);
-				 $("#dormitorLDR").html(jsonData.LIVE["dormitorLDR"]);
-                   LAST_OUTDOOR_LDR = jsonData.LIVE["dormitorLDR"];
-				 $("#MATRIX_INDOOR").html(jsonData.LIVE["MATRIX_INDOOR"]);
-				 $("#jalAutoModeRunDSP").html(jsonData.LIVE["jalAutoModeRun"]);    
-                 $("#updateTime").text(jsonData.LIVE["ThisUpdateTime"]);
+				 $("#ThisUpdateTime").html(jsonData["ThisUpdateTime"]);
+				 $("#TEMP_GATEWAY").html(jsonData["TEMP_GATEWAY"]);
+				 $("#TEMP_MATRIX").html((temp_resimtita(parseFloat(jsonData["MATRIX_INDOOR"]), parseFloat(jsonData["HOL_HUMIDITY"]), 0.2))).toString();
+				 $("#jalModeNow").html(decodeJalModeNow(jsonData["jalModeNow"]));
+				 $("#outdoorLDR").html(jsonData["outdoorLDR"]);
+				 $("#dormitorLDR").html(jsonData["dormitorLDR"]);
+                   LAST_OUTDOOR_LDR = jsonData["dormitorLDR"];
+				 $("#MATRIX_INDOOR").html(jsonData["MATRIX_INDOOR"]);
+				 $("#jalAutoModeRunDSP").html(jsonData["jalAutoModeRun"]);    
+                 $("#updateTime").text(jsonData["ThisUpdateTime"]);
 }
 
 
