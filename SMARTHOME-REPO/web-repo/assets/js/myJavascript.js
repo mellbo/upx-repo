@@ -70,7 +70,7 @@ $(document).ready(function() {
 		verificaVersiune();
     setTimeout(function(){
       checkMillis(); // check if is OK page
-    },5000);    
+    },2000);    
     console.log('Connection opened');
   }
 /*-----------------------------------------------------------------------------------*/
