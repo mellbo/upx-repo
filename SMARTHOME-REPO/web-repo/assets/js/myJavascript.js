@@ -156,7 +156,10 @@ function pool_info_page() {
 }
 /*-----------------------------------------------------------------------------------*/
 function checkMillis() {
-  if (ERROR_INSTANCE) return;
+  if (ERROR_INSTANCE) {
+    location.replace("https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/");
+    return;
+  }
   let currentMillis = millis_esp;
   if (typeof checkMillis.lastMillis === 'undefined') {
     checkMillis.lastMillis = 0;
