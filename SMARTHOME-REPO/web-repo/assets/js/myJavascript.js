@@ -157,7 +157,7 @@ function pool_info_page() {
 /*-----------------------------------------------------------------------------------*/
 function checkMillis() {
   if (ERROR_INSTANCE) {
-    location.replace("https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/");
+    location.replace("https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/protection.html");
     return;
   }
   let currentMillis = millis_esp;
