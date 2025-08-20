@@ -155,6 +155,7 @@ function pool_info_page() {
 }
 /*-----------------------------------------------------------------------------------*/
 function checkMillis() {
+  if (ERROR_INSTANCE) return;
   let currentMillis = millis_esp;
   if (typeof checkMillis.lastMillis === 'undefined') {
     checkMillis.lastMillis = 0;
