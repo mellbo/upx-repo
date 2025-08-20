@@ -13,6 +13,7 @@ var gateway = window.location.port
   var websocket;
   var websck_is_connected = false;
   var millis_esp = 0;
+  var ERROR_INSTANCE = 0;
   
 $(document).ready(function() {
     initWebSocket(); //ESP WebSocket  
@@ -92,8 +93,13 @@ $(document).ready(function() {
 function onMessage(event) {
 	let jsonObject = JSON.parse(event.data);
 		millis_esp = parseInt(jsonObject['cMs'], 10);
+    if (jsonObject?.ERROR_INSTANCE !== undefined) {
+      ERROR_INSTANCE = 1;
+      alert("You have to many page opened. Keep only one in your in browser!");
+      return;
+    }    
 		//document.getElementById("cMillis").innerText = jsonObject['cMs'];
-    updateHomeData(jsonObject);
+    updateHomeData(jsonObject); 
     console.log(jsonObject);
 		jsonObject = null;
 }
@@ -126,9 +132,15 @@ async function verificaVersiune() {
 	}
 }
 /*-----------------------------------------------------------------------------------*/
+/*
+ This var must be same in Arduino header.h
+*/
+const LIVE_DATA_TYPE = 1;
+
 function pool_info_page() {
+  if (ERROR_INSTANCE) return;
   	let data = {
-		"INDEX_PAGE": 1
+		"REQUEST_INFO": LIVE_DATA_TYPE
 	};
 	
 	let _js = JSON.stringify(data);	
