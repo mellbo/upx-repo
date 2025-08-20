@@ -93,8 +93,9 @@ $(document).ready(function() {
 function onMessage(event) {
 	let jsonObject = JSON.parse(event.data);
 		millis_esp = parseInt(jsonObject['cMs'], 10);
-    if (jsonObject?.ERROR_INSTANCE !== undefined) {
+    if (jsonObject.hasOwnProperty("ERROR_INSTANCE") == true) {
       ERROR_INSTANCE = 1;
+      jsonObject = null;
       alert("You have to many page opened. Keep only one in your in browser!");
       return;
     }    
