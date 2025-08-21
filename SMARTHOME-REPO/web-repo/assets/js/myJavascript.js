@@ -95,6 +95,7 @@ function onMessage(event) {
 		millis_esp = parseInt(jsonObject['cMs'], 10);
     if (jsonObject.hasOwnProperty("ERROR_INSTANCE") == true) {
       ERROR_INSTANCE = 1;
+      clearAllTimeouts();
       jsonObject = null;
       alert("You have to many page opened. Keep only one in your in browser!");
       return;
@@ -173,6 +174,10 @@ function checkMillis() {
   timers.push(setTimeout(checkMillis, 2000));
 }
 /*-----------------------------------------------------------------------------------*/
+function clearAllTimeouts() {
+  for (let id of timers) clearTimeout(id);
+  timers = [];
+}
 /*-----------------------------------------------------------------------------------*/
 /*SECTION SLIDERS*/
 //set_NewTEMPInCALL
