@@ -98,6 +98,7 @@ function onMessage(event) {
       clearAllTimeouts();
       jsonObject = null;
       alert("You have to many page opened. Keep only one in your in browser!");
+      location.replace("/protection");
       return;
     }    
 		//document.getElementById("cMillis").innerText = jsonObject['cMs'];
@@ -158,7 +159,6 @@ function pool_info_page() {
 /*-----------------------------------------------------------------------------------*/
 function checkMillis() {
   if (ERROR_INSTANCE) {
-    location.replace("/protection");
     return;
   }
   let currentMillis = millis_esp;
@@ -166,8 +166,8 @@ function checkMillis() {
     checkMillis.lastMillis = 0;
   }
   if (currentMillis === checkMillis.lastMillis) {
-  alert("currentMmillis is SAME!");
-	location.reload(true);
+    alert("currentMmillis is SAME!");
+    location.reload(true);
   } else {
     checkMillis.lastMillis = currentMillis;
   }
