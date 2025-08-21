@@ -5,7 +5,7 @@ var PREFERED_LIGHT_DORMITOR = '0';
 var LAST_OUTDOOR_LDR = 0;
 var idleTime = 0;
 var THERMOSTATLAST = '';
-
+var timers = [];
 /*ESP WebSocket*/
 var gateway = window.location.port 
   ? `ws://${window.location.hostname}:${window.location.port}/ws` 
@@ -69,16 +69,16 @@ $(document).ready(function() {
     websck_is_connected = 1;
     pool_info_page();
 		verificaVersiune();
-    setTimeout(function(){
+    timers.push(setTimeout(function(){
       checkMillis(); // check if is OK page
-    },2000);    
+    },2000));   
     console.log('Connection opened');
   }
 /*-----------------------------------------------------------------------------------*/
   function onClose(event) {
     websck_is_connected = 0;
     console.log('Connection closed');
-    setTimeout(initWebSocket, 2000);
+    timers.push(setTimeout(initWebSocket, 2000));
   }
 /*-----------------------------------------------------------------------------------*/
   function initWebSocket() {
@@ -149,9 +149,9 @@ function pool_info_page() {
 	_js	= null;
 	data = null;
   if (websck_is_connected) {
-    setTimeout(function(){
+    timers.push(setTimeout(function(){
       pool_info_page();
-      }, 1000);	
+      }, 1000));	
   }    
 }
 /*-----------------------------------------------------------------------------------*/
@@ -170,7 +170,7 @@ function checkMillis() {
   } else {
     checkMillis.lastMillis = currentMillis;
   }
-  setTimeout(checkMillis, 2000);
+  timers.push(setTimeout(checkMillis, 2000));
 }
 /*-----------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
