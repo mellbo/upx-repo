@@ -78,7 +78,7 @@ $(document).ready(function() {
   function onClose(event) {
     websck_is_connected = 0;
     console.log('Connection closed');
-    timers.push(setTimeout(initWebSocket, 2000));
+    if (!ERROR_INSTANCE) timers.push(setTimeout(initWebSocket, 2000));
   }
 /*-----------------------------------------------------------------------------------*/
   function initWebSocket() {
