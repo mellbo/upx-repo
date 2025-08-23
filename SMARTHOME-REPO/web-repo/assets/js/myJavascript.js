@@ -95,6 +95,7 @@ function onMessage(event) {
 		millis_esp = parseInt(jsonObject['cMs'], 10);
     if (jsonObject.hasOwnProperty("ERROR_INSTANCE") == true) {
       ERROR_INSTANCE = 1;
+      websocket.close();
       clearAllTimeouts();
       jsonObject = null;
       alert("You have to many page opened. Keep only one in your in browser!");
