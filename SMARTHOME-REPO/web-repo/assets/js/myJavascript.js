@@ -167,6 +167,7 @@ function checkMillis() {
   }
   if (currentMillis === checkMillis.lastMillis) {
     alert("currentMmillis is SAME!");
+    clearAllTimeouts();
     location.reload(true);
   } else {
     checkMillis.lastMillis = currentMillis;
