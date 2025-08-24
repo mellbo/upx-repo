@@ -173,7 +173,7 @@ function checkMillis() {
   } else {
     checkMillis.lastMillis = currentMillis;
   }
-  timers.push(setTimeout(checkMillis, 2000));
+  timers.push(setTimeout(checkMillis, 3000));
 }
 /*-----------------------------------------------------------------------------------*/
 function clearAllTimeouts() {
