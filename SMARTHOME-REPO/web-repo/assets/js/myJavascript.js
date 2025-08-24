@@ -167,7 +167,7 @@ function checkMillis() {
     checkMillis.lastMillis = 0;
   }
   if (currentMillis === checkMillis.lastMillis) {
-    console.log("currentMmillis is SAME! - Restart");
+    info_reboot_web(true);
     clearAllTimeouts();
     location.reload(true);
   } else {
@@ -860,4 +860,16 @@ function temp_resimtita(temp,hum,wspeed) {
 	var calc_temp = "N/A";
 	calc_temp = parseFloat((temp + 0.33*(hum/100.0)*6.105*Math.exp(17.27*temp/(237.7+temp))- 0.70*wspeed - 4.00)).toFixed(2);
 	return calc_temp;
+}
+
+function info_reboot_web(lvState){
+	switch (lvState){
+		case true:
+			$('#idNoConnexion').addClass('hidden');
+			console.log('Rebooting WebPage');
+		break;
+		case false:
+			$('#idNoConnexion').removeClass('hidden');
+		break;
+	}
 }
