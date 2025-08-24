@@ -63,13 +63,6 @@ $(document).ready(function() {
 		getLogs('readKeys'); 
 	}
   
-  document.addEventListener("visibilitychange", () => {
-    paginaVizibila = !document.hidden;
-    ERROR_INSTANCE = 1;
-    websocket.close();
-    clearAllTimeouts();
-    location.replace("/protection");
-  })  
 }); //end onLoad		
 
 /*ESP WebSocket*/
@@ -80,7 +73,15 @@ $(document).ready(function() {
 		verificaVersiune();
     timers.push(setTimeout(function(){
       checkMillis(); // check if is OK page
-    },2000));   
+    },2000));
+    
+    document.addEventListener("visibilitychange", () => {
+      paginaVizibila = !document.hidden;
+      ERROR_INSTANCE = 1;
+      websocket.close();
+      clearAllTimeouts();
+      location.replace("/protection");
+    });      
     console.log('Connection opened');
   }
 /*-----------------------------------------------------------------------------------*/
