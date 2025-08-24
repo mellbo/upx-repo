@@ -10,11 +10,12 @@ var timers = [];
 var gateway = window.location.port 
   ? `ws://${window.location.hostname}:${window.location.port}/ws` 
   : `ws://${window.location.hostname}/ws`;  
-  var websocket;
-  var websck_is_connected = false;
-  var millis_esp = 0;
-  var ERROR_INSTANCE = 0;
-  
+var websocket;
+var websck_is_connected = false;
+var millis_esp = 0;
+var ERROR_INSTANCE = 0;
+var paginaVizibila = true;
+ 
 $(document).ready(function() {
     initWebSocket(); //ESP WebSocket  
     var page = window.location.pathname;
@@ -61,6 +62,14 @@ $(document).ready(function() {
 		getLogs('readError');
 		getLogs('readKeys'); 
 	}
+  
+  document.addEventListener("visibilitychange", () => {
+    paginaVizibila = !document.hidden;
+    ERROR_INSTANCE = 1;
+    websocket.close();
+    clearAllTimeouts();
+    location.replace("/protection");
+  })  
 }); //end onLoad		
 
 /*ESP WebSocket*/
