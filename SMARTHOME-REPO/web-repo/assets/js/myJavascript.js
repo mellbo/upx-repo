@@ -16,6 +16,14 @@ var millis_esp = 0;
 var ERROR_INSTANCE = 0;
 var paginaVizibila = true;
  
+function onVisibilityChange() {
+  paginaVizibila = !document.hidden;
+  ERROR_INSTANCE = 1;
+  websocket.close();
+  clearAllTimeouts();
+  location.replace("/protection");
+} 
+ 
 $(document).ready(function() {
     initWebSocket(); //ESP WebSocket  
     var page = window.location.pathname;
@@ -62,7 +70,12 @@ $(document).ready(function() {
 		getLogs('readError');
 		getLogs('readKeys'); 
 	}
-  
+
+
+  document.addEventListener("visibilitychange", onVisibilityChange);
+  window.addEventListener("beforeunload", () => {
+    document.removeEventListener("visibilitychange", onVisibilityChange);
+  });    
 }); //end onLoad		
 
 /*ESP WebSocket*/
@@ -75,15 +88,8 @@ $(document).ready(function() {
       checkMillis(); // check if is OK page
     },2000));
     
-    document.addEventListener("visibilitychange", () => {
-      paginaVizibila = !document.hidden;
-      ERROR_INSTANCE = 1;
-      websocket.close();
-      clearAllTimeouts();
-      location.replace("/protection");
-    });      
     console.log('Connection opened');
-  }
+}
 /*-----------------------------------------------------------------------------------*/
   function onClose(event) {
     websck_is_connected = 0;
