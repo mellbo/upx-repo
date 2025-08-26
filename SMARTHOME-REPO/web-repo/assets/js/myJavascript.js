@@ -787,15 +787,15 @@ function updateLogsInForm(type,htmlCode) {
 
 function decodeJalModeNow(mode) {
     switch(mode){
-        case '0':
+        case 0:
             return 'MANUAL';
         break;
             
-        case '1':
+        case 1:
             return 'AUTO';
         break;
             
-        case '2':
+        case 2:
             return 'USER LDR';
         break;
             
@@ -808,16 +808,16 @@ function decodeJalModeNow(mode) {
 
 function decodeJalAutoMode(mod) {
     switch(mod){
-        case '0':
+        case 0:
             return 'STOP';
             break;
-        case '1':
+        case 1:
             return 'OPEN MAX';
             break;
-        case '2':
+        case 2:
             return 'CLOSE MAX';
             break;
-        case '3':
+        case 3:
             return 'SYSTEM';
             break;
             
