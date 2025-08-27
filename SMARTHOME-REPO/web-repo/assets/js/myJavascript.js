@@ -858,6 +858,7 @@ function checkIfMobile() {
             $('#loginID').removeClass('home-product');
             $('#LogsContainerID').removeClass('home-product');
             $('#sumarID').addClass('hidden');
+            console.log("viewport:",viewport);
             return true;
         } else {
             return false;
