@@ -21,7 +21,7 @@ input[type='checkbox'] {
 }
 
 .home-product {
-  background: url("/assets/img/alternateImage.php");
+  background: url("https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/img/background/0.jpg");
   float: left;
   /*padding: 1px 0;*/
   width: 100%;
