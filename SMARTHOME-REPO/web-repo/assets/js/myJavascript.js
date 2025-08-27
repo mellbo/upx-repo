@@ -25,6 +25,7 @@ function onVisibilityChange() {
 } 
  
 $(document).ready(function() {
+    loadNewBackGround();
     initWebSocket(); //ESP WebSocket  
     var page = window.location.pathname;
         page = page.split("/").pop();
@@ -120,7 +121,7 @@ function onMessage(event) {
     }    
 		//document.getElementById("cMillis").innerText = jsonObject['cMs'];
     updateHomeData(jsonObject); 
-    console.log(jsonObject);
+    console.log(jsonObject);  // just for LAB
 		jsonObject = null;
 }
 /*-----------------------------------------------------------------------------------*/
@@ -888,4 +889,13 @@ function info_reboot_web(lvState){
 			$('#idNoConnexion').addClass('hidden');     
 		break;
 	}
+}
+
+function loadNewBackGround() {
+  const totalImages = 20;
+  const randomNum = Math.floor(Math.random() * totalImages) + 1;
+  const element = document.querySelector('.home-product');
+  if(element) {
+    element.style.backgroundImage = `url("https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/img/background/${randomNum}.jpg")`;
+  }  
 }
