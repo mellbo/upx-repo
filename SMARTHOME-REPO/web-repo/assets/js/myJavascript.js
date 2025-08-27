@@ -25,7 +25,6 @@ function onVisibilityChange() {
 } 
  
 $(document).ready(function() {
-    loadNewBackGround();
     initWebSocket(); //ESP WebSocket  
     var page = window.location.pathname;
         page = page.split("/").pop();
@@ -853,7 +852,7 @@ function checkValueForBlink(value,minVal,MaxVal) {
 
 function checkIfMobile() {
     var viewport = $('.xyzzy:visible').attr('data-size');
-	alert("viewport:" + viewport);
+          alert("viewport:" + viewport);
         if( viewport == 'xs' ) {
             $('#interfaceContainer').removeClass('home-product');
             $('#loginID').removeClass('home-product');
