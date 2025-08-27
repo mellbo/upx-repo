@@ -31,7 +31,7 @@ $(document).ready(function() {
         page = page.split("/").pop();
 		if (page == '') page = 'index.html';
     
-    checkIfMobile();
+    if (!checkIfMobile()) loadNewBackGround();
     
 	/*TIMER1*/
   /*
