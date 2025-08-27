@@ -185,7 +185,7 @@ function checkMillis() {
   if (currentMillis === checkMillis.lastMillis) {
     info_reboot_web(true);
     clearAllTimeouts();
-    location.reload(true);
+    timers.push(setTimeout(location.reload(true), 3000));   //location.reload(true);
   } else {
     checkMillis.lastMillis = currentMillis;
   }
