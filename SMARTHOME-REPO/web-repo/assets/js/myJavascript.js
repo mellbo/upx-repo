@@ -852,7 +852,6 @@ function checkValueForBlink(value,minVal,MaxVal) {
 
 function checkIfMobile() {
     var viewport = $('.xyzzy:visible').attr('data-size');
-          alert("viewport:" + viewport);
         if( viewport == 'xs' ) {
             $('#interfaceContainer').removeClass('home-product');
             $('#loginID').removeClass('home-product');
