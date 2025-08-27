@@ -881,11 +881,11 @@ function temp_resimtita(temp,hum,wspeed) {
 function info_reboot_web(lvState){
 	switch (lvState){
 		case true:
-			$('#idNoConnexion').addClass('hidden');
-			console.log('Rebooting WebPage');
+			$('#idNoConnexion').removeClass('hidden');
+			console.log('Rebooting WebPage');       
 		break;
 		case false:
-			$('#idNoConnexion').removeClass('hidden');
+			$('#idNoConnexion').addClass('hidden');     
 		break;
 	}
 }
