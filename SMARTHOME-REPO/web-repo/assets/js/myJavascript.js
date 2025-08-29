@@ -167,6 +167,7 @@ function checkMillis() {
     info_reboot_web(true);
     clearAllTimeouts();
     clearAllIntervals();
+	alert(currentMillis);
     timers.push(setTimeout(location.reload(true), 3000));   //location.reload(true);
   } else {
     checkMillis.lastMillis = currentMillis;
