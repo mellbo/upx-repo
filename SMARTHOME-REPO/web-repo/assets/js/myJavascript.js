@@ -36,7 +36,7 @@ $(document).ready(function() {
         ((PAGENAME == 'index.html') || (PAGENAME == 'logs.html'))
         ) loadNewBackGround();
  
-    intervals.push(setInterval(timerIncrement, 60000));
+    intervals.push(setInterval(timerIncrement, 60000)); // force refresh in timerIncrement
     $(this).mousemove(function (e) {
         idleTime = 0;
     });
@@ -69,10 +69,12 @@ $(document).ready(function() {
   function onOpen(event) {
     websck_is_connected = 1;   
 		if (PAGENAME == 'settings.html') verificaVersiune();
-    intervals.push(setInterval(pool_info_page(), 1000));
-    intervals.push(function(){
-      checkMillis(); // check if is OK page
-    },2000);    
+    pool_info_page(); //pool now
+    intervals.push(setInterval(pool_info_page, 1000));    
+    intervals.push(setInterval(function() {
+      checkMillis();
+    }, 2000)
+);    
     console.log('Connection opened');
 }
 /*-----------------------------------------------------------------------------------*/
