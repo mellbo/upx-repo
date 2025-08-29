@@ -73,8 +73,7 @@ $(document).ready(function() {
     intervals.push(setInterval(pool_info_page, 1000));    
     intervals.push(setInterval(function() {
       checkMillis();
-    }, 2000)
-);    
+    }, 2000));    
     console.log('Connection opened');
 }
 /*-----------------------------------------------------------------------------------*/
@@ -173,8 +172,10 @@ function checkMillis() {
     info_reboot_web(true);
     clearAllTimeouts();
     clearAllIntervals();
-    console.log("Restart-checkMillis()");
-    //timers.push(setTimeout(location.reload(true), 3000));   //location.reload(true);
+    timers.push(setTimeout(function() {
+       console.log("Restart-checkMillis()");
+      //location.reload(true);
+    }, 3000));
   } else {
     checkMillis.lastMillis = currentMillis;
   }
