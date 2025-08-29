@@ -70,7 +70,9 @@ $(document).ready(function() {
     websck_is_connected = 1;   
 		if (PAGENAME == 'settings.html') verificaVersiune();
     intervals.push(setInterval(pool_info_page(), 1000));
-    intervals.push(setInterval(checkMillis(),2000));    
+    intervals.push(function(){
+      checkMillis(); // check if is OK page
+    },2000));    
     console.log('Connection opened');
 }
 /*-----------------------------------------------------------------------------------*/
