@@ -68,12 +68,13 @@ $(document).ready(function() {
 /*ESP WebSocket*/
 /*------------------------------------------------------------------------------------*/
   function onOpen(event) {
-    websck_is_connected = 1;   
+    websck_is_connected = 1;
+    clearAllTimeouts();
+    clearAllIntervals();
+    
 		if (PAGENAME == 'settings.html') verificaVersiune();
     pool_info_page(); //pool now
-    intervals.push(setInterval(pool_info_page, 1000));
-    clearAllTimeouts();
-    clearAllIntervals();    
+    intervals.push(setInterval(pool_info_page, 1000));  
 /*    
     intervals.push(setInterval(function() {
       checkMillis();
