@@ -69,13 +69,15 @@ $(document).ready(function() {
   function onOpen(event) {
     websck_is_connected = 1;   
 		if (PAGENAME == 'settings.html') verificaVersiune();
-    intervals.push(setInterval(checkMillis(),2000));
-    intervals.push(setInterval(pool_info_page(), 1000)); 
+    intervals.push(setInterval(pool_info_page(), 1000));
+    intervals.push(setInterval(checkMillis(),2000));    
     console.log('Connection opened');
 }
 /*-----------------------------------------------------------------------------------*/
   function onClose(event) {
     websck_is_connected = 0;
+    clearAllTimeouts();
+    clearAllIntervals();    
     console.log('Connection closed');
     if (!ERROR_INSTANCE) timers.push(setTimeout(initWebSocket, 2000)); //retry websocket
   }
@@ -167,7 +169,6 @@ function checkMillis() {
     info_reboot_web(true);
     clearAllTimeouts();
     clearAllIntervals();
-	alert(currentMillis);
     timers.push(setTimeout(location.reload(true), 3000));   //location.reload(true);
   } else {
     checkMillis.lastMillis = currentMillis;
