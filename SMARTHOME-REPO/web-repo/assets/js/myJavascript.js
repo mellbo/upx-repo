@@ -72,6 +72,8 @@ $(document).ready(function() {
 		if (PAGENAME == 'settings.html') verificaVersiune();
     pool_info_page(); //pool now
     intervals.push(setInterval(pool_info_page, 1000));
+    clearAllTimeouts();
+    clearAllIntervals();    
 /*    
     intervals.push(setInterval(function() {
       checkMillis();
