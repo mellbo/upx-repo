@@ -23,6 +23,7 @@ function onVisibilityChange() {
   ERROR_INSTANCE = 1;
   websocket.close();
   clearAllTimeouts();
+  clearAllIntervals();
   location.replace("/protection");
 } 
  
