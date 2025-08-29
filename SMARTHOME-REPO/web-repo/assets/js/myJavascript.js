@@ -70,10 +70,12 @@ $(document).ready(function() {
     websck_is_connected = 1;   
 		if (PAGENAME == 'settings.html') verificaVersiune();
     pool_info_page(); //pool now
-    intervals.push(setInterval(pool_info_page, 1000));    
+    intervals.push(setInterval(pool_info_page, 1000));
+/*    
     intervals.push(setInterval(function() {
       checkMillis();
-    }, 2000));    
+    }, 2000));
+*/    
     console.log('Connection opened');
 }
 /*-----------------------------------------------------------------------------------*/
@@ -157,7 +159,7 @@ function pool_info_page() {
 	let _js = JSON.stringify(data);	
   if (websck_is_connected) websocket.send(_js);
 	_js	= null;
-	data = null; 
+	data = null;
 }
 /*-----------------------------------------------------------------------------------*/
 function checkMillis() {
@@ -173,7 +175,7 @@ function checkMillis() {
     clearAllTimeouts();
     clearAllIntervals();
     timers.push(setTimeout(function() {
-       console.log("Restart-checkMillis()");
+       console.log("location.reload(true)");
       //location.reload(true);
     }, 3000));
   } else {
@@ -182,12 +184,18 @@ function checkMillis() {
 }
 /*-----------------------------------------------------------------------------------*/
 function clearAllTimeouts() {
-  for (let id of timers) clearTimeout(id);
+  for (let id of timers) {
+    clearTimeout(id);
+    console.log("clearTimeOut id:", id);
+  }
   timers = [];
 }
 /*-----------------------------------------------------------------------------------*/
 function clearAllIntervals() {
-  for (let id of intervals) clearInterval(id);
+  for (let id of intervals) {
+    clearInterval(id);
+    console.log("clearInterval id:", id);
+  }
   intervals = [];
 }
 /*-----------------------------------------------------------------------------------*/
