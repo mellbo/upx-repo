@@ -190,16 +190,6 @@ function checkMillis() {
   }
 }
 /*-----------------------------------------------------------------------------------*/
-/*-----------------------------------------------------------------------------------*/
-/*FOR SETTINGS PAGE*/
-function inject_function_settings() {
-  console.log("loading action and function settings");
-/*FUNCTION FOR settings.html*/ 
-		function setSlideValue(id,idShow,value){
-		    if (id != null) {$(id).slider('setValue', value, true);}
-		    if (idShow != null) {$(idShow).text($(id).val());}    
-		}
-		
 		function loadCalendar() {
       console.log("LOAD CALENDAR DISABLED");
       return;
@@ -214,6 +204,17 @@ function inject_function_settings() {
 				}
 			});
 		}
+/*-----------------------------------------------------------------------------------*/
+/*FOR SETTINGS PAGE*/
+function inject_function_settings() {
+  console.log("loading action and function settings");
+/*FUNCTION FOR settings.html*/ 
+		function setSlideValue(id,idShow,value){
+		    if (id != null) {$(id).slider('setValue', value, true);}
+		    if (idShow != null) {$(idShow).text($(id).val());}    
+		}
+		
+    // function loadCalendar()  ...
 		
 		function addInCallendar(e) {
 		    WRN_PROFILE_DELETE = "Doriti sa adaugati in termostat, la ora "+e.replace('\t', '  temperatura de: ')+"º ?";  
