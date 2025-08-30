@@ -31,11 +31,25 @@ $(document).ready(function() {
     initWebSocket(); //ESP WebSocket  
     PAGENAME = window.location.pathname;
     PAGENAME = PAGENAME.split("/").pop();
-		if (PAGENAME == '') PAGENAME = 'index.html';
+		if (PAGENAME == '') PAGENAME = 'index';
     
     if ((!checkIfMobile()) && 
-        ((PAGENAME == 'index.html') || (PAGENAME == 'logs.html'))
+        ((PAGENAME == 'index') || (PAGENAME == 'logs'))
         ) loadNewBackGround();
+
+    if (PAGENAME == 'settings') {
+      inject_function_settings();      
+      //Load Calendar Data
+      loadCalendar(); 
+      loadSetings();
+    }
+	
+    if (PAGENAME == 'logs') {
+      getLogs('readInfo');
+      getLogs('readWarning');
+      getLogs('readError');
+      getLogs('readKeys'); 
+	}
  
     intervals.push(setInterval(timerIncrement, 60000)); // force refresh in timerIncrement
     $(this).mousemove(function (e) {
@@ -45,20 +59,6 @@ $(document).ready(function() {
         idleTime = 0;
     });    
 	
-    if (PAGENAME == 'settings.html') {
-      inject_function_settings();      
-      //Load Calendar Data
-      loadCalendar(); 
-      loadSetings();
-    }
-	
-    if (PAGENAME == 'logs.html') {
-      getLogs('readInfo');
-      getLogs('readWarning');
-      getLogs('readError');
-      getLogs('readKeys'); 
-	}
-
   // detection visibility
   document.addEventListener("visibilitychange", onVisibilityChange);
   window.addEventListener("beforeunload", () => {
