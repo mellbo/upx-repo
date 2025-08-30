@@ -1,8 +1,8 @@
 /*SECTION UPDATE livePARAM*/
 var PAGENAME = '';
 var AddNewTemperatureInMonth = '';
-var resetThermostat = '0';
-var PREFERED_LIGHT_DORMITOR = '0';
+var resetThermostat = 0;
+var PREFERED_LIGHT_DORMITOR = 0;
 var LAST_OUTDOOR_LDR = 0;
 var idleTime = 0;
 var THERMOSTATLAST = '';
@@ -417,14 +417,14 @@ function inject_function_settings() {
     });
 
     $('#reset_cal_month').on('click', function() {
-        resetThermostat = "1";
+        resetThermostat = 1;
         saveSettings();
-        resetThermostat = "0";
+        resetThermostat = 0;
     });
     $('#reset_cal_all').on('click', function() {
-        resetThermostat = "2";
+        resetThermostat = 2;
         saveSettings();
-        resetThermostat = "0";
+        resetThermostat = 0;
     });
     $("#smartWelcomeAutoSetup").on("change",function(e){
         if ($("#smartWelcomeAutoSetup").is(':checked')) {
