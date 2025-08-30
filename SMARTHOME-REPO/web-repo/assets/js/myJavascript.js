@@ -182,7 +182,7 @@ function checkMillis() {
     info_reboot_web(true);
     setTimeout(function() {
        console.log("Disabled: location.reload(true)");
-      //window.location.reload(true);
+      window.location.reload(true);
     }, 3000);
   } else {
     checkMillis.lastMillis = currentMillis;
@@ -444,6 +444,8 @@ function setSlideValue(id,idShow,value){
 }
 
 function loadCalendar() {
+    console.log("Load Calendar Disabled");
+    return;  
 	/*PRELUARE DATE*/
     var res = '';
 	$.ajax({
@@ -473,7 +475,9 @@ function deleteItmCalendar(index) {
 	/*PRELUARE DATE*/
 WRN_PROFILE_DELETE = "Doriti sa stergeti "+index+" ?";  
 var check = confirm(WRN_PROFILE_DELETE);  
-if(check == true){      
+if(check == true){
+    console.log("deleteItmCalendar",index," disabled");
+    return;  
     var res = '';
 	$.ajax({
 		url: "../php/calendar_extras.php",
@@ -488,6 +492,8 @@ if(check == true){
 
 function loadSetings() {
 	/*PRELUARE DATE*/
+    console.log("loadSetings Disabled");
+    return;  
 	$.ajax({
 		url: "../php/settings_param.php",
         type:'post',
@@ -505,7 +511,10 @@ function parseSettings(raw){
     alert(
        $('#set_THERMOSTAT_OUTSIDE_ENABLE').attr('checked')?"True":"False" 
     );
-*/	
+*/
+    console.log("parseSettings Disabled");
+    return;
+    
 	var jsonData = JSON.parse(raw);
 	if (jsonData == null) {return;}
     
@@ -556,7 +565,8 @@ function parseSettings(raw){
 }
 
 function saveSettings() {
-
+    console.log("Save Settings Disabled");
+    return;
 	var sendData = {"act":"write","SYSTEM":{
 		"jalAutoModeRun":$('#set_jalAutoModeRun').val(),
 		"LowLightPoint":$('#set_LowLightPoint').val(),
@@ -607,14 +617,12 @@ function saveSettings() {
 /*FUNCTION REGULAR COMMON*/
 function processCalorPos(id,calSt,calReq) {
  var res = "";
- 
   if (calSt == "1") {
 	 res = '<i id="'+id+'" class="icon ion-ios-flame" style="margin: 0px 5px 0px;color: #ff5c38;"></i>';
   }
   if (calSt == "2") {
 	 res = '<i id="'+id+'" class="icon ion-ios-flame" style="margin: 0px 5px 0px;color: #00fff0;"></i>';	  
   }
-  
   if (calSt != calReq) {
 	res = '<i id="'+id+'" class="icon ion-ios-flame blink" style="margin: 0px 5px 0px;color: #ffcc1e;"></i>';	
   } 
@@ -753,6 +761,9 @@ function updLiveParamIndex(jsonData) {
 }
 
 function getLogs(type) {
+    console.log("getLogs:",type," disabled");
+    return;
+    
     var sendData = {'act':type};
 	$.ajax({
 		url: "../php/getLogs.php",
