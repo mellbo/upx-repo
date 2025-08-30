@@ -1,4 +1,5 @@
 /*SECTION UPDATE livePARAM*/
+var PAGENAME = '';
 var AddNewTemperatureInMonth = '';
 var resetThermostat = '0';
 var PREFERED_LIGHT_DORMITOR = '0';
@@ -6,6 +7,7 @@ var LAST_OUTDOOR_LDR = 0;
 var idleTime = 0;
 var THERMOSTATLAST = '';
 var timers = [];
+var intervals = [];
 /*ESP WebSocket*/
 var gateway = window.location.port 
   ? `ws://${window.location.hostname}:${window.location.port}/ws` 
@@ -21,57 +23,42 @@ function onVisibilityChange() {
   ERROR_INSTANCE = 1;
   websocket.close();
   clearAllTimeouts();
+  clearAllIntervals();
   location.replace("/protection");
 } 
  
 $(document).ready(function() {
     initWebSocket(); //ESP WebSocket  
-    var page = window.location.pathname;
-        page = page.split("/").pop();
-		if (page == '') page = 'index.html';
+    PAGENAME = window.location.pathname;
+    PAGENAME = PAGENAME.split("/").pop();
+		if (PAGENAME == '') PAGENAME = 'index.html';
     
-    if (!checkIfMobile()) loadNewBackGround();
-    
-	/*TIMER1*/
-  /*
-	if ((page == 'index.html') || (page == 'dashboard.html')) {
-		setInterval(function(){				
-					$.ajax({
-					url: "../php/liveParamToJson.php",
-					data: "",
-					success: function(data) {
-						updateHomeData(data);
-					}
-				});
-		}, 5000);
-	}
-  */
-	/*END TIMER1*/
-  
-    /*TIMER2*/
-    var idleInterval = setInterval(timerIncrement, 60000);
+    if ((!checkIfMobile()) && 
+        ((PAGENAME == 'index.html') || (PAGENAME == 'logs.html'))
+        ) loadNewBackGround();
+ 
+    intervals.push(setInterval(timerIncrement, 60000)); // force refresh in timerIncrement
     $(this).mousemove(function (e) {
         idleTime = 0;
     });
     $(this).keypress(function (e) {
         idleTime = 0;
     });    
-    /*END TIMER2*/
 	
-    if (page == 'settings.html') {
-	//Load Calendar Data
-	loadCalendar(); 
-	loadSetings();
-	}
+    if (PAGENAME == 'settings.html') {
+      //Load Calendar Data
+      loadCalendar(); 
+      loadSetings();
+    }
 	
-	if (page == 'logs.html') {
-		getLogs('readInfo');
-		getLogs('readWarning');
-		getLogs('readError');
-		getLogs('readKeys'); 
+    if (PAGENAME == 'logs.html') {
+      getLogs('readInfo');
+      getLogs('readWarning');
+      getLogs('readError');
+      getLogs('readKeys'); 
 	}
 
-
+  // detection visibility
   document.addEventListener("visibilitychange", onVisibilityChange);
   window.addEventListener("beforeunload", () => {
     document.removeEventListener("visibilitychange", onVisibilityChange);
@@ -82,19 +69,26 @@ $(document).ready(function() {
 /*------------------------------------------------------------------------------------*/
   function onOpen(event) {
     websck_is_connected = 1;
-    pool_info_page();
-		verificaVersiune();
-    timers.push(setTimeout(function(){
-      checkMillis(); // check if is OK page
-    },2000));
+    clearAllTimeouts();
+    clearAllIntervals();
     
+		if (PAGENAME == 'settings.html') verificaVersiune();
+    pool_info_page(); //pool now
+    intervals.push(setInterval(pool_info_page, 1000));  
+/*    
+    intervals.push(setInterval(function() {
+      checkMillis();
+    }, 2000));
+*/    
     console.log('Connection opened');
 }
 /*-----------------------------------------------------------------------------------*/
   function onClose(event) {
     websck_is_connected = 0;
+    clearAllTimeouts();
+    clearAllIntervals();    
     console.log('Connection closed');
-    if (!ERROR_INSTANCE) timers.push(setTimeout(initWebSocket, 2000));
+    if (!ERROR_INSTANCE) timers.push(setTimeout(initWebSocket, 2000)); //retry websocket
   }
 /*-----------------------------------------------------------------------------------*/
   function initWebSocket() {
@@ -113,6 +107,7 @@ function onMessage(event) {
       ERROR_INSTANCE = 1;
       websocket.close();
       clearAllTimeouts();
+      clearAllIntervals();
       jsonObject = null;
       alert("You have to many page opened. Keep only one in your in browser!");
       location.replace("/protection");
@@ -155,10 +150,12 @@ async function verificaVersiune() {
 /*
  This var must be same in Arduino header.h
 */
-const LIVE_DATA_TYPE = 1;
+const LIVE_DATA_TYPE = 1; // index.html - LiveData
 
 function pool_info_page() {
   if (ERROR_INSTANCE) return;
+  if (!websck_is_connected) return;
+  
   	let data = {
 		"REQUEST_INFO": LIVE_DATA_TYPE
 	};
@@ -167,11 +164,6 @@ function pool_info_page() {
   if (websck_is_connected) websocket.send(_js);
 	_js	= null;
 	data = null;
-  if (websck_is_connected) {
-    timers.push(setTimeout(function(){
-      pool_info_page();
-      }, 1000));	
-  }    
 }
 /*-----------------------------------------------------------------------------------*/
 function checkMillis() {
@@ -185,252 +177,269 @@ function checkMillis() {
   if (currentMillis === checkMillis.lastMillis) {
     info_reboot_web(true);
     clearAllTimeouts();
-    timers.push(setTimeout(location.reload(true), 3000));   //location.reload(true);
+    clearAllIntervals();
+    timers.push(setTimeout(function() {
+       console.log("location.reload(true)");
+      //location.reload(true);
+    }, 3000));
   } else {
     checkMillis.lastMillis = currentMillis;
   }
-  timers.push(setTimeout(checkMillis, 3000));
 }
 /*-----------------------------------------------------------------------------------*/
 function clearAllTimeouts() {
-  for (let id of timers) clearTimeout(id);
+  for (let id of timers) {
+    clearTimeout(id);
+    console.log("clearTimeOut id:", id);
+  }
   timers = [];
 }
 /*-----------------------------------------------------------------------------------*/
+function clearAllIntervals() {
+  for (let id of intervals) {
+    clearInterval(id);
+    console.log("clearInterval id:", id);
+  }
+  intervals = [];
+}
+/*-----------------------------------------------------------------------------------*/
+
 /*SECTION SLIDERS*/
-//set_NewTEMPInCALL
-$('#set_NewTEMPInCALL').slider({
-	id: 'ex1Slider', //class
-	min: 5.0,
-	max: 50.0,
-	step: 0.1,
-	value: 22.0,
-	tooltip: 'yes',
-	tooltip_position:'top',
-    handle: 'triangle',
-	focus: false,    
-});
+/*FOR SETTINGS PAGE*/
+function inject_function_settings() {
+    //set_NewTEMPInCALL
+    $('#set_NewTEMPInCALL').slider({
+        id: 'ex1Slider', //class
+        min: 5.0,
+        max: 50.0,
+        step: 0.1,
+        value: 22.0,
+        tooltip: 'yes',
+        tooltip_position: 'top',
+        handle: 'triangle',
+        focus: false,
+    });
 
-$("#set_NewTEMPInCALL").on("change", function(slideEvt) {
-    $("#gradeCelsius").val($(this).val());
-});
+    $("#set_NewTEMPInCALL").on("change", function(slideEvt) {
+        $("#gradeCelsius").val($(this).val());
+    });
 
-//set_CENTRALA_ON_HISTERIZIS
-$("#set_CENTRALA_ON_HISTERIZIS").slider({
-	id: 'ex1Slider', //class
-	min: 0.2,
-	max: 5.0,
-	step: 0.1,
-	value: 0.2,
-	tooltip: 'yes',
-	tooltip_position:'top',
-    handle: 'round',
-	focus: false,
-});
-$("#set_CENTRALA_ON_HISTERIZIS").on("change", function(slideEvt) {
-    $("#param1Value").text($(this).val());	
-});
+    //set_CENTRALA_ON_HISTERIZIS
+    $("#set_CENTRALA_ON_HISTERIZIS").slider({
+        id: 'ex1Slider', //class
+        min: 0.2,
+        max: 5.0,
+        step: 0.1,
+        value: 0.2,
+        tooltip: 'yes',
+        tooltip_position: 'top',
+        handle: 'round',
+        focus: false,
+    });
+    $("#set_CENTRALA_ON_HISTERIZIS").on("change", function(slideEvt) {
+        $("#param1Value").text($(this).val());
+    });
 
-//set_TEMP_INDOOR_CALCULATION_METHOD
-$("#set_TEMP_INDOOR_CALCULATION_METHOD").slider({
-	id: 'ex1Slider', //class
-	min: 0,
-	max: 5,
-	step: 1,
-	value: 1,
-	tooltip: 'yes',
-	tooltip_position:'top',
-    handle: 'round',
-	focus: false,
-});
-$("#set_TEMP_INDOOR_CALCULATION_METHOD").on("change", function(slideEvt) {
-    $("#param2Value").text($(this).val());
-    $('#metodaCalculBtn').addClass('in');
-});
+    //set_TEMP_INDOOR_CALCULATION_METHOD
+    $("#set_TEMP_INDOOR_CALCULATION_METHOD").slider({
+        id: 'ex1Slider', //class
+        min: 0,
+        max: 5,
+        step: 1,
+        value: 1,
+        tooltip: 'yes',
+        tooltip_position: 'top',
+        handle: 'round',
+        focus: false,
+    });
+    $("#set_TEMP_INDOOR_CALCULATION_METHOD").on("change", function(slideEvt) {
+        $("#param2Value").text($(this).val());
+        $('#metodaCalculBtn').addClass('in');
+    });
 
-//set_jalAutoModeRun
-$("#set_jalAutoModeRun").slider({
-	id: 'ex1Slider', //class
-	min: 0,
-	max: 900,
-	step: 1,
-	value: 0,
-	tooltip: 'yes',
-	tooltip_position:'top',
-    handle: 'round',
-    //scale: 'logarithmic',
-	focus: false,
-});
+    //set_jalAutoModeRun
+    $("#set_jalAutoModeRun").slider({
+        id: 'ex1Slider', //class
+        min: 0,
+        max: 900,
+        step: 1,
+        value: 0,
+        tooltip: 'yes',
+        tooltip_position: 'top',
+        handle: 'round',
+        //scale: 'logarithmic',
+        focus: false,
+    });
 
-$("#set_jalAutoModeRun").on("change", function(slideEvt) {
-    $("#param3Value").text($(this).val());	
-});
+    $("#set_jalAutoModeRun").on("change", function(slideEvt) {
+        $("#param3Value").text($(this).val());
+    });
 
-//preset
-$("#MROFF").on("click",function(e){
-    setSlideValue("#set_jalAutoModeRun","#param3Value",0);
-});
-$("#MRUP").on("click",function(e){
-    setSlideValue("#set_jalAutoModeRun","#param3Value",1);
-});
-$("#MRDOWN").on("click",function(e){
-    setSlideValue("#set_jalAutoModeRun","#param3Value",2);
-});
-$("#MRAUTOMAT").on("click",function(e){
-    setSlideValue("#set_jalAutoModeRun","#param3Value",3);
-});
-//preset end
+    //preset
+    $("#MROFF").on("click", function(e) {
+        setSlideValue("#set_jalAutoModeRun", "#param3Value", 0);
+    });
+    $("#MRUP").on("click", function(e) {
+        setSlideValue("#set_jalAutoModeRun", "#param3Value", 1);
+    });
+    $("#MRDOWN").on("click", function(e) {
+        setSlideValue("#set_jalAutoModeRun", "#param3Value", 2);
+    });
+    $("#MRAUTOMAT").on("click", function(e) {
+        setSlideValue("#set_jalAutoModeRun", "#param3Value", 3);
+    });
+    //preset end
 
-//set_LowLightPoint
-$("#set_LowLightPoint").slider({
-	id: 'ex1Slider', //class
-	min: 0,
-	max: 500,
-	step: 1,
-	value: 20,
-	tooltip: 'yes',
-	tooltip_position:'top',
-    handle: 'round',
-	focus: false,
-});
-$("#set_LowLightPoint").on("change", function(slideEvt) {
-    $("#param4Value").text($(this).val());	
-});
+    //set_LowLightPoint
+    $("#set_LowLightPoint").slider({
+        id: 'ex1Slider', //class
+        min: 0,
+        max: 500,
+        step: 1,
+        value: 20,
+        tooltip: 'yes',
+        tooltip_position: 'top',
+        handle: 'round',
+        focus: false,
+    });
+    $("#set_LowLightPoint").on("change", function(slideEvt) {
+        $("#param4Value").text($(this).val());
+    });
 
-//set_jaluzHisterizis
-$("#set_jaluzHisterizis").slider({
-	id: 'ex1Slider', //class
-	min: 0,
-	max: 200,
-	step: 1,
-	value: 20,
-	tooltip: 'yes',
-	tooltip_position:'top',
-    handle: 'round',
-	focus: false,
-});
-$("#set_jaluzHisterizis").on("change", function(slideEvt) {
-    $("#param5Value").text($(this).val());	
-});
+    //set_jaluzHisterizis
+    $("#set_jaluzHisterizis").slider({
+        id: 'ex1Slider', //class
+        min: 0,
+        max: 200,
+        step: 1,
+        value: 20,
+        tooltip: 'yes',
+        tooltip_position: 'top',
+        handle: 'round',
+        focus: false,
+    });
+    $("#set_jaluzHisterizis").on("change", function(slideEvt) {
+        $("#param5Value").text($(this).val());
+    });
 
-//set_FunTemperatureTrigger
-$("#set_FunTemperatureTrigger").slider({
-	id: 'ex1Slider', //class
-	min: 20.0,
-	max: 50.0,
-	step: 0.25,
-	value: 24.0,
-	tooltip: 'yes',
-	tooltip_position:'top',
-    handle: 'round',
-	focus: false,
-});
-$("#set_FunTemperatureTrigger").on("change", function(slideEvt) {
-    $("#param6Value").text($(this).val());	
-});
+    //set_FunTemperatureTrigger
+    $("#set_FunTemperatureTrigger").slider({
+        id: 'ex1Slider', //class
+        min: 20.0,
+        max: 50.0,
+        step: 0.25,
+        value: 24.0,
+        tooltip: 'yes',
+        tooltip_position: 'top',
+        handle: 'round',
+        focus: false,
+    });
+    $("#set_FunTemperatureTrigger").on("change", function(slideEvt) {
+        $("#param6Value").text($(this).val());
+    });
 
-/*SLIDERS END*/
+    /*SLIDERS END*/
 
-/*dtPicker*/
-$('.clockpicker').clockpicker({
-    placement: 'right',
-    align: 'right',
-    autoclose: true,
-    default : 'now',
-    fromnow:0,
-});
-
-
-$(".addThermostat").on("change", function(e) {
-    var grade = $("#gradeCelsius").val();
-    var ora = $("#dtPicker").val();
-    var data = '';
-    if (((ora != "") && (ora !== null)) &&
-        ((grade != "") && (grade !== null))) {
-        data = ora+":00\t"+grade;
-        $("#dtOut").text(data);
-    } else {
-       $("#dtOut").text('');	 
-    }
-        
-});
+    /*dtPicker*/
+    $('.clockpicker').clockpicker({
+        placement: 'right',
+        align: 'right',
+        autoclose: true,
+        default: 'now',
+        fromnow: 0,
+    });
 
 
-//BuTTON
-$('#setLivoloTestID').keyup(function(event){
-    if (event.keyCode === 13) {
-        $("#save").click();
-    }    
-});
+    $(".addThermostat").on("change", function(e) {
+        var grade = $("#gradeCelsius").val();
+        var ora = $("#dtPicker").val();
+        var data = '';
+        if (((ora != "") && (ora !== null)) &&
+            ((grade != "") && (grade !== null))) {
+            data = ora + ":00\t" + grade;
+            $("#dtOut").text(data);
+        } else {
+            $("#dtOut").text('');
+        }
 
-$('#gradeCelsius').keyup(function(event){
-    if (event.keyCode === 13) {
-        $('#set_NewTEMPInCALL').slider('setValue', $(this).val(), true);     
-        $("#adaugaInThermostat").click();       
-    }    
-});
+    });
 
-$('#preff_ldr').on('click',function(){
-   PREFERED_LIGHT_DORMITOR = LAST_OUTDOOR_LDR; 
-   saveSettings(); 
-});
 
-$('#btnKeyInfo').on('click',function(){
-   getLogs('readKeys'); 
-});
+    //BuTTON
+    $('#setLivoloTestID').keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#save").click();
+        }
+    });
 
-$('#btnLogInfo').on('click',function(){
-   getLogs('readInfo'); 
-});
+    $('#gradeCelsius').keyup(function(event) {
+        if (event.keyCode === 13) {
+            $('#set_NewTEMPInCALL').slider('setValue', $(this).val(), true);
+            $("#adaugaInThermostat").click();
+        }
+    });
 
-$('#btnLogWarning').on('click',function(){
-   getLogs('readWarning'); 
-});
+    $('#preff_ldr').on('click', function() {
+        PREFERED_LIGHT_DORMITOR = LAST_OUTDOOR_LDR;
+        saveSettings();
+    });
 
-$('#btnLogError').on('click',function(){
-   getLogs('readError'); 
-});
+    $('#btnKeyInfo').on('click', function() {
+        getLogs('readKeys');
+    });
 
-$('#reload_callendar').on('click', function (e) { 
-loadCalendar();
-})
+    $('#btnLogInfo').on('click', function() {
+        getLogs('readInfo');
+    });
 
-$('#del_itm_calendar').on('click', function (e) { 
-deleteItmCalendar($('#selCalendarItem option:selected').val());
-})
+    $('#btnLogWarning').on('click', function() {
+        getLogs('readWarning');
+    });
 
-$("#adaugaInThermostat").on('click',function(e){
-    var newDate = $("#dtOut").text();
-    if ((newDate != "") &&
-        (newDate != " ") &&
-        (newDate != null) && 
-        (newDate != "×Completati ambele campuri.")) {
-    addInCallendar(newDate);
-    } else {
-       $("#dtOut").html("<div style='width:400px;' class='alert alert-danger' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><span>Completati ambele campuri.</span></div>");
-    }
-})
+    $('#btnLogError').on('click', function() {
+        getLogs('readError');
+    });
 
-$('#save2').on('click',function(){
-   saveSettings(); 
-});
+    $('#reload_callendar').on('click', function(e) {
+        loadCalendar();
+    })
 
-$('#save').on('click',function(){
-   saveSettings(); 
-});
+    $('#del_itm_calendar').on('click', function(e) {
+        deleteItmCalendar($('#selCalendarItem option:selected').val());
+    })
 
-$('#reset_cal_month').on('click',function(){
-  resetThermostat = "1";  
-  saveSettings();
-  resetThermostat = "0";
-});
-$('#reset_cal_all').on('click',function(){
-  resetThermostat = "2";  
-  saveSettings();
-  resetThermostat = "0";
-});
-//resetThermostat
+    $("#adaugaInThermostat").on('click', function(e) {
+        var newDate = $("#dtOut").text();
+        if ((newDate != "") &&
+            (newDate != " ") &&
+            (newDate != null) &&
+            (newDate != "×Completati ambele campuri.")) {
+            addInCallendar(newDate);
+        } else {
+            $("#dtOut").html("<div style='width:400px;' class='alert alert-danger' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><span>Completati ambele campuri.</span></div>");
+        }
+    })
 
+    $('#save2').on('click', function() {
+        saveSettings();
+    });
+
+    $('#save').on('click', function() {
+        saveSettings();
+    });
+
+    $('#reset_cal_month').on('click', function() {
+        resetThermostat = "1";
+        saveSettings();
+        resetThermostat = "0";
+    });
+    $('#reset_cal_all').on('click', function() {
+        resetThermostat = "2";
+        saveSettings();
+        resetThermostat = "0";
+    });
+    //resetThermostat
+} //.inject_function_settings()
 /*FUNCTION*/
 
 function setSlideValue(id,idShow,value){
