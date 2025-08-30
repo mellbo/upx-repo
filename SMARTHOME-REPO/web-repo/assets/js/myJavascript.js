@@ -103,7 +103,7 @@ function onMessage(event) {
       ERROR_INSTANCE = 1;
       websocket.close();
       jsonObject = null;
-      alert("You have to many page opened. Keep only one in your in browser!");
+      alert("You have to many page opened. Keep only one in your in browser or slow down action!");
       location.replace("/protection");
       return;
     }    
@@ -181,7 +181,6 @@ function checkMillis() {
   if (currentMillis === checkMillis.lastMillis) {
     info_reboot_web(true);
     setTimeout(function() {
-       console.log("Disabled: location.reload(true)");
       window.location.reload(true);
     }, 3000);
   } else {
@@ -869,8 +868,8 @@ function checkIfMobile() {
     var viewport = $('.xyzzy:visible').attr('data-size');
         if( viewport == 'xs' ) {
             $('#interfaceContainer').removeClass('home-product');
-            $('#loginID').removeClass('home-product');
-            $('#LogsContainerID').removeClass('home-product');
+            //$('#loginID').removeClass('home-product');  // not find in file
+            //$('#LogsContainerID').removeClass('home-product'); //not find in file
             $('#sumarID').addClass('hidden');
             return true;
         } else {
