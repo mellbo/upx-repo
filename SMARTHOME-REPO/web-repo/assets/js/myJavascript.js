@@ -17,15 +17,11 @@ var websck_is_connected = false;
 var millis_esp = 0;
 var ERROR_INSTANCE = 0;
 var paginaVizibila = true;
-var POOL_BUSSY = 0;
-var CHKMILLIS_BUSSY = 0;
-
  
 function onVisibilityChange() {
   paginaVizibila = !document.hidden;
   ERROR_INSTANCE = 1;
   websocket.close();
-  clearAllTimers();
   location.replace("/protection");
 } 
  
@@ -53,7 +49,7 @@ $(document).ready(function() {
       getLogs('readKeys'); 
 	}
  
-    intervals.push(setInterval(timerIncrement, 60000)); // force refresh in timerIncrement
+    setInterval(timerIncrement, 60000); // force refresh in timerIncrement
     $(this).mousemove(function (e) {
         idleTime = 0;
     });
@@ -71,24 +67,19 @@ $(document).ready(function() {
 /*ESP WebSocket*/
 /*------------------------------------------------------------------------------------*/
   function onOpen(event) {
-    websck_is_connected = 1;
-    clearAllTimers();
-    
-		if (PAGENAME == 'settings.html') verificaVersiune();
-    pool_info_page(); //pool now
-    intervals.push(setInterval(pool_info_page, 1000));  
-    
-    intervals.push(setInterval(function() {
+    websck_is_connected = 1;  
+		if (PAGENAME == 'settings') verificaVersiune();
+    pool_info_page(); //pool now   
+    setTimeout(function() {
       checkMillis();
-    }, 2000));    
+    }, 2000);    
     console.log('Connection opened');
 }
 /*-----------------------------------------------------------------------------------*/
   function onClose(event) {
     websck_is_connected = 0;
-    clearAllTimers();
     console.log('Connection closed');
-    if (!ERROR_INSTANCE) timers.push(setTimeout(initWebSocket, 2000)); //retry websocket
+    if (!ERROR_INSTANCE) setTimeout(initWebSocket, 2000); //retry websocket
   }
 /*-----------------------------------------------------------------------------------*/
   function initWebSocket() {
@@ -104,9 +95,7 @@ function onMessage(event) {
 	let jsonObject = JSON.parse(event.data);
 		millis_esp = parseInt(jsonObject['cMs'], 10);
     if (jsonObject.hasOwnProperty("ERROR_INSTANCE") == true) {
-      ERROR_INSTANCE = 1;
       websocket.close();
-      clearAllTimers();
       jsonObject = null;
       alert("You have to many page opened. Keep only one in your in browser!");
       location.replace("/protection");
@@ -150,10 +139,10 @@ async function verificaVersiune() {
  This var must be same in Arduino header.h
 */
 const LIVE_DATA_TYPE = 1; // index.html - LiveData
+
 function pool_info_page() {
-  if ((ERROR_INSTANCE) || (POOL_BUSSY) || (!websck_is_connected)) return;
-  POOL_BUSSY = 1;
-  	let data = {
+  if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
+  let data = {
 		"REQUEST_INFO": LIVE_DATA_TYPE
 	};
 	
@@ -161,49 +150,35 @@ function pool_info_page() {
   if (websck_is_connected) websocket.send(_js);
 	_js	= null;
 	data = null;
-  POOL_BUSSY = 0;
+  
+  // rearm pool
+  if (websck_is_connected) {
+    timers.push(setTimeout(function(){
+      pool_info_page();
+      }, 1000));	
+  }   
 }
 /*-----------------------------------------------------------------------------------*/
 function checkMillis() {
-  if ((ERROR_INSTANCE) || (CHKMILLIS_BUSSY)) {
+  if (ERROR_INSTANCE) {
     return;
   }
-  CHKMILLIS_BUSSY = 1;
+
   let currentMillis = millis_esp;
   if (typeof checkMillis.lastMillis === 'undefined') {
     checkMillis.lastMillis = 0;
   }
   if (currentMillis === checkMillis.lastMillis) {
     info_reboot_web(true);
-    clearAllTimers();
-    timers.push(setTimeout(function() {
+    setTimeout(function() {
        console.log("Disabled: location.reload(true)");
-      //location.reload(true);
-    }, 3000));
+      //window.location.reload(true);
+    }, 3000);
   } else {
     checkMillis.lastMillis = currentMillis;
   }
-  CHKMILLIS_BUSSY = 0;
 }
 /*-----------------------------------------------------------------------------------*/
-function clearAllTimers() {
-  for (let id of timers) {
-    clearTimeout(id);
-    console.log("clearTimeOut id:", id);
-  }
-  timers = [];
-  
-  for (let id of timers) {
-    clearTimeout(id);
-    console.log("clearTimeOut id:", id);
-  }
-  timers = [];
-  
-  POOL_BUSSY = 0;
-  CHKMILLIS_BUSSY = 0;   
-}
-/*-----------------------------------------------------------------------------------*/
-
 /*SET ACTION*/
 /*FOR SETTINGS PAGE*/
 function inject_function_settings() {
@@ -855,7 +830,7 @@ function timerIncrement() {
     idleTime = idleTime + 1;
     if (idleTime > 30) { // 30 minutes
         idleTime = 0;
-        window.location.reload();
+        window.location.reload(true);
     }
     if (idleTime > 10) {
         $("body").css({'overflow': 'hidden'});
