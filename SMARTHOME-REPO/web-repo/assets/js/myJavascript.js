@@ -143,9 +143,9 @@ async function verificaVersiune() {
 	}
 }
 /*-----------------------------------------------------------------------------------*/
-const ONLY_PING = 0;
 const LIVE_DATA_TYPE = 1; // index.html - LiveData
-
+const ONLY_PING = 254;
+      //ERROR_INSTANCE = 255 but not use from script->esp
 function pool_info_page() {
   if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
   let DATA_SET_TYPE = ONLY_PING;
@@ -190,183 +190,10 @@ function checkMillis() {
   }
 }
 /*-----------------------------------------------------------------------------------*/
-		function loadCalendar() {
-      console.log("LOAD CALENDAR DISABLED");
-      return;
-			/*PRELUARE DATE*/
-		    var res = '';
-			$.ajax({
-				url: "../php/calendar_extras.php",
-		        type:'post',
-				data: {'act':'read'},
-				success: function(data) {
-		        $("#calendar").html(data);            
-				}
-			});
-		}
 /*-----------------------------------------------------------------------------------*/
 /*FOR SETTINGS PAGE*/
 function inject_function_settings() {
-  console.log("loading action and function settings");
-/*FUNCTION FOR settings.html*/ 
-		function setSlideValue(id,idShow,value){
-		    if (id != null) {$(id).slider('setValue', value, true);}
-		    if (idShow != null) {$(idShow).text($(id).val());}    
-		}
-		
-    // function loadCalendar()  ...
-		
-		function addInCallendar(e) {
-		    WRN_PROFILE_DELETE = "Doriti sa adaugati in termostat, la ora "+e.replace('\t', '  temperatura de: ')+"º ?";  
-		    var check = confirm(WRN_PROFILE_DELETE);  
-		    if(check == true){ 
-		        AddNewTemperatureInMonth = e;
-		        saveSettings();
-		        loadCalendar(); 
-		    } else {
-				AddNewTemperatureInMonth = '';
-		        $('dtOut').val('');
-			}
-		}
-		
-		function deleteItmCalendar(index) {
-			/*PRELUARE DATE*/
-		WRN_PROFILE_DELETE = "Doriti sa stergeti "+index+" ?";  
-		var check = confirm(WRN_PROFILE_DELETE);  
-		if(check == true){      
-		    var res = '';
-			$.ajax({
-				url: "../php/calendar_extras.php",
-		        type:'post',
-				data: {'act':'del','item':index},
-				success: function(data) {
-		        $("#calendar").html(data);            
-				}
-			});
-		  }
-		}
-		
-		function loadSetings() {
-      console.log("LOAD SETTINGS DISABLED");
-      return;
-			/*PRELUARE DATE*/
-			$.ajax({
-				url: "../php/settings_param.php",
-		        type:'post',
-				data: {'act':'read'},
-				success: function(data) {
-		            parseSettings(data);       
-				}
-			});
-		}
-		
-		function parseSettings(raw){
-		/*
-		    $('#set_THERMOSTAT_OUTSIDE_ENABLE').attr('checked',true);
-		    //alert($('#set_THERMOSTAT_OUTSIDE_ENABLE:checked').val() ? 1:);
-		    alert(
-		       $('#set_THERMOSTAT_OUTSIDE_ENABLE').attr('checked')?"True":"False" 
-		    );
-		*/	
-			var jsonData = JSON.parse(raw);
-			if (jsonData == null) {return;}
-		    
-		  $("#set_THERMOSTAT_OUTSIDE_ENABLE").attr('checked',(jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"].toLowerCase() === 'true'));
-			$("#set_forceMainDoorOpen").attr('checked',(jsonData.SYSTEM["forceMainDoorOpen"].toLowerCase() === 'true'));
-			$("#set_AlowLightOFF").attr('checked',(jsonData.SYSTEM["AlowLightOFF"].toLowerCase() === 'true'));
-			
-			$("#setKEY110_ENABLE").attr('checked',(jsonData.SYSTEM["KEY110_ENABLE"].toLowerCase() === 'true'));
-			$("#setKEY120_ENABLE").attr('checked',(jsonData.SYSTEM["KEY120_ENABLE"].toLowerCase() === 'true'));
-			$("#setKEY130_ENABLE").attr('checked',(jsonData.SYSTEM["KEY130_ENABLE"].toLowerCase() === 'true'));
-			$("#setKEY255_ENABLE").attr('checked',(jsonData.SYSTEM["KEY255_ENABLE"].toLowerCase() === 'true'));
-			
-			$("#SetKEY110NAME").val(jsonData.SYSTEM["SetKEY110NAME"]);
-			$("#SetKEY120NAME").val(jsonData.SYSTEM["SetKEY120NAME"]);
-			$("#SetKEY130NAME").val(jsonData.SYSTEM["SetKEY130NAME"]);
-			$("#SetKEY255NAME").val(jsonData.SYSTEM["SetKEY255NAME"]);
-			
-			$("#setLivoloTestID").val(jsonData.SYSTEM["LivoloTestID"]);    
-			
-			setSlideValue("#set_CENTRALA_ON_HISTERIZIS","#param1Value",jsonData.SYSTEM["CENTRALA_ON_HISTERIZIS"]);
-			setSlideValue("#set_TEMP_INDOOR_CALCULATION_METHOD","#param2Value",jsonData.SYSTEM["TEMP_INDOOR_CALCULATION_METHOD"]);
-			setSlideValue("#set_jalAutoModeRun","#param3Value",jsonData.SYSTEM["jalAutoModeRun"]);
-			setSlideValue("#set_LowLightPoint","#param4Value",jsonData.SYSTEM["LowLightPoint"]);
-			setSlideValue("#set_jaluzHisterizis","#param5Value",jsonData.SYSTEM["jaluzHisterizis"]);
-			setSlideValue("#set_FunTemperatureTrigger","#param6Value",jsonData.SYSTEM["FunTemperatureTrigger"]);	
-		    PREFERED_LIGHT_DORMITOR = jsonData.SYSTEM["PREFERED_LIGHT_DORMITOR"];
-		    THERMOSTATLAST = jsonData.SYSTEM["THERMOSTAT_LAST"];
-		    $('#prefLDRShow').text(PREFERED_LIGHT_DORMITOR);
-		    $('#beepModeID').val(jsonData.SYSTEM["UserBeepMode"]);
-			$('#climatizareOption').val(jsonData.SYSTEM["CLIMA_MODE"]);
-		    $('#force24Thermo').val(jsonData.SYSTEM["THERMOSTATFORCE24"]);
-		  $("#smartWelcomeEnable").attr('checked',(jsonData.SYSTEM["smartWelcomeEnable"].toLowerCase() === 'true'));
-		  $("#smartWelcomeAutoSetup").attr('checked',(jsonData.SYSTEM["smartWelcomeAutoSetup"].toLowerCase() === 'true'));
-		  $("#welcome_Luni").val(jsonData.SYSTEM["welcome_Luni"]);
-		  $("#welcome_Marti").val(jsonData.SYSTEM["welcome_Marti"]);
-		  $("#welcome_Miercuri").val(jsonData.SYSTEM["welcome_Miercuri"]);
-		  $("#welcome_Joi").val(jsonData.SYSTEM["welcome_Joi"]);
-		  $("#welcome_Vineri").val(jsonData.SYSTEM["welcome_Vineri"]);
-		  $("#welcome_Sambata").val(jsonData.SYSTEM["welcome_Sambata"]);
-		  $("#welcome_Duminica").val(jsonData.SYSTEM["welcome_Duminica"]);
-		
-		  if ($("#smartWelcomeAutoSetup").is(':checked')) {
-		   event.preventDefault();
-		   $('.smartWelcome').prop("disabled", true);
-		  } else {
-		    $('.smartWelcome').prop("disabled", false);
-		  } 
-		}
-		
-		function saveSettings() {
-		
-			var sendData = {"act":"write","SYSTEM":{
-				"jalAutoModeRun":$('#set_jalAutoModeRun').val(),
-				"LowLightPoint":$('#set_LowLightPoint').val(),
-		    "THERMOSTAT_OUTSIDE_ENABLE":$('#set_THERMOSTAT_OUTSIDE_ENABLE').is(":checked"),
-				"forceMainDoorOpen":$('#set_forceMainDoorOpen').is(":checked"),
-				"AlowLightOFF":$('#set_AlowLightOFF').is(":checked"),
-				"jaluzHisterizis":$('#set_jaluzHisterizis').val(),
-				"LivoloTestID":$('#setLivoloTestID').val(),
-				"TEMP_INDOOR_CALCULATION_METHOD":$('#set_TEMP_INDOOR_CALCULATION_METHOD').val(),
-				"CENTRALA_ON_HISTERIZIS":$('#set_CENTRALA_ON_HISTERIZIS').val(),
-				"AddNewTemperatureInMonth":AddNewTemperatureInMonth,
-				
-				"KEY110_ENABLE":$('#setKEY110_ENABLE').is(":checked"),
-				"KEY120_ENABLE":$('#setKEY120_ENABLE').is(":checked"),
-				"KEY130_ENABLE":$('#setKEY130_ENABLE').is(":checked"),
-				"KEY255_ENABLE":$('#setKEY255_ENABLE').is(":checked"),
-				"SetKEY110NAME":$('#SetKEY110NAME').val(),
-				"SetKEY120NAME":$('#SetKEY120NAME').val(),
-				"SetKEY130NAME":$('#SetKEY130NAME').val(),
-				"SetKEY255NAME":$('#SetKEY255NAME').val(),
-				"FunTemperatureTrigger":$('#set_FunTemperatureTrigger').val(),
-		    "resetThermostat":resetThermostat,
-		    "PREFERED_LIGHT_DORMITOR":PREFERED_LIGHT_DORMITOR,
-		    "THERMOSTAT_LAST":THERMOSTATLAST,
-		    "UserBeepMode":$('#beepModeID').val(),
-		    "THERMOSTATFORCE24":$('#force24Thermo').val(),
-				"CLIMA_MODE":$('#climatizareOption').val(),
-		    "smartWelcomeEnable":$('#smartWelcomeEnable').is(":checked"),
-		    "smartWelcomeAutoSetup":$('#smartWelcomeAutoSetup').is(":checked"),
-		    "welcome_Luni":$('#welcome_Luni').val(),
-		    "welcome_Marti":$('#welcome_Marti').val(),
-		    "welcome_Miercuri":$('#welcome_Miercuri').val(),
-		    "welcome_Joi":$('#welcome_Joi').val(),
-		    "welcome_Vineri":$('#welcome_Vineri').val(),
-		    "welcome_Sambata":$('#welcome_Sambata').val(),
-		    "welcome_Duminica":$('#welcome_Duminica').val()
-			}};
-		    
-			$.ajax({
-				url: "../php/settings_param.php",
-		        type:'post',
-				data: sendData,
-				success: function(data) {
-		            $('#replySave').html(data);  //response   
-				}
-			});	    
-		}
-    
+  console.log("loading action and function settings");   
   /*SET ACTION*/
     //set_NewTEMPInCALL
     $('#set_NewTEMPInCALL').slider({
@@ -610,7 +437,91 @@ function inject_function_settings() {
 } //.inject_function_settings()
 /*-----------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
+/*FUNCTION FOR settings.html*/ 
+function setSlideValue(e, t, E) {
+    null != e && $(e).slider("setValue", E, !0), null != t && $(t).text($(e).val())
+}
 
+function loadCalendar() {
+    console.log("LOAD CALENDAR DISABLED")
+}
+
+function addInCallendar(e) {
+    WRN_PROFILE_DELETE = "Doriti sa adaugati in termostat, la ora " + e.replace("\t", "  temperatura de: ") + "º ?", 1 == confirm(WRN_PROFILE_DELETE) ? (AddNewTemperatureInMonth = e, saveSettings(), loadCalendar()) : (AddNewTemperatureInMonth = "", $("dtOut").val(""))
+}
+
+function deleteItmCalendar(e) {
+    WRN_PROFILE_DELETE = "Doriti sa stergeti " + e + " ?", 1 == confirm(WRN_PROFILE_DELETE) && $.ajax({
+        url: "../php/calendar_extras.php",
+        type: "post",
+        data: {
+            act: "del",
+            item: e
+        },
+        success: function(e) {
+            $("#calendar").html(e)
+        }
+    })
+}
+
+function loadSetings() {
+    console.log("LOAD SETTINGS DISABLED")
+}
+
+function parseSettings(e) {
+    e = JSON.parse(e);
+    null != e && ($("#set_THERMOSTAT_OUTSIDE_ENABLE").attr("checked", "true" === e.SYSTEM.THERMOSTAT_OUTSIDE_ENABLE.toLowerCase()), $("#set_forceMainDoorOpen").attr("checked", "true" === e.SYSTEM.forceMainDoorOpen.toLowerCase()), $("#set_AlowLightOFF").attr("checked", "true" === e.SYSTEM.AlowLightOFF.toLowerCase()), $("#setKEY110_ENABLE").attr("checked", "true" === e.SYSTEM.KEY110_ENABLE.toLowerCase()), $("#setKEY120_ENABLE").attr("checked", "true" === e.SYSTEM.KEY120_ENABLE.toLowerCase()), $("#setKEY130_ENABLE").attr("checked", "true" === e.SYSTEM.KEY130_ENABLE.toLowerCase()), $("#setKEY255_ENABLE").attr("checked", "true" === e.SYSTEM.KEY255_ENABLE.toLowerCase()), $("#SetKEY110NAME").val(e.SYSTEM.SetKEY110NAME), $("#SetKEY120NAME").val(e.SYSTEM.SetKEY120NAME), $("#SetKEY130NAME").val(e.SYSTEM.SetKEY130NAME), $("#SetKEY255NAME").val(e.SYSTEM.SetKEY255NAME), $("#setLivoloTestID").val(e.SYSTEM.LivoloTestID), setSlideValue("#set_CENTRALA_ON_HISTERIZIS", "#param1Value", e.SYSTEM.CENTRALA_ON_HISTERIZIS), setSlideValue("#set_TEMP_INDOOR_CALCULATION_METHOD", "#param2Value", e.SYSTEM.TEMP_INDOOR_CALCULATION_METHOD), setSlideValue("#set_jalAutoModeRun", "#param3Value", e.SYSTEM.jalAutoModeRun), setSlideValue("#set_LowLightPoint", "#param4Value", e.SYSTEM.LowLightPoint), setSlideValue("#set_jaluzHisterizis", "#param5Value", e.SYSTEM.jaluzHisterizis), setSlideValue("#set_FunTemperatureTrigger", "#param6Value", e.SYSTEM.FunTemperatureTrigger), PREFERED_LIGHT_DORMITOR = e.SYSTEM.PREFERED_LIGHT_DORMITOR, THERMOSTATLAST = e.SYSTEM.THERMOSTAT_LAST, $("#prefLDRShow").text(PREFERED_LIGHT_DORMITOR), $("#beepModeID").val(e.SYSTEM.UserBeepMode), $("#climatizareOption").val(e.SYSTEM.CLIMA_MODE), $("#force24Thermo").val(e.SYSTEM.THERMOSTATFORCE24), $("#smartWelcomeEnable").attr("checked", "true" === e.SYSTEM.smartWelcomeEnable.toLowerCase()), $("#smartWelcomeAutoSetup").attr("checked", "true" === e.SYSTEM.smartWelcomeAutoSetup.toLowerCase()), $("#welcome_Luni").val(e.SYSTEM.welcome_Luni), $("#welcome_Marti").val(e.SYSTEM.welcome_Marti), $("#welcome_Miercuri").val(e.SYSTEM.welcome_Miercuri), $("#welcome_Joi").val(e.SYSTEM.welcome_Joi), $("#welcome_Vineri").val(e.SYSTEM.welcome_Vineri), $("#welcome_Sambata").val(e.SYSTEM.welcome_Sambata), $("#welcome_Duminica").val(e.SYSTEM.welcome_Duminica), $("#smartWelcomeAutoSetup").is(":checked") ? (event.preventDefault(), $(".smartWelcome").prop("disabled", !0)) : $(".smartWelcome").prop("disabled", !1))
+}
+
+function saveSettings() {
+    var e = {
+        act: "write",
+        SYSTEM: {
+            jalAutoModeRun: $("#set_jalAutoModeRun").val(),
+            LowLightPoint: $("#set_LowLightPoint").val(),
+            THERMOSTAT_OUTSIDE_ENABLE: $("#set_THERMOSTAT_OUTSIDE_ENABLE").is(":checked"),
+            forceMainDoorOpen: $("#set_forceMainDoorOpen").is(":checked"),
+            AlowLightOFF: $("#set_AlowLightOFF").is(":checked"),
+            jaluzHisterizis: $("#set_jaluzHisterizis").val(),
+            LivoloTestID: $("#setLivoloTestID").val(),
+            TEMP_INDOOR_CALCULATION_METHOD: $("#set_TEMP_INDOOR_CALCULATION_METHOD").val(),
+            CENTRALA_ON_HISTERIZIS: $("#set_CENTRALA_ON_HISTERIZIS").val(),
+            AddNewTemperatureInMonth: AddNewTemperatureInMonth,
+            KEY110_ENABLE: $("#setKEY110_ENABLE").is(":checked"),
+            KEY120_ENABLE: $("#setKEY120_ENABLE").is(":checked"),
+            KEY130_ENABLE: $("#setKEY130_ENABLE").is(":checked"),
+            KEY255_ENABLE: $("#setKEY255_ENABLE").is(":checked"),
+            SetKEY110NAME: $("#SetKEY110NAME").val(),
+            SetKEY120NAME: $("#SetKEY120NAME").val(),
+            SetKEY130NAME: $("#SetKEY130NAME").val(),
+            SetKEY255NAME: $("#SetKEY255NAME").val(),
+            FunTemperatureTrigger: $("#set_FunTemperatureTrigger").val(),
+            resetThermostat: resetThermostat,
+            PREFERED_LIGHT_DORMITOR: PREFERED_LIGHT_DORMITOR,
+            THERMOSTAT_LAST: THERMOSTATLAST,
+            UserBeepMode: $("#beepModeID").val(),
+            THERMOSTATFORCE24: $("#force24Thermo").val(),
+            CLIMA_MODE: $("#climatizareOption").val(),
+            smartWelcomeEnable: $("#smartWelcomeEnable").is(":checked"),
+            smartWelcomeAutoSetup: $("#smartWelcomeAutoSetup").is(":checked"),
+            welcome_Luni: $("#welcome_Luni").val(),
+            welcome_Marti: $("#welcome_Marti").val(),
+            welcome_Miercuri: $("#welcome_Miercuri").val(),
+            welcome_Joi: $("#welcome_Joi").val(),
+            welcome_Vineri: $("#welcome_Vineri").val(),
+            welcome_Sambata: $("#welcome_Sambata").val(),
+            welcome_Duminica: $("#welcome_Duminica").val()
+        }
+    };
+    $.ajax({
+        url: "../php/settings_param.php",
+        type: "post",
+        data: e,
+        success: function(e) {
+            $("#replySave").html(e)
+        }
+    })
+}
 /*FUNCTION REGULAR COMMON*/
 function processCalorPos(id,calSt,calReq) {
  var res = "";
