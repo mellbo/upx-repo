@@ -106,8 +106,11 @@ function onMessage(event) {
       alert("You have to many page opened. Keep only one in your in browser or slow down action!");
       location.replace("/protection");
       return;
-    }    
-		//document.getElementById("cMillis").innerText = jsonObject['cMs'];
+    }
+    
+    let el = document.getElementById("idcMillis");
+    if (el) el.innerText = jsonObject['cMs'];
+    
     if (PAGENAME == 'index') {
       updLiveParamIndex(jsonObject);
     }
