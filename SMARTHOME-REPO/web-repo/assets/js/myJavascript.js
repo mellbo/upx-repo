@@ -18,6 +18,12 @@ var millis_esp = 0;
 var ERROR_INSTANCE = 0;
 var paginaVizibila = true;
  
+ /*
+ This var must be same in Arduino header.h
+*/
+const LIVE_DATA_TYPE = 1; // index.html - LiveData
+ 
+ 
 function onVisibilityChange() {
   paginaVizibila = !document.hidden;
   ERROR_INSTANCE = 1;
@@ -94,7 +100,9 @@ $(document).ready(function() {
 function onMessage(event) {
 	let jsonObject = JSON.parse(event.data);
 		millis_esp = parseInt(jsonObject['cMs'], 10);
+    //quick banned from server
     if (jsonObject.hasOwnProperty("ERROR_INSTANCE") == true) {
+      ERROR_INSTANCE = 1;
       websocket.close();
       jsonObject = null;
       alert("You have to many page opened. Keep only one in your in browser!");
@@ -102,7 +110,9 @@ function onMessage(event) {
       return;
     }    
 		//document.getElementById("cMillis").innerText = jsonObject['cMs'];
-    updateHomeData(jsonObject); 
+    if (PAGENAME == 'index') {
+      updLiveParamIndex(jsonObject);
+    }
     console.log(jsonObject);  // just for LAB
 		jsonObject = null;
 }
@@ -135,11 +145,6 @@ async function verificaVersiune() {
 	}
 }
 /*-----------------------------------------------------------------------------------*/
-/*
- This var must be same in Arduino header.h
-*/
-const LIVE_DATA_TYPE = 1; // index.html - LiveData
-
 function pool_info_page() {
   if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
   let data = {
@@ -179,6 +184,7 @@ function checkMillis() {
     timers.push(setTimeout(checkMillis, 3000)); // rearming checkMillis()
   }
 }
+/*-----------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
 /*FOR SETTINGS PAGE*/
 function inject_function_settings() {
@@ -596,8 +602,8 @@ function inject_function_settings() {
         }
      });      
 } //.inject_function_settings()
-
-
+/*-----------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------*/
 
 /*FUNCTION REGULAR COMMON*/
 function processCalorPos(id,calSt,calReq) {
@@ -616,7 +622,7 @@ function processCalorPos(id,calSt,calReq) {
   return res;
 }
 
-function updateHomeData(jsonData) {
+function updLiveParamIndex(jsonData) {
 				//-->UPDATE ITEMS BY ID & INI 'NAME' ITEM
 				var DaSauNu = "";
         var blinkClass = "";
