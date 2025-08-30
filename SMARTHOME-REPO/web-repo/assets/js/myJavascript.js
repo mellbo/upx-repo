@@ -21,8 +21,6 @@ var paginaVizibila = true;
  /*
  This var must be same in Arduino header.h
 */
-const LIVE_DATA_TYPE = 1; // index.html - LiveData
- 
  
 function onVisibilityChange() {
   paginaVizibila = !document.hidden;
@@ -145,10 +143,17 @@ async function verificaVersiune() {
 	}
 }
 /*-----------------------------------------------------------------------------------*/
+const ONLY_PING = 0;
+const LIVE_DATA_TYPE = 1; // index.html - LiveData
+
 function pool_info_page() {
   if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
+  let DATA_SET_TYPE = ONLY_PING;
+  
+  if (PAGENAME == 'index') DATA_SET_TYPE = LIVE_DATA_TYPE;
+  
   let data = {
-		"REQUEST_INFO": LIVE_DATA_TYPE
+		"REQUEST_INFO": DATA_SET_TYPE
 	};
 	
 	let _js = JSON.stringify(data);	
