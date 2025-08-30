@@ -75,11 +75,10 @@ $(document).ready(function() {
 		if (PAGENAME == 'settings.html') verificaVersiune();
     pool_info_page(); //pool now
     intervals.push(setInterval(pool_info_page, 1000));  
-/*    
+    
     intervals.push(setInterval(function() {
       checkMillis();
-    }, 2000));
-*/    
+    }, 2000));    
     console.log('Connection opened');
 }
 /*-----------------------------------------------------------------------------------*/
@@ -179,7 +178,7 @@ function checkMillis() {
     clearAllTimeouts();
     clearAllIntervals();
     timers.push(setTimeout(function() {
-       console.log("location.reload(true)");
+       console.log("Disabled: location.reload(true)");
       //location.reload(true);
     }, 3000));
   } else {
