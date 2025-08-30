@@ -36,7 +36,6 @@ $(document).ready(function() {
     if ((!checkIfMobile()) && 
         ((PAGENAME == 'index.html') || (PAGENAME == 'logs.html'))
         ) loadNewBackGround();
-    if (PAGENAME == 'settings.html') inject_function_settings();
  
     intervals.push(setInterval(timerIncrement, 60000)); // force refresh in timerIncrement
     $(this).mousemove(function (e) {
@@ -47,6 +46,7 @@ $(document).ready(function() {
     });    
 	
     if (PAGENAME == 'settings.html') {
+      inject_function_settings();      
       //Load Calendar Data
       loadCalendar(); 
       loadSetings();
@@ -207,6 +207,7 @@ function clearAllIntervals() {
 /*SET ACTION*/
 /*FOR SETTINGS PAGE*/
 function inject_function_settings() {
+  console.log("loading action and function settings");
     //set_NewTEMPInCALL
     $('#set_NewTEMPInCALL').slider({
         id: 'ex1Slider', //class
