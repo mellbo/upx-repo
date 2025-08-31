@@ -72,7 +72,10 @@ $(document).ready(function() {
 /*------------------------------------------------------------------------------------*/
   function onOpen(event) {
     websck_is_connected = 1;  
-		if (PAGENAME == 'settings') verificaVersiune();
+		if (PAGENAME == 'settings') {
+      verificaVersiune();
+      getSettingsData();
+    }
     pool_info_page(); //pool now   
     setTimeout(function() {
       checkMillis();
@@ -147,8 +150,22 @@ async function verificaVersiune() {
 }
 /*-----------------------------------------------------------------------------------*/
 const LIVE_DATA_TYPE = 1; // index.html - LiveData
+const GET_DATA_TYPE  = 2;
 const ONLY_PING = 254;
       //ERROR_INSTANCE = 255 but not use from script->esp
+/*-----------------------------------------------------------------------------------*/      
+function getSettingsData() {
+  if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
+  let data = {
+		"REQUEST_INFO": GET_DATA_TYPE
+	};
+	
+	let _js = JSON.stringify(data);	
+  if (websck_is_connected) websocket.send(_js);
+	_js	= null;
+	data = null;  
+}
+/*-----------------------------------------------------------------------------------*/
 function pool_info_page() {
   if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
   let DATA_SET_TYPE = ONLY_PING;
@@ -168,7 +185,7 @@ function pool_info_page() {
   if (websck_is_connected) {
     timers.push(setTimeout(function(){
       pool_info_page();
-      }, 1000));	
+      }, 2000));	
   }   
 }
 /*-----------------------------------------------------------------------------------*/
