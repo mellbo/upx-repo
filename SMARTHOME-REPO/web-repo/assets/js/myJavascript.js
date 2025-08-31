@@ -165,7 +165,7 @@ function getSettingsData() {
   if (websck_is_connected) websocket.send(_js);
 	_js	= null;
 	data = null;
-  setTimeout(checkMillis, 1000); //delayed start here
+  setTimeout(pool_info_page, 1000); //delayed start here
 }
 /*-----------------------------------------------------------------------------------*/
 function pool_info_page() {
