@@ -74,13 +74,13 @@ $(document).ready(function() {
     websck_is_connected = 1;  
 		if (PAGENAME == 'settings') {
       verificaVersiune();
-      getSettingsData();
+      getSettingsData();  // pool_info_page() delayed included here
     } else {
       pool_info_page(); //pool now   
     }
     setTimeout(function() {
       checkMillis();
-    }, 2000);    
+    }, 8000);    
     console.log('Connection opened');
 }
 /*-----------------------------------------------------------------------------------*/
