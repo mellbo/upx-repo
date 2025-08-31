@@ -75,8 +75,9 @@ $(document).ready(function() {
 		if (PAGENAME == 'settings') {
       verificaVersiune();
       getSettingsData();
+    } else {
+      pool_info_page(); //pool now   
     }
-    pool_info_page(); //pool now   
     setTimeout(function() {
       checkMillis();
     }, 2000);    
@@ -163,7 +164,8 @@ function getSettingsData() {
 	let _js = JSON.stringify(data);	
   if (websck_is_connected) websocket.send(_js);
 	_js	= null;
-	data = null;  
+	data = null;
+  setTimeout(checkMillis, 1000); //delayed start here
 }
 /*-----------------------------------------------------------------------------------*/
 function pool_info_page() {
