@@ -207,7 +207,7 @@ function checkMillis() {
     }, 3000);
   } else {
     checkMillis.lastMillis = currentMillis;
-    timers.push(setTimeout(checkMillis, 3000)); // rearming checkMillis()
+    timers.push(setTimeout(checkMillis, 5000)); // rearming checkMillis()
   }
 }
 /*-----------------------------------------------------------------------------------*/
