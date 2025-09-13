@@ -532,10 +532,10 @@ function parseSettings(jsonData){
 	$("#setKEY130_ENABLE").attr('checked',(jsonData.SYSTEM["KEY130_ENABLE"].toLowerCase() === 'true'));
 	$("#setKEY255_ENABLE").attr('checked',(jsonData.SYSTEM["KEY255_ENABLE"].toLowerCase() === 'true'));
 	
-	$("#SetKEY110NAME").val(jsonData.SYSTEM["SetKEY110NAME"]);
-	$("#SetKEY120NAME").val(jsonData.SYSTEM["SetKEY120NAME"]);
-	$("#SetKEY130NAME").val(jsonData.SYSTEM["SetKEY130NAME"]);
-	$("#SetKEY255NAME").val(jsonData.SYSTEM["SetKEY255NAME"]);
+	$("#SetKEY110NAME").val(jsonData.SYSTEM["KEY110NAME"]);
+	$("#SetKEY120NAME").val(jsonData.SYSTEM["KEY120NAME"]);
+	$("#SetKEY130NAME").val(jsonData.SYSTEM["KEY130NAME"]);
+	$("#SetKEY255NAME").val(jsonData.SYSTEM["KEY255NAME"]);
 	
 	$("#setLivoloTestID").val(jsonData.SYSTEM["LivoloTestID"]);    
 	
