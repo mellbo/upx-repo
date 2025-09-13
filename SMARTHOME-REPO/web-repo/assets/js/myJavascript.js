@@ -523,15 +523,14 @@ function parseSettings(jsonData){
 	if (jsonData == null) {return;}
   console.log(jsonData);
   
-  //$("#set_THERMOSTAT_OUTSIDE_ENABLE").attr('checked',(jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"].toLowerCase() === 'true'));
   $("#set_THERMOSTAT_OUTSIDE_ENABLE").attr('checked',jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"]);  
-	$("#set_forceMainDoorOpen").attr('checked',(jsonData.SYSTEM["forceMainDoorOpen"].toLowerCase() === 'true'));
-	$("#set_AlowLightOFF").attr('checked',(jsonData.SYSTEM["AlowLightOFF"].toLowerCase() === 'true'));
+	$("#set_forceMainDoorOpen").attr('checked',jsonData.SYSTEM["forceMainDoorOpen"]);
+	$("#set_AlowLightOFF").attr('checked',jsonData.SYSTEM["AlowLightOFF"]);
 	
-	$("#setKEY110_ENABLE").attr('checked',(jsonData.SYSTEM["KEY110_ENABLE"].toLowerCase() === 'true'));
-	$("#setKEY120_ENABLE").attr('checked',(jsonData.SYSTEM["KEY120_ENABLE"].toLowerCase() === 'true'));
-	$("#setKEY130_ENABLE").attr('checked',(jsonData.SYSTEM["KEY130_ENABLE"].toLowerCase() === 'true'));
-	$("#setKEY255_ENABLE").attr('checked',(jsonData.SYSTEM["KEY255_ENABLE"].toLowerCase() === 'true'));
+	$("#setKEY110_ENABLE").attr('checked',jsonData.SYSTEM["KEY110_ENABLE"]);
+	$("#setKEY120_ENABLE").attr('checked',jsonData.SYSTEM["KEY120_ENABLE"]);
+	$("#setKEY130_ENABLE").attr('checked',jsonData.SYSTEM["KEY130_ENABLE"]);
+	$("#setKEY255_ENABLE").attr('checked',jsonData.SYSTEM["KEY255_ENABLE"]);
 	
 	$("#SetKEY110NAME").val(jsonData.SYSTEM["KEY110NAME"]);
 	$("#SetKEY120NAME").val(jsonData.SYSTEM["KEY120NAME"]);
@@ -552,8 +551,9 @@ function parseSettings(jsonData){
     $('#beepModeID').val(jsonData.SYSTEM["UserBeepMode"]);
 	$('#climatizareOption').val(jsonData.SYSTEM["CLIMA_MODE"]);
     $('#force24Thermo').val(jsonData.SYSTEM["THERMOSTATFORCE24"]);
-  $("#smartWelcomeEnable").attr('checked',(jsonData.SYSTEM["smartWelcomeEnable"].toLowerCase() === 'true'));
-  $("#smartWelcomeAutoSetup").attr('checked',(jsonData.SYSTEM["smartWelcomeAutoSetup"].toLowerCase() === 'true'));
+  $("#smartWelcomeEnable").attr('checked',jsonData.SYSTEM["smartWelcomeEnable"]);
+  $("#smartWelcomeAutoSetup").attr('checked',jsonData.SYSTEM["smartWelcomeAutoSetup"]);
+  
   $("#welcome_Luni").val(jsonData.SYSTEM["welcome_Luni"]);
   $("#welcome_Marti").val(jsonData.SYSTEM["welcome_Marti"]);
   $("#welcome_Miercuri").val(jsonData.SYSTEM["welcome_Miercuri"]);
