@@ -41,7 +41,6 @@ $(document).ready(function() {
 
     if (PAGENAME == 'settings') {
       inject_function_settings();      
-      //Load Calendar Data
       loadCalendar(); 
     }
 	
@@ -571,6 +570,14 @@ function parseSettings(jsonData){
 }
 
 function saveSettings() {
+    let data = {
+      "THERMOSTAT_OUTSIDE_ENABLE": $('#set_THERMOSTAT_OUTSIDE_ENABLE').is(":checked")
+    };
+    let _js = JSON.stringify(data);	
+    if (websck_is_connected) websocket.send(_js);
+    _js	= null;
+    data = null;  
+    
     console.log("Save Settings Disabled");
     return;
 	var sendData = {"act":"write","SYSTEM":{
