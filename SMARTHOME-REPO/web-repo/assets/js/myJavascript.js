@@ -43,7 +43,6 @@ $(document).ready(function() {
       inject_function_settings();      
       //Load Calendar Data
       loadCalendar(); 
-      loadSetings();
     }
 	
     if (PAGENAME == 'logs') {
@@ -74,7 +73,7 @@ $(document).ready(function() {
     websck_is_connected = 1;  
 		if (PAGENAME == 'settings') {
       verificaVersiune();
-      getSettingsData();  // pool_info_page() delayed included here
+      getSettingsDataCmd();  // pool_info_page() delayed included here
     } else {
       pool_info_page(); //pool now   
     }
@@ -118,7 +117,9 @@ function onMessage(event) {
     if (PAGENAME == 'index') {
       updLiveParamIndex(jsonObject);
     }
-    console.log(jsonObject);  // just for LAB
+    if (PAGENAME == 'settings') {
+     parseSettings(jsonObject);
+    }    
 		jsonObject = null;
 }
 /*-----------------------------------------------------------------------------------*/
@@ -155,7 +156,7 @@ const GET_DATA_TYPE  = 2;
 const ONLY_PING = 254;
       //ERROR_INSTANCE = 255 but not use from script->esp
 /*-----------------------------------------------------------------------------------*/      
-function getSettingsData() {
+function getSettingsDataCmd() {
   if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
   let data = {
 		"REQUEST_INFO": GET_DATA_TYPE
@@ -511,21 +512,7 @@ if(check == true){
   }
 }
 
-function loadSetings() {
-	/*PRELUARE DATE*/
-    console.log("loadSetings Disabled");
-    return;  
-	$.ajax({
-		url: "../php/settings_param.php",
-        type:'post',
-		data: {'act':'read'},
-		success: function(data) {
-            parseSettings(data);       
-		}
-	});
-}
-
-function parseSettings(raw){
+function parseSettings(jsonData){
 /*
     $('#set_THERMOSTAT_OUTSIDE_ENABLE').attr('checked',true);
     //alert($('#set_THERMOSTAT_OUTSIDE_ENABLE:checked').val() ? 1:);
@@ -533,12 +520,9 @@ function parseSettings(raw){
        $('#set_THERMOSTAT_OUTSIDE_ENABLE').attr('checked')?"True":"False" 
     );
 */
-    console.log("parseSettings Disabled");
-    return;
-    
-	var jsonData = JSON.parse(raw);
 	if (jsonData == null) {return;}
-    
+  console.log(jsonObject);
+  
   $("#set_THERMOSTAT_OUTSIDE_ENABLE").attr('checked',(jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"].toLowerCase() === 'true'));
 	$("#set_forceMainDoorOpen").attr('checked',(jsonData.SYSTEM["forceMainDoorOpen"].toLowerCase() === 'true'));
 	$("#set_AlowLightOFF").attr('checked',(jsonData.SYSTEM["AlowLightOFF"].toLowerCase() === 'true'));
@@ -919,7 +903,7 @@ function info_reboot_web(lvState){
 
 function loadNewBackGround() {
   const totalImages = 20;
-  const randomNum = Math.floor(Math.random() * totalImages) + 1;
+  const randomNum = Math.floor(Math.random() * 21);  // 0…20 inclusiv
   const element = document.querySelector('.home-product');
   if(element) {
     element.style.backgroundImage = `url("https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/img/background/${randomNum}.jpg")`;
