@@ -118,7 +118,7 @@ function onMessage(event) {
       updLiveParamIndex(jsonObject);
     }
     if (PAGENAME == 'settings') {
-     parseSettings(jsonObject);
+     if (jsonObject.hasOwnProperty("settings_data") == true) parseSettings(jsonObject);
     }    
 		jsonObject = null;
 }
