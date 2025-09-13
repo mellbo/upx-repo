@@ -521,7 +521,7 @@ function parseSettings(jsonData){
     );
 */
 	if (jsonData == null) {return;}
-  console.log(jsonObject);
+  console.log(jsonData);
   
   $("#set_THERMOSTAT_OUTSIDE_ENABLE").attr('checked',(jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"].toLowerCase() === 'true'));
 	$("#set_forceMainDoorOpen").attr('checked',(jsonData.SYSTEM["forceMainDoorOpen"].toLowerCase() === 'true'));
