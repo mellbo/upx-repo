@@ -512,16 +512,9 @@ if(check == true){
 }
 
 function parseSettings(jsonData){
-/*
-    $('#set_THERMOSTAT_OUTSIDE_ENABLE').attr('checked',true);
-    //alert($('#set_THERMOSTAT_OUTSIDE_ENABLE:checked').val() ? 1:);
-    alert(
-       $('#set_THERMOSTAT_OUTSIDE_ENABLE').attr('checked')?"True":"False" 
-    );
-*/
 	if (jsonData == null) {return;}
   console.log(jsonData);
-  console.log("THERMOSTAT_OUTSIDE_ENABLE = ",jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"]);
+  
   $("#set_THERMOSTAT_OUTSIDE_ENABLE").attr('checked',jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"]);  
 	$("#set_forceMainDoorOpen").attr('checked',jsonData.SYSTEM["forceMainDoorOpen"]);
 	$("#set_AlowLightOFF").attr('checked',jsonData.SYSTEM["AlowLightOFF"]);
