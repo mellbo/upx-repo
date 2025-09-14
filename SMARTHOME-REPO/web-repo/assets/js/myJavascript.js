@@ -708,6 +708,7 @@ function updLiveParamIndex(jsonData) {
 				
         //if (jsonData["AlowLightOFF"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
 				//$("#AlowLightOFF").html(DaSauNu);
+        console.log("AlowLightOFF",jsonData["AlowLightOFF"]?"DA":"NU");
         $("#AlowLightOFF").html(jsonData["AlowLightOFF"]?"DA":"NU");
         
 				if (jsonData["HomeIsAlone"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
