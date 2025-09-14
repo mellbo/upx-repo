@@ -636,6 +636,7 @@ function processCalorPos(id,calSt,calReq) {
 }
 
 function updLiveParamIndex(jsonData) {
+        console.log(jsonData);
 				//-->UPDATE ITEMS BY ID & INI 'NAME' ITEM
 				var DaSauNu = "";
         var blinkClass = "";
@@ -704,8 +705,11 @@ function updLiveParamIndex(jsonData) {
 				 $("#ClimaON").html(DaSauNu);				 
 				 $("#jalAutoModeRun").html(decodeJalAutoMode(jsonData["jalAutoModeRun"]));
 				 $("#LowLightPoint").html(jsonData["LowLightPoint"]);
-				if (jsonData["AlowLightOFF"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#AlowLightOFF").html(DaSauNu);
+				
+        //if (jsonData["AlowLightOFF"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
+				//$("#AlowLightOFF").html(DaSauNu);
+        $("#AlowLightOFF").html(jsonData["AlowLightOFF"]?"DA":"NU");
+        
 				if (jsonData["HomeIsAlone"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
 				 $("#HomeIsAlone").html(DaSauNu);
 				 $("#jaluzHisterizis").html(jsonData["jaluzHisterizis"]);
