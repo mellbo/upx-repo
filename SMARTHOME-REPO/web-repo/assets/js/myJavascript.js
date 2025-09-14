@@ -112,6 +112,11 @@ function onMessage(event) {
     
     let el = document.getElementById("idcMillis");
     if (el) el.innerText = jsonObject['cMs'];
+   
+    if (PAGENAME == 'settings') {
+      LAST_OUTDOOR_LDR = jsonData["dormitorLDR"];
+      $("#dormitorLDR").html(LAST_OUTDOOR_LDR);
+    }
     
     if (PAGENAME == 'index') {
       updLiveParamIndex(jsonObject);
@@ -218,8 +223,8 @@ function inject_function_settings() {
   /*SET ACTION*/
   
     /* QUICK SAVING SEND */
+    //set_THERMOSTAT_OUTSIDE_ENABLE
     $("#set_THERMOSTAT_OUTSIDE_ENABLE").on("change", function(e) {
-      console.log("set_THERMOSTAT_OUTSIDE_ENABLE:", $('#set_THERMOSTAT_OUTSIDE_ENABLE').is(":checked"));
       let data = {
           "THERMOSTAT_OUTSIDE_ENABLE": $('#set_THERMOSTAT_OUTSIDE_ENABLE').is(":checked")
         };
@@ -227,6 +232,30 @@ function inject_function_settings() {
       if (websck_is_connected) websocket.send(_js);
       _js	= null; data = null;          
     });
+    //save_welcome_setup: smartWelcomeEnable & smartWelcomeAutoSetup
+    $('#save_welcome_setup').on('click', function() { 
+      let data = {
+          "save_welcome_setup": 1,
+          "smartWelcomeEnable": $('#smartWelcomeEnable').is(":checked"),
+          "smartWelcomeAutoSetup": $('#smartWelcomeAutoSetup').is(":checked"),
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;          
+    });
+    // PREFERED_LIGHT_DORMITOR
+    $('#preff_ldr').on('click', function() {
+      PREFERED_LIGHT_DORMITOR = LAST_OUTDOOR_LDR;
+      $('#prefLDRShow').text(PREFERED_LIGHT_DORMITOR);
+      let data = {
+          "PREFERED_LIGHT_DORMITOR": PREFERED_LIGHT_DORMITOR
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;   
+    });
+    // AICI AI RAMAS
+    
     //-->
     //set_NewTEMPInCALL
     $('#set_NewTEMPInCALL').slider({
@@ -400,11 +429,6 @@ function inject_function_settings() {
         }
     });
 
-    $('#preff_ldr').on('click', function() {
-        PREFERED_LIGHT_DORMITOR = LAST_OUTDOOR_LDR;
-        saveSettings();
-    });
-
     $('#btnKeyInfo').on('click', function() {
         getLogs('readKeys');
     });
@@ -440,10 +464,6 @@ function inject_function_settings() {
             $("#dtOut").html("<div style='width:400px;' class='alert alert-danger' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><span>Completati ambele campuri.</span></div>");
         }
     })
-
-    $('#save2').on('click', function() {
-        saveSettings();
-    });
 
     $('#save').on('click', function() {
         saveSettings();
