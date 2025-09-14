@@ -697,7 +697,7 @@ function updLiveParamIndex(jsonData) {
 				 blinkClass = checkValueForBlink(jsonData["VOLTAGE_MAIN"],14.9,15.6);
 				 $("#VOLTAGE_MAIN").html('<div class="'+blinkClass+'">'+jsonData["VOLTAGE_MAIN"]+'</div>');
 				 
-				 $("#CentralaOn").html(jsonData["CentralaOn"]?"DA":"NU" + ' de ' + jsonData["IncalzireSecondsLastState"]);
+				 $("#CentralaOn").html((jsonData["CentralaOn"]?"DA":"NU") + ' de ' + jsonData["IncalzireSecondsLastState"]);
 				 $("#ClimaON").html(jsonData["ClimaOn"]?"DA":"NU");				 
 				 $("#jalAutoModeRun").html(decodeJalAutoMode(jsonData["jalAutoModeRun"]));
 				 $("#LowLightPoint").html(jsonData["LowLightPoint"]);		
