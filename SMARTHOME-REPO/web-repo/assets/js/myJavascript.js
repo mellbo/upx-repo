@@ -698,48 +698,48 @@ function updLiveParamIndex(jsonData) {
 				 $("#VOLTAGE_MAIN").html('<div class="'+blinkClass+'">'+jsonData["VOLTAGE_MAIN"]+'</div>');
 				 
 				 $("#CentralaOn").html((jsonData["CentralaOn"]?"DA":"NU") + ' de ' + jsonData["IncalzireSecondsLastState"]);
-				 $("#ClimaON").html(jsonData["ClimaOn"]?"DA":"NU");				 
+				 $("#ClimaON").html((jsonData["ClimaOn"]?"DA":"NU"));				 
 				 $("#jalAutoModeRun").html(decodeJalAutoMode(jsonData["jalAutoModeRun"]));
 				 $("#LowLightPoint").html(jsonData["LowLightPoint"]);		
-         $("#AlowLightOFF").html(jsonData["AlowLightOFF"]?"DA":"NU");
-				 $("#HomeIsAlone").html(jsonData["HomeIsAlone"]?"DA":"NU");
+         $("#AlowLightOFF").html((jsonData["AlowLightOFF"]?"DA":"NU"));
+				 $("#HomeIsAlone").html((jsonData["HomeIsAlone"]?"DA":"NU"));
 				 $("#jaluzHisterizis").html(jsonData["jaluzHisterizis"]);
     
 				 blinkClass = checkValueForBlink(jsonData["KEY110BATTERY"],2.75,3.30);
 				 $("#KEY110BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY110BATTERY"]+'</div>');				 				 
 				 $("#KEY110CONTOR").html(jsonData["KEY110CONTOR"]);
 				 $("#KEY110LASTSEEN").html(jsonData["KEY110LASTSEEN"]);
-				 $("#KEY110ENABLE").html(jsonData["KEY110ENABLE"]?"DA":"NU");
-				 $("#KEY110HOME").html(jsonData["KEY110HOME"]?"DA":"NU" +', de '+jsonData['KEY110LASTCHANGE']);
+				 $("#KEY110ENABLE").html((jsonData["KEY110ENABLE"]?"DA":"NU"));
+				 $("#KEY110HOME").html((jsonData["KEY110HOME"]?"DA":"NU") +', de '+jsonData['KEY110LASTCHANGE']);
 				 $("#KEY110NAME").html(jsonData["KEY110NAME"]);
 
 				 blinkClass = checkValueForBlink(jsonData["KEY120BATTERY"],2.75,3.30);
 				 $("#KEY120BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY120BATTERY"]+'</div>');					 
 				 $("#KEY120CONTOR").html(jsonData["KEY120CONTOR"]);
 				 $("#KEY120LASTSEEN").html(jsonData["KEY120LASTSEEN"]);
-				 $("#KEY120ENABLE").html(jsonData["KEY120ENABLE"]?"DA":"NU");
-				 $("#KEY120HOME").html(jsonData["KEY120HOME"]?"DA":"NU" +', de '+jsonData['KEY120LASTCHANGE']);
+				 $("#KEY120ENABLE").html((jsonData["KEY120ENABLE"]?"DA":"NU"));
+				 $("#KEY120HOME").html((jsonData["KEY120HOME"]?"DA":"NU") +', de '+jsonData['KEY120LASTCHANGE']);
 				 $("#KEY120NAME").html(jsonData["KEY120NAME"]);
 
 				 blinkClass = checkValueForBlink(jsonData["KEY130BATTERY"],2.75,3.30);
 				 $("#KEY130BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY130BATTERY"]+'</div>'); 
 				 $("#KEY130CONTOR").html(jsonData["KEY130CONTOR"]);
 				 $("#KEY130LASTSEEN").html(jsonData["KEY130LASTSEEN"]);
-				 $("#KEY130ENABLE").html(jsonData["KEY130ENABLE"]?"DA":"NU");
-				 $("#KEY130HOME").html(jsonData["KEY130HOME"]?"DA":"NU" +', de '+jsonData['KEY130LASTCHANGE']);
+				 $("#KEY130ENABLE").html((jsonData["KEY130ENABLE"]?"DA":"NU"));
+				 $("#KEY130HOME").html((jsonData["KEY130HOME"]?"DA":"NU") +', de '+jsonData['KEY130LASTCHANGE']);
 				 $("#KEY130NAME").html(jsonData["KEY130NAME"]);
 
 				 blinkClass = checkValueForBlink(jsonData["KEY255BATTERY"],2.75,3.30);
 				 $("#KEY255BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY255BATTERY"]+'</div>'); 				 
 				 $("#KEY255CONTOR").html(jsonData["KEY255CONTOR"]);
 				 $("#KEY255LASTSEEN").html(jsonData["KEY255LASTSEEN"]);
-				 $("#KEY255ENABLE").html(jsonData["KEY255ENABLE"]?"DA":"NU");
-				 $("#KEY255HOME").html(jsonData["KEY255HOME"]?"DA":"NU" +', de '+jsonData['KEY255LASTCHANGE']);
+				 $("#KEY255ENABLE").html((jsonData["KEY255ENABLE"]?"DA":"NU"));
+				 $("#KEY255HOME").html((jsonData["KEY255HOME"]?"DA":"NU") +', de '+jsonData['KEY255LASTCHANGE']);
 				 $("#KEY255NAME").html(jsonData["KEY255NAME"]);
     
 				 $("#TEMP_INDOOR_CALCULATION_METHOD").html(jsonData["TEMP_INDOOR_CALCULATION_METHOD"]);
 				 $("#CENTRALA_ON_HISTERIZIS").html(jsonData["CENTRALA_ON_HISTERIZIS"]);
-				 $("#THERMOSTAT_OUTSIDE_ENABLE").html(jsonData["THERMOSTAT_OUTSIDE_ENABLE"]?"DA":"NU");
+				 $("#THERMOSTAT_OUTSIDE_ENABLE").html((jsonData["THERMOSTAT_OUTSIDE_ENABLE"]?"DA":"NU"));
 				 $("#ThisUpdateTime").html(jsonData["ThisUpdateTime"]);
 				 $("#TEMP_GATEWAY").html(jsonData["TEMP_GATEWAY"]);
 				 $("#TEMP_MATRIX").html((temp_resimtita(parseFloat(jsonData["MATRIX_INDOOR"]), parseFloat(jsonData["HOL_HUMIDITY"]), 0.2))).toString();
