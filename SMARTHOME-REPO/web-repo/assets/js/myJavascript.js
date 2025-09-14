@@ -114,7 +114,7 @@ function onMessage(event) {
     if (el) el.innerText = jsonObject['cMs'];
    
     if (PAGENAME == 'settings') {
-      LAST_OUTDOOR_LDR = jsonData["dormitorLDR"];
+      LAST_OUTDOOR_LDR = jsonObject["dormitorLDR"];
       $("#dormitorLDR").html(LAST_OUTDOOR_LDR);
     }
     
