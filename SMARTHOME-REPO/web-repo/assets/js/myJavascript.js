@@ -232,17 +232,30 @@ function inject_function_settings() {
       if (websck_is_connected) websocket.send(_js);
       _js	= null; data = null;          
     });
+    
     //save_welcome_setup: smartWelcomeEnable & smartWelcomeAutoSetup
-    $('#save_welcome_setup').on('click', function() { 
+    $('#save_welcome_setup').on('click', function() {
+      let times = [];
+       times.push($('#welcome_Luni').val());
+       times.push($('#welcome_Marti').val());
+       times.push($('#welcome_Miercuri').val());
+       times.push($('#welcome_Joi').val());
+       times.push($('#welcome_Vineri').val());
+       times.push($('#welcome_Sambata').val());
+       times.push($('#welcome_Duminica').val());
+
       let data = {
           "save_welcome_setup": 1,
           "smartWelcomeEnable": $('#smartWelcomeEnable').is(":checked"),
           "smartWelcomeAutoSetup": $('#smartWelcomeAutoSetup').is(":checked"),
+          "smartWelcomeTimes": times
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
-      _js	= null; data = null;          
+      _js	= null; data = null;
+      $('#metodaCalculBtn').addClass('in');
     });
+    
     // PREFERED_LIGHT_DORMITOR
     $('#preff_ldr').on('click', function() {
       PREFERED_LIGHT_DORMITOR = LAST_OUTDOOR_LDR;
