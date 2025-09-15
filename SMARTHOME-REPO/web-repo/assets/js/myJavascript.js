@@ -591,13 +591,13 @@ function parseSettings(jsonData){
   $("#smartWelcomeEnable").attr('checked',jsonData.SYSTEM["smartWelcomeEnable"]);
   $("#smartWelcomeAutoSetup").attr('checked',jsonData.SYSTEM["smartWelcomeAutoSetup"]);
   
-  $("#welcome_Luni").val(jsonData.SYSTEM["welcome_Luni"]);
-  $("#welcome_Marti").val(jsonData.SYSTEM["welcome_Marti"]);
-  $("#welcome_Miercuri").val(jsonData.SYSTEM["welcome_Miercuri"]);
-  $("#welcome_Joi").val(jsonData.SYSTEM["welcome_Joi"]);
-  $("#welcome_Vineri").val(jsonData.SYSTEM["welcome_Vineri"]);
-  $("#welcome_Sambata").val(jsonData.SYSTEM["welcome_Sambata"]);
-  $("#welcome_Duminica").val(jsonData.SYSTEM["welcome_Duminica"]);
+  $("#welcome_Luni").val(jsonData.SYSTEM["Welcome_Time"]["day1"]);
+  $("#welcome_Marti").val(jsonData.SYSTEM["Welcome_Time"]["day2"]);
+  $("#welcome_Miercuri").val(jsonData.SYSTEM["Welcome_Time"]["day3"]);
+  $("#welcome_Joi").val(jsonData.SYSTEM["Welcome_Time"]["day4"]);
+  $("#welcome_Vineri").val(jsonData.SYSTEM["Welcome_Time"]["day5"]);
+  $("#welcome_Sambata").val(jsonData.SYSTEM["Welcome_Time"]["day6"]);
+  $("#welcome_Duminica").val(jsonData.SYSTEM["Welcome_Time"]["day7"]);
 
   if ($("#smartWelcomeAutoSetup").is(':checked')) {
    event.preventDefault();
