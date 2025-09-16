@@ -272,7 +272,7 @@ function inject_function_settings() {
     //CENTRALA_ON_HISTERIZIS
     $('#apply_CENTRALA_ON_HISTERIZIS').on('click', function() {
       let data = {
-          "CENTRALA_ON_HISTERIZIS": $("#set_CENTRALA_ON_HISTERIZIS").val();
+          "CENTRALA_ON_HISTERIZIS": $("#set_CENTRALA_ON_HISTERIZIS").val()
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
@@ -284,7 +284,7 @@ function inject_function_settings() {
     //TEMP_INDOOR_CALCULATION_METHOD
     $('#apply_TEMP_INDOOR_CALCULATION_METHOD').on('click', function() {
       let data = {
-          "TEMP_INDOOR_CALCULATION_METHOD": $("#set_TEMP_INDOOR_CALCULATION_METHOD").val();
+          "TEMP_INDOOR_CALCULATION_METHOD": $("#set_TEMP_INDOOR_CALCULATION_METHOD").val()
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
