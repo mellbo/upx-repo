@@ -134,7 +134,7 @@ input[type='checkbox'] {
 }
 
 .noPadding() {
-  padding: 0px;
+  padding: 0px !important;
 }
 
 @keyframes blink {
