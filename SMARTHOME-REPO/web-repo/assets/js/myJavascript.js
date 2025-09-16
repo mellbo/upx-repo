@@ -499,7 +499,11 @@ function inject_function_settings() {
         } else {
           $('.smartWelcome').prop("disabled", false);
         }
-     });      
+     });
+    document.getElementById('idRestoreESP').addEventListener('click', restoreESP);
+    document.getElementById('idRebootESP').addEventListener('click', rebootESP);
+    document.getElementById('idShutDown').addEventListener('click', PowerOff);
+    document.getElementById('idBtnSafeMod').addEventListener('click', rebootInSafeMode);
 } //.inject_function_settings()
 /*-----------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
@@ -941,3 +945,72 @@ function loadNewBackGround() {
     element.style.backgroundImage = `url("https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/img/background/${randomNum}.jpg")`;
   }  
 }
+
+/*------------------------------------------------------------------------------------------------*/
+function restoreESP(){
+	let data = {
+		"RESET": 1
+	};
+	
+	let _js = JSON.stringify(data);	
+    if (websck_is_connected) websocket.send(_js);
+	_js	= null;
+	data = null;
+	alert("The system is resetting and restarting, approximately 1 minute.\n" +
+      "After restoration, you may need to enter SAFEMODE\n" +
+      "to input the configuration data for Internet WIFI.\n" +
+      "My address in AP mode is: http://192.168.1.1");
+
+	setTimeout(function(){
+		window.location.replace("http://192.168.1.1");
+		}, 3000);			  
+}
+/*------------------------------------------------------------------------------------------------*/
+function rebootESP(){
+	let data = {
+		"RESTART": 1
+	};
+	
+	let _js = JSON.stringify(data);	
+    if (websck_is_connected) websocket.send(_js);
+	_js	= null;
+	data = null;
+	alert("The system is restarting, 30 seconds.\n" +
+      "Refresh the page after the time has elapsed.");
+
+	setTimeout(function(){
+		location.reload();
+		}, 3000);		  
+}
+/*------------------------------------------------------------------------------------------------*/
+function PowerOff(){
+	if (confirm("Do you really want to shut down the system?")) {
+		let data = {"SHUTDOWN": 1};
+		let _js = JSON.stringify(data);	
+		if (websck_is_connected) websocket.send(_js);
+		_js	= null;
+		data = null;
+		alert("Power OFF.\nHave nice Day.");
+    window.location.replace("https://upx.ro");
+	}
+}
+/*------------------------------------------------------------------------------------------------*/
+function rebootInSafeMode(){
+	let data = {
+		"SAFEMODE": 1
+	};
+	
+	let _js = JSON.stringify(data);	
+    if (websck_is_connected) websocket.send(_js);
+	_js	= null;
+	data = null;
+	alert("The system is restarting and will run in AP-SAFEMODE.\n" +
+      "Look for the WIFI SSID 'UPX-VPS-GATEWAY' and connect to it.\n" +
+      "My address for AP is: http://192.168.1.1\n\n" +
+      "Confirm this dialog after you are already connected to 'UPX-SMARTHOME'!");
+
+	setTimeout(function(){
+		window.location.replace("http://192.168.1.1");
+		}, 3000);		  
+}
+/*------------------------------------------------------------------------------------------------*/

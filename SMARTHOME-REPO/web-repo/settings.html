@@ -399,20 +399,35 @@
                 <div class="hidden-xs hidden-sm intro" style="height:4px;background-color:#ff0f00;"></div>
                 <div style="height:15px;"></div>
             </div>
-            <div class="col-md-12 hidden-xs hidden-sm"><div class="card m-0 cardSettings">
-    <div class="card-body">
-        <form>
-            <p class="m-0 mb-2 small label font_dig7">Mode DFU - Firmware Upload Mode</p>
-            <div id="idBtnARMING" class="form-group p-2 actBtnArming"><span class="small label">ACTIVATE DFU</span></div>
-            <hr /><span class="m-0 mb-2 small label font_dig7">Manage ESP</span>
-            <div id="idBtnSafeMod" class="form-group actBtnSafeMod"><span class="small label">Reboot in SAFE MODE <span class="small clRed">UPX-VPS-GATEWAY</span></span></div>
-            <div id="idRestoreESP" class="form-group actBtnReset"><span class="small label">Restore SYSTEM to DEFAULT</span></div>
-            <div id="idRebootESP" class="form-group actBtnRestart"><span class="small label">REBOOT SYSYEM</span></div>
-            <div id="idLogOut" class="form-group actBtnLogOut"><a class="label" href="/logout">LOGOUT</a></div>
-            <div id="idLogShutDown" class="form-group actBtnShtDown"><span class="small label"><i class="fa fa-power-off text-warning pr-3"></i>SHUTDOWN ESP</span></div>
-        </form><span id="idInfoIP" class="info">%ROUTERIP%</span>
-    </div>
-</div></div>
+            <div class="col-md-12 hidden-xs hidden-sm">
+                <div class="panel panel-info" style="background-color:transparent;">
+                    <div class="panel-heading" style="background-color:#336699;">
+                        <h3 class="panel-title" style="background-color:transparent;color:#ffcc1e;"><i class="icon ion-android-settings" style="padding:0px;margin:0;width:22px;color:#ffcc1e;"></i> KEY SETUP</h3>
+                    </div>
+                    <div class="panel-body" style="color:rgb(255,255,255);">
+                        <div class="col-md-3 col-sm-3" style="background-color:#336699;">
+                            <form>
+                                <div class="form-group actBtnSafeMod" id="idBtnSafeMod"><span class="label">REBOT IN SAFEMODE</span></div>
+                            </form>
+                        </div>
+                        <div class="col-md-3 col-sm-3" style="background-color:#336699;">
+                            <form>
+                                <div class="form-group actBtnReset" id="idRestoreESP"><span class="label">RESTORE SYSTEM</span></div>
+                            </form>
+                        </div>
+                        <div class="col-md-3 col-sm-3" style="background-color:#336699;">
+                            <form>
+                                <div class="form-group actBtnRestart" id="idRebootESP"><span class="label">REBOOT</span></div>
+                            </form>
+                        </div>
+                        <div class="col-md-3 col-sm-3" style="background-color:#336699;">
+                            <form>
+                                <div class="form-group actBtnShtDown" id="idShutDown"><span class="label">SHUTDOWN</span></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div style="height:15px;"></div>
     </div>

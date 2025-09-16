@@ -57,20 +57,6 @@ input[type='checkbox'] {
 
 /* PAGE SETTINGS */
 
-.cardStyle {
-  min-width: 100%;
-  box-shadow: none;
-  border: 0 none;
-  border-radius: 0px;
-  border-bottom: 2px var(--yellow) solid;
-}
-
-.cardSettings {
-  color: white;
-  box-shadow: 0px 0px 4px 3px var(--yellow);
-  background: linear-gradient(rgb(24,48,119) 0%, rgb(33,169,175) 29%);
-}
-
 .actBtnSafeMod {
   background: #424242;
   box-shadow: 0px 0px 7px 3px;
@@ -87,10 +73,11 @@ input[type='checkbox'] {
   color: rgb(245,245,245);
   width: 100% !important;
   font-weight: 500;
+  font-size: inherit;
 }
 
 .actBtnReset {
-  background: var(--danger);
+  background: #cba009;
   box-shadow: 0px 0px 7px 3px;
   text-align: center;
   cursor: pointer;
@@ -105,28 +92,11 @@ input[type='checkbox'] {
   color: rgb(245,245,245);
   width: 100% !important;
   font-weight: 500;
-}
-
-.actBtnLogOut {
-  background: var(--blue);
-  box-shadow: 0px 0px 7px 3px;
-  text-align: center;
-  cursor: pointer;
-  padding: 5px;
-}
-
-.actBtnLogOut:hover {
-  color: #02e1ff;
-}
-
-.actBtnLogOut .label {
-  font-weight: 700;
-  color: rgb(245,245,245);
-  width: 100% !important;
+  font-size: inherit;
 }
 
 .actBtnShtDown {
-  background: var(--pink);
+  background: #ea2215;
   box-shadow: 0px 0px 7px 3px;
   text-align: center;
   cursor: pointer;
@@ -141,32 +111,11 @@ input[type='checkbox'] {
   font-weight: 700;
   color: rgb(239,230,3);
   width: 100% !important;
-}
-
-.actBtnArming {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  background: var(--green);
-  box-shadow: 0px 0px 7px 3px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.actBtnArming:hover {
-  color: #00ff38;
-}
-
-.actBtnArming .label {
-  color: rgb(255,255,255);
-  width: 100% !important;
-  font-size: larger;
-  font-weight: 700;
+  font-size: inherit;
 }
 
 .actBtnRestart {
-  background: var(--yellow);
+  background: rgb(87,174,0);
   box-shadow: 0px 0px 7px 3px;
   text-align: center;
   cursor: pointer;
@@ -181,22 +130,7 @@ input[type='checkbox'] {
   color: rgb(160,0,0);
   width: 100% !important;
   font-weight: 500;
-}
-
-.actBtnGateway {
-  background: var(--pink);
-  box-shadow: 0px 0px 7px 3px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.actBtnGateway:hover {
-  color: rgb(255,18,231);
-}
-
-.actBtnGateway .label {
-  color: rgb(255,255,255);
-  width: 100% !important;
+  font-size: inherit;
 }
 
 @keyframes blink {
