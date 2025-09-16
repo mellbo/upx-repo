@@ -910,11 +910,11 @@ function checkIfMobile() {
         if( viewport == 'xs' ) {
             $('#interfaceContainer').removeClass('home-product');
             $('#sumarID').addClass('hidden');
-            document.getElementById("settingsContainerID").classList.add("noPadding");
+            $('#settingsContainerID').addClass('noPadding');
             return true;
         } else {
-            document.getElementById("settingsContainerID").classList.remove("noPadding");
-            return false;
+          $('#settingsContainerID').removeClass('noPadding');
+          return false;
         }
 }
 
