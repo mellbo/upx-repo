@@ -997,6 +997,7 @@ function PowerOff(){
 }
 /*------------------------------------------------------------------------------------------------*/
 function rebootInSafeMode(){
+  ERROR_INSTANCE = 1;
 	let data = {
 		"SAFEMODE": 1
 	};
