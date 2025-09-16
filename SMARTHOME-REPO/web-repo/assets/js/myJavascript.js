@@ -288,6 +288,7 @@ function inject_function_settings() {
     });
 
     //set_CENTRALA_ON_HISTERIZIS
+    /*
     $("#set_CENTRALA_ON_HISTERIZIS").slider({
         id: 'ex1Slider', //class
         min: 0.2,
@@ -299,6 +300,7 @@ function inject_function_settings() {
         handle: 'round',
         focus: false,
     });
+    */
     $("#set_CENTRALA_ON_HISTERIZIS").on("change", function(slideEvt) {
         $("#param1Value").text($(this).val());
     });
