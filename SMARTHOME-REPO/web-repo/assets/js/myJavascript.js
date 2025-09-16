@@ -959,7 +959,8 @@ function restoreESP(){
 	alert("The system is resetting and restarting, approximately 1 minute.\n" +
       "After restoration, you may need to enter SAFEMODE\n" +
       "to input the configuration data for Internet WIFI.\n" +
-      "My address in AP mode is: http://192.168.1.1");
+      "My address for AP is: http://192.168.1.1\n\n" +
+      "Confirm this dialog after you are already connected to 'UPX-SMARTHOME'!");
 
 	setTimeout(function(){
 		window.location.replace("http://192.168.1.1");
