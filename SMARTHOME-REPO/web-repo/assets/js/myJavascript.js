@@ -3,7 +3,7 @@ var PAGENAME = '';
 var AddNewTemperatureInMonth = '';
 var resetThermostat = 0;
 var PREFERED_LIGHT_DORMITOR = 0;
-var LAST_OUTDOOR_LDR = 0;
+var LIVE_DORMITOR_LDR = 0;
 var idleTime = 0;
 var THERMOSTATLAST = '';
 var timers = [];
@@ -100,6 +100,9 @@ $(document).ready(function() {
 function onMessage(event) {
 	let jsonObject = JSON.parse(event.data);
 		millis_esp = parseInt(jsonObject['cMs'], 10);
+    if (jsonObject.hasOwnProperty("dormitorLDR") == true)
+      LIVE_DORMITOR_LDR = jsonObject["dormitorLDR"];
+    
     //quick banned from server
     if (jsonObject.hasOwnProperty("ERROR_INSTANCE") == true) {
       ERROR_INSTANCE = 1;
@@ -118,9 +121,8 @@ function onMessage(event) {
     }
     
     if (PAGENAME == 'settings') {
-      LAST_OUTDOOR_LDR = jsonObject["dormitorLDR"];
-      $("#dormitorLDR").html(LAST_OUTDOOR_LDR);
-      console.log(LAST_OUTDOOR_LDR);
+      $("#dormitorLDR").html(LIVE_DORMITOR_LDR);
+      console.log(LIVE_DORMITOR_LDR);
       if (jsonObject.hasOwnProperty("settings_data") == true) parseSettings(jsonObject);
     }    
 		jsonObject = null;
@@ -257,7 +259,7 @@ function inject_function_settings() {
     
     // PREFERED_LIGHT_DORMITOR
     $('#preff_ldr').on('click', function() {
-      PREFERED_LIGHT_DORMITOR = LAST_OUTDOOR_LDR;
+      PREFERED_LIGHT_DORMITOR = LIVE_DORMITOR_LDR;
       $('#prefLDRShow').text(PREFERED_LIGHT_DORMITOR);
       let data = {
           "PREFERED_LIGHT_DORMITOR": PREFERED_LIGHT_DORMITOR
@@ -803,9 +805,9 @@ function updLiveParamIndex(jsonData) {
 				 $("#TEMP_GATEWAY").html(jsonData["TEMP_GATEWAY"]);
 				 $("#TEMP_MATRIX").html((temp_resimtita(parseFloat(jsonData["MATRIX_INDOOR"]), parseFloat(jsonData["HOL_HUMIDITY"]), 0.2))).toString();
 				 $("#jalModeNow").html(decodeJalModeNow(jsonData["jalModeNow"]));
+         LIVE_DORMITOR_LDR = jsonData["dormitorLDR"];
 				 $("#outdoorLDR").html(jsonData["outdoorLDR"]);
-				 $("#dormitorLDR").html(jsonData["dormitorLDR"]);
-         LAST_OUTDOOR_LDR = jsonData["dormitorLDR"];
+				 $("#dormitorLDR").html(LIVE_DORMITOR_LDR);      
 				 $("#MATRIX_INDOOR").html(jsonData["MATRIX_INDOOR"]);
 				 $("#jalAutoModeRunDSP").html(jsonData["jalAutoModeRun"]);    
          $("#updateTime").text(jsonData["ThisUpdateTime"]);
