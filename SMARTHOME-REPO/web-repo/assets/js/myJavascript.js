@@ -268,6 +268,32 @@ function inject_function_settings() {
       if (websck_is_connected) websocket.send(_js);
       _js	= null; data = null;   
     });
+    
+    //CENTRALA_ON_HISTERIZIS
+    $('#apply_CENTRALA_ON_HISTERIZIS').on('click', function() {
+      let data = {
+          "CENTRALA_ON_HISTERIZIS": $("#set_CENTRALA_ON_HISTERIZIS").val();
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_CENTRALA_ON_HISTERIZIS').addClass('hidden'); 
+    });
+    
+    //TEMP_INDOOR_CALCULATION_METHOD
+    $('#apply_TEMP_INDOOR_CALCULATION_METHOD').on('click', function() {
+      let data = {
+          "TEMP_INDOOR_CALCULATION_METHOD": $("#set_TEMP_INDOOR_CALCULATION_METHOD").val();
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_TEMP_INDOOR_CALCULATION_METHOD').addClass('hidden'); 
+    });
+    
+    //jalAutoModeRun    
     // AICI AI RAMAS
     
     //--> QUICK SAVING SEND 
@@ -599,12 +625,12 @@ function parseSettings(jsonData){
 	setSlideValue("#set_LowLightPoint","#param4Value",jsonData.SYSTEM["LowLightPoint"]);
 	setSlideValue("#set_jaluzHisterizis","#param5Value",jsonData.SYSTEM["jaluzHisterizis"]);
 	setSlideValue("#set_FunTemperatureTrigger","#param6Value",jsonData.SYSTEM["FunTemperatureTrigger"]);	
-    PREFERED_LIGHT_DORMITOR = jsonData.SYSTEM["PREFERED_LIGHT_DORMITOR"];
-    THERMOSTATLAST = jsonData.SYSTEM["THERMOSTAT_LAST"];
-    $('#prefLDRShow').text(PREFERED_LIGHT_DORMITOR);
-    $('#beepModeID').val(jsonData.SYSTEM["UserBeepMode"]);
+  PREFERED_LIGHT_DORMITOR = jsonData.SYSTEM["PREFERED_LIGHT_DORMITOR"];
+  THERMOSTATLAST = jsonData.SYSTEM["THERMOSTAT_LAST"];
+  $('#prefLDRShow').text(PREFERED_LIGHT_DORMITOR);
+  $('#beepModeID').val(jsonData.SYSTEM["UserBeepMode"]);
 	$('#climatizareOption').val(jsonData.SYSTEM["CLIMA_MODE"]);
-    $('#force24Thermo').val(jsonData.SYSTEM["THERMOSTATFORCE24"]);
+  $('#force24Thermo').val(jsonData.SYSTEM["THERMOSTATFORCE24"]);
   $("#smartWelcomeEnable").attr('checked',jsonData.SYSTEM["smartWelcomeEnable"]);
   $("#smartWelcomeAutoSetup").attr('checked',jsonData.SYSTEM["smartWelcomeAutoSetup"]);
   
@@ -769,7 +795,7 @@ function updLiveParamIndex(jsonData) {
     
 				 blinkClass = checkValueForBlink(jsonData["KEY110BATTERY"],2.75,3.30);
 				 $("#KEY110BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY110BATTERY"]+'</div>');				 				 
-				 $("#KEY110CONTOR").html(jsonData["KEY110CONTOR"]);
+				 //--$("#KEY110CONTOR").html(jsonData["KEY110CONTOR"]);
 				 $("#KEY110LASTSEEN").html(jsonData["KEY110LASTSEEN"]);
 				 $("#KEY110ENABLE").html((jsonData["KEY110ENABLE"]?"DA":"NU"));
 				 $("#KEY110HOME").html((jsonData["KEY110HOME"]?"DA":"NU") +', de '+jsonData['KEY110LASTCHANGE']);
@@ -777,7 +803,7 @@ function updLiveParamIndex(jsonData) {
 
 				 blinkClass = checkValueForBlink(jsonData["KEY120BATTERY"],2.75,3.30);
 				 $("#KEY120BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY120BATTERY"]+'</div>');					 
-				 $("#KEY120CONTOR").html(jsonData["KEY120CONTOR"]);
+				 //--$("#KEY120CONTOR").html(jsonData["KEY120CONTOR"]);
 				 $("#KEY120LASTSEEN").html(jsonData["KEY120LASTSEEN"]);
 				 $("#KEY120ENABLE").html((jsonData["KEY120ENABLE"]?"DA":"NU"));
 				 $("#KEY120HOME").html((jsonData["KEY120HOME"]?"DA":"NU") +', de '+jsonData['KEY120LASTCHANGE']);
@@ -785,7 +811,7 @@ function updLiveParamIndex(jsonData) {
 
 				 blinkClass = checkValueForBlink(jsonData["KEY130BATTERY"],2.75,3.30);
 				 $("#KEY130BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY130BATTERY"]+'</div>'); 
-				 $("#KEY130CONTOR").html(jsonData["KEY130CONTOR"]);
+				 //--$("#KEY130CONTOR").html(jsonData["KEY130CONTOR"]);
 				 $("#KEY130LASTSEEN").html(jsonData["KEY130LASTSEEN"]);
 				 $("#KEY130ENABLE").html((jsonData["KEY130ENABLE"]?"DA":"NU"));
 				 $("#KEY130HOME").html((jsonData["KEY130HOME"]?"DA":"NU") +', de '+jsonData['KEY130LASTCHANGE']);
@@ -793,7 +819,7 @@ function updLiveParamIndex(jsonData) {
 
 				 blinkClass = checkValueForBlink(jsonData["KEY255BATTERY"],2.75,3.30);
 				 $("#KEY255BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY255BATTERY"]+'</div>'); 				 
-				 $("#KEY255CONTOR").html(jsonData["KEY255CONTOR"]);
+				 //--$("#KEY255CONTOR").html(jsonData["KEY255CONTOR"]);
 				 $("#KEY255LASTSEEN").html(jsonData["KEY255LASTSEEN"]);
 				 $("#KEY255ENABLE").html((jsonData["KEY255ENABLE"]?"DA":"NU"));
 				 $("#KEY255HOME").html((jsonData["KEY255HOME"]?"DA":"NU") +', de '+jsonData['KEY255LASTCHANGE']);
@@ -802,7 +828,7 @@ function updLiveParamIndex(jsonData) {
 				 $("#TEMP_INDOOR_CALCULATION_METHOD").html(jsonData["TEMP_INDOOR_CALCULATION_METHOD"]);
 				 $("#CENTRALA_ON_HISTERIZIS").html(jsonData["CENTRALA_ON_HISTERIZIS"]);
 				 $("#THERMOSTAT_OUTSIDE_ENABLE").html((jsonData["THERMOSTAT_OUTSIDE_ENABLE"]?"DA":"NU"));
-				 $("#ThisUpdateTime").html(jsonData["ThisUpdateTime"]);
+				 //-?$("#ThisUpdateTime").html(jsonData["ThisUpdateTime"]);
 				 $("#TEMP_GATEWAY").html(jsonData["TEMP_GATEWAY"]);
 				 $("#TEMP_MATRIX").html((temp_resimtita(parseFloat(jsonData["MATRIX_INDOOR"]), parseFloat(jsonData["HOL_HUMIDITY"]), 0.2))).toString();
 				 $("#jalModeNow").html(decodeJalModeNow(jsonData["jalModeNow"]));
@@ -811,7 +837,7 @@ function updLiveParamIndex(jsonData) {
 				 $("#dormitorLDR").html(LIVE_DORMITOR_LDR);      
 				 $("#MATRIX_INDOOR").html(jsonData["MATRIX_INDOOR"]);
 				 $("#jalAutoModeRunDSP").html(jsonData["jalAutoModeRun"]);    
-         $("#updateTime").text(jsonData["ThisUpdateTime"]);
+         $("#updateTime").text(jsonData["LocalTime"]);
 }
 
 function getLogs(type) {
