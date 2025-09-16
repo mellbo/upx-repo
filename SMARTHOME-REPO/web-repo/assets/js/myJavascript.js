@@ -270,7 +270,8 @@ function inject_function_settings() {
     });
     // AICI AI RAMAS
     
-    //-->
+    //--> QUICK SAVING SEND 
+    
     //set_NewTEMPInCALL
     $('#set_NewTEMPInCALL').slider({
         id: 'ex1Slider', //class
