@@ -905,16 +905,15 @@ function checkValueForBlink(value,minVal,MaxVal) {
     }
 }
 
-// AICI CE FAC ???!!!!!!
 function checkIfMobile() {
     var viewport = $('.xyzzy:visible').attr('data-size');
         if( viewport == 'xs' ) {
             $('#interfaceContainer').removeClass('home-product');
-            //$('#loginID').removeClass('home-product');  // not find in file
-            //$('#LogsContainerID').removeClass('home-product'); //not find in file
             $('#sumarID').addClass('hidden');
+            document.getElementById("settingsContainerID").classList.add("noPadding");
             return true;
         } else {
+            document.getElementById("settingsContainerID").classList.remove("noPadding");
             return false;
         }
 }

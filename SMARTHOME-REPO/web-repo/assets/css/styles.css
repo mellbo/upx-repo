@@ -133,6 +133,10 @@ input[type='checkbox'] {
   font-size: inherit;
 }
 
+.noPadding() {
+  padding: 0px;
+}
+
 @keyframes blink {
   0% {
     opacity: 0.10;
