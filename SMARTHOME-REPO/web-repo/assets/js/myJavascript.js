@@ -111,18 +111,17 @@ function onMessage(event) {
     }
     
     let el = document.getElementById("idcMillis");
-    if (el) el.innerText = jsonObject['cMs'];
-   
-    if (PAGENAME == 'settings') {
-      LAST_OUTDOOR_LDR = jsonObject["dormitorLDR"];
-      $("#dormitorLDR").html(LAST_OUTDOOR_LDR);
-    }
+    if (el) el.innerText = millis_esp;
     
     if (PAGENAME == 'index') {
       updLiveParamIndex(jsonObject);
     }
+    
     if (PAGENAME == 'settings') {
-     if (jsonObject.hasOwnProperty("settings_data") == true) parseSettings(jsonObject);
+      LAST_OUTDOOR_LDR = jsonObject["dormitorLDR"];
+      $("#dormitorLDR").html(LAST_OUTDOOR_LDR);
+      console.log(LAST_OUTDOOR_LDR);
+      if (jsonObject.hasOwnProperty("settings_data") == true) parseSettings(jsonObject);
     }    
 		jsonObject = null;
 }
@@ -302,6 +301,7 @@ function inject_function_settings() {
 
     $("#set_CENTRALA_ON_HISTERIZIS").on("change", function(slideEvt) {
         $("#param1Value").text($(this).val());
+        $("#apply_CENTRALA_ON_HISTERIZIS").removeClass('hidden');
     });
 
     //set_TEMP_INDOOR_CALCULATION_METHOD
@@ -319,6 +319,7 @@ function inject_function_settings() {
     $("#set_TEMP_INDOOR_CALCULATION_METHOD").on("change", function(slideEvt) {
         $("#param2Value").text($(this).val());
         $('#metodaCalculBtn').addClass('in');
+        $("#apply_TEMP_INDOOR_CALCULATION_METHOD").removeClass('hidden');
     });
 
     //set_jalAutoModeRun
@@ -337,20 +338,25 @@ function inject_function_settings() {
 
     $("#set_jalAutoModeRun").on("change", function(slideEvt) {
         $("#param3Value").text($(this).val());
+        $("#apply_jalAutoModeRun").removeClass('hidden');
     });
 
     //preset
     $("#MROFF").on("click", function(e) {
         setSlideValue("#set_jalAutoModeRun", "#param3Value", 0);
+        $("#apply_jalAutoModeRun").removeClass('hidden');
     });
     $("#MRUP").on("click", function(e) {
         setSlideValue("#set_jalAutoModeRun", "#param3Value", 1);
+        $("#apply_jalAutoModeRun").removeClass('hidden');
     });
     $("#MRDOWN").on("click", function(e) {
         setSlideValue("#set_jalAutoModeRun", "#param3Value", 2);
+        $("#apply_jalAutoModeRun").removeClass('hidden');
     });
     $("#MRAUTOMAT").on("click", function(e) {
         setSlideValue("#set_jalAutoModeRun", "#param3Value", 3);
+        $("#apply_jalAutoModeRun").removeClass('hidden');
     });
     //preset end
 
@@ -368,6 +374,7 @@ function inject_function_settings() {
     });
     $("#set_LowLightPoint").on("change", function(slideEvt) {
         $("#param4Value").text($(this).val());
+        $("#apply_LowLightPoint").removeClass('hidden');
     });
 
     //set_jaluzHisterizis
@@ -384,6 +391,7 @@ function inject_function_settings() {
     });
     $("#set_jaluzHisterizis").on("change", function(slideEvt) {
         $("#param5Value").text($(this).val());
+        $("#apply_jaluzHisterizis").removeClass('hidden');
     });
 
     //set_FunTemperatureTrigger
@@ -400,6 +408,7 @@ function inject_function_settings() {
     });
     $("#set_FunTemperatureTrigger").on("change", function(slideEvt) {
         $("#param6Value").text($(this).val());
+        $("#apply_FunTemperatureTrigger").removeClass('hidden');
     });
 
     /*SLIDERS END*/
@@ -911,10 +920,8 @@ function checkIfMobile() {
         if( viewport == 'xs' ) {
             $('#interfaceContainer').removeClass('home-product');
             $('#sumarID').addClass('hidden');
-            $('#settingsContainerID').addClass('noPadding');
             return true;
         } else {
-          $('#settingsContainerID').removeClass('noPadding');
           return false;
         }
 }

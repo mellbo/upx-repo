@@ -53,7 +53,7 @@
         </nav>
     </div>
     <div class="intro" style="height:2px;background-color:#ffcc1e;"></div>
-    <div class="container-fluid noPadding" id="settingsContainerID" style="background: linear-gradient(135deg, #172a74, #21a9af);font-size: 13px;font-family: 'News Cycle', sans-serif;">
+    <div class="container-fluid" id="settingsContainerID" style="background: linear-gradient(135deg, #172a74, #21a9af);font-size: 13px;font-family: 'News Cycle', sans-serif;">
         <div style="height:15px;"></div>
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -74,14 +74,14 @@
                                 <p>Histerizis termostat Centrala</p>
                             </div>
                             <div class="col-md-6 col-sm-6"><span id="param1Value" class="pull-left">0 </span>
-                                <div class="pull-right" style="width:80%;"><input type="range" id="set_CENTRALA_ON_HISTERIZIS" value="0.20" min="0.2" max="5.0" step="0.1"><button class="btn btn-info btn-xs blink pull-right" id="apply_CENTRALA_ON_HISTERIZIS" type="button" style="margin: 5px;">Aplica</button></div>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_CENTRALA_ON_HISTERIZIS" value="0.20" min="0.2" max="5.0" step="0.1"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_CENTRALA_ON_HISTERIZIS" type="button" style="margin: 5px;">Aplica</button></div>
                             </div>
                             <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
                             <div class="col-md-6 col-sm-6">
                                 <p style="width:186px;">Metoda calcul Interior</p>
                             </div>
                             <div class="col-md-6 col-sm-6"><span id="param2Value" class="pull-left">0 </span>
-                                <div class="pull-right" style="width:80%;"><input type="range" id="set_TEMP_INDOOR_CALCULATION_METHOD" value="1" min="0" max="5" step="1"><button class="btn btn-info btn-xs blink pull-right" id="apply_TEMP_INDOOR_CALCULATION_METHOD" type="button" style="margin: 5px;">Aplica</button></div>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_TEMP_INDOOR_CALCULATION_METHOD" value="1" min="0" max="5" step="1"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_TEMP_INDOOR_CALCULATION_METHOD" type="button" style="margin: 5px;">Aplica</button></div>
                             </div>
                             <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
                             <div class="panel-group" role="tablist" aria-multiselectable="true" id="accordion-1" style="margin:0px;">
@@ -243,21 +243,21 @@
                                 <p>Tip Mod Automat </p>
                             </div>
                             <div class="col-md-6 col-sm-6"><span id="param3Value" class="pull-left">0 </span>
-                                <div class="pull-right" style="width:80%;"><input type="range" id="set_jalAutoModeRun" value="0" min="0" max="900" step="1"><button class="btn btn-info btn-xs blink pull-right" id="apply_jalAutoModeRun" type="button" style="margin: 5px;">Aplica</button></div>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_jalAutoModeRun" value="0" min="0" max="900" step="1"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_jalAutoModeRun" type="button" style="margin: 5px;">Aplica</button></div>
                             </div>
                             <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
                             <div class="col-md-6 col-sm-6">
                                 <p>Prag Zi/Noapte</p>
                             </div>
                             <div class="col-md-6 col-sm-6"><span id="param4Value" class="pull-left">0 </span>
-                                <div class="pull-right" style="width:80%;"><input type="range" id="set_LowLightPoint" value="20" min="0" max="500" step="1"><button class="btn btn-info btn-xs blink pull-right" id="apply_LowLightPoint" type="button" style="margin: 5px;">Aplica</button></div>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_LowLightPoint" value="20" min="0" max="500" step="1"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_LowLightPoint" type="button" style="margin: 5px;">Aplica</button></div>
                             </div>
                             <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
                             <div class="col-md-6 col-sm-6">
                                 <p>Histerizis Jaluzele</p>
                             </div>
                             <div class="col-md-6 col-sm-6"><span id="param5Value" class="pull-left">0 </span>
-                                <div class="pull-right" style="width:80%;"><input type="range" id="set_jaluzHisterizis" value="20" min="0" max="200" step="1"><button class="btn btn-info btn-xs blink pull-right" id="apply_jaluzHisterizis" type="button" style="margin: 5px;">Aplica</button></div>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_jaluzHisterizis" value="20" min="0" max="200" step="1"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_jaluzHisterizis" type="button" style="margin: 5px;">Aplica</button></div>
                             </div>
                             <div style="height:53px;"></div>
                             <div class="col-md-12">
@@ -341,7 +341,7 @@
                                 <p>Porneste ventilatia PCB daca temperatura PC este mai mare de</p>
                             </div>
                             <div class="col-md-6 col-sm-6"><span id="param6Value" class="pull-left">0 </span>
-                                <div class="pull-right" style="width:68%;"><input type="range" id="set_FunTemperatureTrigger" value="24.0" min="20.0" max="50.0" step="0.25"><button class="btn btn-info btn-xs blink pull-right" id="apply_FunTemperatureTrigger" type="button" style="margin: 5px;">Aplica</button></div>
+                                <div class="pull-right" style="width:68%;"><input type="range" id="set_FunTemperatureTrigger" value="24.0" min="20.0" max="50.0" step="0.25"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_FunTemperatureTrigger" type="button" style="margin: 5px;">Aplica</button></div>
                             </div>
                             <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
                             <div class="col-md-6 col-sm-6">
@@ -400,28 +400,28 @@
                 <div class="hidden-xs hidden-sm intro" style="height:4px;background-color:#ff0f00;"></div>
                 <div style="height:15px;"></div>
             </div>
-            <div class="col-md-12 hidden-xs hidden-sm">
+            <div class="col-md-12">
                 <div class="panel panel-info" style="background-color:transparent;">
                     <div class="panel-heading" style="background-color:#336699;">
                         <h3 class="panel-title" style="background-color:transparent;color:#ffcc1e;"><i class="icon ion-android-unlock" style="padding:0px;margin:0;width:22px;color:#ffcc1e;"></i>&nbsp;Advanced Setup</h3>
                     </div>
                     <div class="panel-body" style="color:rgb(255,255,255);">
-                        <div class="col-md-3 col-sm-3" style="background-color:#336699;">
+                        <div class="col-md-3 col-sm-3">
                             <form>
                                 <div class="form-group actBtnSafeMod" id="idBtnSafeMod"><span class="label">REBOT IN SAFEMODE</span></div>
                             </form>
                         </div>
-                        <div class="col-md-3 col-sm-3" style="background-color:#336699;">
+                        <div class="col-md-3 col-sm-3">
                             <form>
                                 <div class="form-group actBtnReset" id="idRestoreESP"><span class="label">RESTORE SYSTEM</span></div>
                             </form>
                         </div>
-                        <div class="col-md-3 col-sm-3" style="background-color:#336699;">
+                        <div class="col-md-3 col-sm-3">
                             <form>
                                 <div class="form-group actBtnRestart" id="idRebootESP"><span class="label">REBOOT</span></div>
                             </form>
                         </div>
-                        <div class="col-md-3 col-sm-3" style="background-color:#336699;">
+                        <div class="col-md-3 col-sm-3">
                             <form>
                                 <div class="form-group actBtnShtDown" id="idShutDown"><span class="label">SHUTDOWN</span></div>
                             </form>
