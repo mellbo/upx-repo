@@ -399,16 +399,20 @@
                 <div class="hidden-xs hidden-sm intro" style="height:4px;background-color:#ff0f00;"></div>
                 <div style="height:15px;"></div>
             </div>
-            <div class="col-md-12 hidden-xs hidden-sm">
-                <form id="upload" action="php/upload.php" name="upload" method="post" enctype="multipart/form-data">
-                    <p class="col-sm-6" style="color:rgba(255,204,30,0.75);font-size:16px;font-family:Aldrich, sans-serif;">Atentie. Aceasta zona este destinata unui update de firmware system. Aveti nevoie de un fisier valid pentru update firmare.</p>
-                    <div class="form-group pull-right">
-                        <div class="col-sm-4"><label class="control-label col-sm-2 pull-right" style="color:#ffcc1e;padding:8px 12px;width:134px;font-size:16px;" for="inputFileID">UPDATE SYSTEM</label></div>
-                        <div class="col-sm-4"><input type="file" id="inputFileID" class="btn btn-primary" name="fisier" required="" accept=".bin"></div>
-                        <div class="col-sm-4"><button class="btn btn-info" type="submit">UPGRADE</button></div>
-                    </div>
-                </form>
-            </div>
+            <div class="col-md-12 hidden-xs hidden-sm"><div class="card m-0 cardSettings">
+    <div class="card-body">
+        <form>
+            <p class="m-0 mb-2 small label font_dig7">Mode DFU - Firmware Upload Mode</p>
+            <div id="idBtnARMING" class="form-group p-2 actBtnArming"><span class="small label">ACTIVATE DFU</span></div>
+            <hr /><span class="m-0 mb-2 small label font_dig7">Manage ESP</span>
+            <div id="idBtnSafeMod" class="form-group actBtnSafeMod"><span class="small label">Reboot in SAFE MODE <span class="small clRed">UPX-VPS-GATEWAY</span></span></div>
+            <div id="idRestoreESP" class="form-group actBtnReset"><span class="small label">Restore SYSTEM to DEFAULT</span></div>
+            <div id="idRebootESP" class="form-group actBtnRestart"><span class="small label">REBOOT SYSYEM</span></div>
+            <div id="idLogOut" class="form-group actBtnLogOut"><a class="label" href="/logout">LOGOUT</a></div>
+            <div id="idLogShutDown" class="form-group actBtnShtDown"><span class="small label"><i class="fa fa-power-off text-warning pr-3"></i>SHUTDOWN ESP</span></div>
+        </form><span id="idInfoIP" class="info">%ROUTERIP%</span>
+    </div>
+</div></div>
         </div>
         <div style="height:15px;"></div>
     </div>

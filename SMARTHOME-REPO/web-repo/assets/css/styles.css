@@ -55,6 +55,150 @@ input[type='checkbox'] {
   animation: blink 1s infinite;
 }
 
+/* PAGE SETTINGS */
+
+.cardStyle {
+  min-width: 100%;
+  box-shadow: none;
+  border: 0 none;
+  border-radius: 0px;
+  border-bottom: 2px var(--yellow) solid;
+}
+
+.cardSettings {
+  color: white;
+  box-shadow: 0px 0px 4px 3px var(--yellow);
+  background: linear-gradient(rgb(24,48,119) 0%, rgb(33,169,175) 29%);
+}
+
+.actBtnSafeMod {
+  background: #424242;
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.actBtnSafeMod:hover {
+  color: red;
+}
+
+.actBtnSafeMod .label {
+  color: rgb(245,245,245);
+  width: 100% !important;
+  font-weight: 500;
+}
+
+.actBtnReset {
+  background: var(--danger);
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.actBtnReset:hover {
+  color: #f917e2;
+}
+
+.actBtnReset .label {
+  color: rgb(245,245,245);
+  width: 100% !important;
+  font-weight: 500;
+}
+
+.actBtnLogOut {
+  background: var(--blue);
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.actBtnLogOut:hover {
+  color: #02e1ff;
+}
+
+.actBtnLogOut .label {
+  font-weight: 700;
+  color: rgb(245,245,245);
+  width: 100% !important;
+}
+
+.actBtnShtDown {
+  background: var(--pink);
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.actBtnShtDown:hover {
+  color: #ff8be5;
+}
+
+.actBtnShtDown .label {
+  font-weight: 700;
+  color: rgb(239,230,3);
+  width: 100% !important;
+}
+
+.actBtnArming {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  background: var(--green);
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.actBtnArming:hover {
+  color: #00ff38;
+}
+
+.actBtnArming .label {
+  color: rgb(255,255,255);
+  width: 100% !important;
+  font-size: larger;
+  font-weight: 700;
+}
+
+.actBtnRestart {
+  background: var(--yellow);
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.actBtnRestart:hover {
+  color: #ffe500;
+}
+
+.actBtnRestart .label {
+  color: rgb(160,0,0);
+  width: 100% !important;
+  font-weight: 500;
+}
+
+.actBtnGateway {
+  background: var(--pink);
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.actBtnGateway:hover {
+  color: rgb(255,18,231);
+}
+
+.actBtnGateway .label {
+  color: rgb(255,255,255);
+  width: 100% !important;
+}
+
 @keyframes blink {
   0% {
     opacity: 0.10;
@@ -72,3 +216,4 @@ input[type='checkbox'] {
     opacity: 100;
   }
 }
+
