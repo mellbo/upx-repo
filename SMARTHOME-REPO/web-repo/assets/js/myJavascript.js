@@ -98,11 +98,8 @@ $(document).ready(function() {
 /*-----------------------------------------------------------------------------------*/  
   /*update fields*/
 function onMessage(event) {
-	let jsonObject = JSON.parse(event.data);
-		millis_esp = parseInt(jsonObject['cMs'], 10);
-    if (jsonObject.hasOwnProperty("dormitorLDR") == true)
-      LIVE_DORMITOR_LDR = jsonObject["dormitorLDR"];
-    
+	let jsonObject = JSON.parse(event.data); 
+  
     //quick banned from server
     if (jsonObject.hasOwnProperty("ERROR_INSTANCE") == true) {
       ERROR_INSTANCE = 1;
@@ -113,6 +110,10 @@ function onMessage(event) {
       return;
     }
     
+		millis_esp = parseInt(jsonObject['cMs'], 10);
+    if (jsonObject.hasOwnProperty("dormitorLDR") == true)
+      LIVE_DORMITOR_LDR = jsonObject["dormitorLDR"];    
+    
     let el = document.getElementById("idcMillis");
     if (el) el.innerText = millis_esp;
     
@@ -122,7 +123,6 @@ function onMessage(event) {
     
     if (PAGENAME == 'settings') {
       $("#dormitorLDR").html(LIVE_DORMITOR_LDR);
-      console.log(LIVE_DORMITOR_LDR);
       if (jsonObject.hasOwnProperty("settings_data") == true) parseSettings(jsonObject);
     }    
 		jsonObject = null;
