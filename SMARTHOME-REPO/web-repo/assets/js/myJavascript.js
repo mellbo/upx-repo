@@ -413,7 +413,90 @@ function inject_function_settings() {
       $('#apply_LivoloTestID').addClass('hidden'); 
     });     
     
+    // THERMOSTATFORCE24
+    $("#beepModeID").on("change", function(slideEvt) {
+      let mode = parseInt($(this).val(), 10);
+      let data = {
+          "THERMOSTATFORCE24": mode
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+    });  
+    
+    //KEY110_ENABLE
+    $("#setKEY110_ENABLE").on("change", function(e) {
+      let data = {
+          "KEY110_ENABLE": $('#setKEY110_ENABLE').is(":checked")
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;          
+    });
+
+    //KEY120_ENABLE
+    $("#setKEY120_ENABLE").on("change", function(e) {
+      let data = {
+          "KEY120_ENABLE": $('#setKEY120_ENABLE').is(":checked")
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;          
+    });
+ 
+    //KEY130_ENABLE
+    $("#setKEY130_ENABLE").on("change", function(e) {
+      let data = {
+          "KEY130_ENABLE": $('#setKEY130_ENABLE').is(":checked")
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;          
+    });
+
+    //KEY255_ENABLE
+    $("#setKEY255_ENABLE").on("change", function(e) {
+      let data = {
+          "KEY255_ENABLE": $('#setKEY255_ENABLE').is(":checked")
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;          
+    });
+
+    //KEY110NAME
+    $('#apply_SetKEY110NAME').on('click', function() {
+      let data = {
+          "KEY110NAME": $("#SetKEY110NAME").val()
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_KEY110NAME').addClass('hidden'); 
+    });
+    
     //--> QUICK SAVING SEND 
+    
+    //SetKEY110NAME
+    $("#SetKEY110NAME").on("change", function(slideEvt) {
+        $("#apply_KEY110NAME").removeClass('hidden');
+    });    
+
+    //SetKEY120NAME
+    $("#SetKEY120NAME").on("change", function(slideEvt) {
+        $("#apply_KEY120NAME").removeClass('hidden');
+    }); 
+    
+    //SetKEY130NAME
+    $("#SetKEY130NAME").on("change", function(slideEvt) {
+        $("#apply_KEY130NAME").removeClass('hidden');
+    });     
+
+    //SetKEY255NAME
+    $("#SetKEY255NAME").on("change", function(slideEvt) {
+        $("#apply_KEY255NAME").removeClass('hidden');
+    }); 
     
     //set_NewTEMPInCALL
     $('#set_NewTEMPInCALL').slider({
