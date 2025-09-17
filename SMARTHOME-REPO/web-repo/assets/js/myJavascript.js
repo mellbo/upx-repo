@@ -40,7 +40,7 @@ $(document).ready(function() {
         ) loadNewBackGround();
 
     if (PAGENAME == 'settings') {
-      $('#idPlsWait').addClass('hidden'); 
+      $('#idPlsWait').removeClass('hidden'); 
       inject_function_settings();      
       loadCalendar(); 
     }
@@ -654,7 +654,7 @@ function parseSettings(jsonData){
     $('.smartWelcome').prop("disabled", false);
   }
   
-  $('#idPlsWait').removeClass('hidden');
+  $('#idPlsWait').addClass('hidden');
 }
 
 function saveSettings() {
