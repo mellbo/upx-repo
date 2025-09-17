@@ -263,7 +263,7 @@ function inject_function_settings() {
       PREFERED_LIGHT_DORMITOR = LIVE_DORMITOR_LDR;
       $('#prefLDRShow').text(PREFERED_LIGHT_DORMITOR);
       let data = {
-          "PREFERED_LIGHT_DORMITOR": parseInt(PREFERED_LIGHT_DORMITOR, 10);
+          "PREFERED_LIGHT_DORMITOR": parseInt(PREFERED_LIGHT_DORMITOR, 10)
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
