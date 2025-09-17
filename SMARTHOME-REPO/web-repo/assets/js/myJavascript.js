@@ -729,7 +729,8 @@ function parseSettings(jsonData){
     if (isLOCAL) {
       $('#set_forceMainDoorOpen').prop("disabled", false);
     } else {
-       $('#set_forceMainDoorOpen').prop("disabled", true);
+       //$('#set_forceMainDoorOpen').prop("disabled", true);
+       console.log("Warning: isLOCAL disabled for LAB");
     }
 	$('#climatizareOption').val(jsonData.SYSTEM["CLIMA_MODE"]);
   $('#force24Thermo').val(jsonData.SYSTEM["THERMOSTATFORCE24"]);
