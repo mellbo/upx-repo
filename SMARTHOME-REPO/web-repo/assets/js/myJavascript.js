@@ -377,6 +377,7 @@ function inject_function_settings() {
       if (websck_is_connected) websocket.send(_js);
       _js	= null; data = null;
       $('#set_forceMainDoorOpen').prop("disabled", true);
+      
       // auto-reset
       timers.push(setTimeout(function(){
         let data = {
@@ -385,6 +386,7 @@ function inject_function_settings() {
         let _js = JSON.stringify(data);	
         if (websck_is_connected) websocket.send(_js);
         _js	= null; data = null;
+        $('#set_forceMainDoorOpen').prop('checked', false);
         $('#set_forceMainDoorOpen').prop("disabled", false);
       }, 3000));     
     });
@@ -700,9 +702,11 @@ function parseSettings(jsonData){
   console.log(jsonData);
   
   $("#set_THERMOSTAT_OUTSIDE_ENABLE").attr('checked',jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"]);  
-	$("#set_forceMainDoorOpen").attr('checked',jsonData.SYSTEM["forceMainDoorOpen"]);
-	$("#set_AlowLightOFF").attr('checked',jsonData.SYSTEM["AlowLightOFF"]);
 	
+  //$("#set_forceMainDoorOpen").attr('checked',jsonData.SYSTEM["forceMainDoorOpen"]);
+  $('#set_forceMainDoorOpen').prop('checked', ,jsonData.SYSTEM["forceMainDoorOpen"]);
+	
+  $("#set_AlowLightOFF").attr('checked',jsonData.SYSTEM["AlowLightOFF"]);	
 	$("#setKEY110_ENABLE").attr('checked',jsonData.SYSTEM["KEY110_ENABLE"]);
 	$("#setKEY120_ENABLE").attr('checked',jsonData.SYSTEM["KEY120_ENABLE"]);
 	$("#setKEY130_ENABLE").attr('checked',jsonData.SYSTEM["KEY130_ENABLE"]);
@@ -729,8 +733,7 @@ function parseSettings(jsonData){
     if (isLOCAL) {
       $('#set_forceMainDoorOpen').prop("disabled", false);
     } else {
-       //$('#set_forceMainDoorOpen').prop("disabled", true);
-       console.log("Warning: isLOCAL disabled for LAB");
+       $('#set_forceMainDoorOpen').prop("disabled", true);
     }
 	$('#climatizareOption').val(jsonData.SYSTEM["CLIMA_MODE"]);
   $('#force24Thermo').val(jsonData.SYSTEM["THERMOSTATFORCE24"]);
