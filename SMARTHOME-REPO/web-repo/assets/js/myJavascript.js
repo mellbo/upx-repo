@@ -705,9 +705,12 @@ function parseSettings(jsonData){
   THERMOSTATLAST = jsonData.SYSTEM["THERMOSTAT_LAST"];
   $('#prefLDRShow').text(PREFERED_LIGHT_DORMITOR);
   $('#beepModeID').val(jsonData.SYSTEM["UserBeepMode"]);
-  isLOCAL = jsonData["Local"];
-  if (isLOCAL) $('#set_forceMainDoorOpen').prop("disabled", true) else
-      $('#set_forceMainDoorOpen').prop("disabled", false);
+  isLOCAL = jsonData["isLOCAL"];
+    if (isLOCAL) {
+      $('#set_forceMainDoorOpen').prop("disabled", true);
+    } else {
+       $('#set_forceMainDoorOpen').prop("disabled", false);
+    }
 	$('#climatizareOption').val(jsonData.SYSTEM["CLIMA_MODE"]);
   $('#force24Thermo').val(jsonData.SYSTEM["THERMOSTATFORCE24"]);
   $("#smartWelcomeEnable").attr('checked',jsonData.SYSTEM["smartWelcomeEnable"]);
