@@ -704,7 +704,7 @@ function parseSettings(jsonData){
   $("#set_THERMOSTAT_OUTSIDE_ENABLE").attr('checked',jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"]);  
 	
   //$("#set_forceMainDoorOpen").attr('checked',jsonData.SYSTEM["forceMainDoorOpen"]);
-  $('#set_forceMainDoorOpen').prop('checked', ,jsonData.SYSTEM["forceMainDoorOpen"]);
+  $('#set_forceMainDoorOpen').prop('checked', jsonData.SYSTEM["forceMainDoorOpen"]);
 	
   $("#set_AlowLightOFF").attr('checked',jsonData.SYSTEM["AlowLightOFF"]);	
 	$("#setKEY110_ENABLE").attr('checked',jsonData.SYSTEM["KEY110_ENABLE"]);
