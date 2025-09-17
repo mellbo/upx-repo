@@ -707,9 +707,9 @@ function parseSettings(jsonData){
   $('#beepModeID').val(jsonData.SYSTEM["UserBeepMode"]);
   isLOCAL = jsonData["isLOCAL"];
     if (isLOCAL) {
-      $('#set_forceMainDoorOpen').prop("disabled", true);
+      $('#set_forceMainDoorOpen').prop("disabled", false);
     } else {
-       $('#set_forceMainDoorOpen').prop("disabled", false);
+       $('#set_forceMainDoorOpen').prop("disabled", true);
     }
 	$('#climatizareOption').val(jsonData.SYSTEM["CLIMA_MODE"]);
   $('#force24Thermo').val(jsonData.SYSTEM["THERMOSTATFORCE24"]);
