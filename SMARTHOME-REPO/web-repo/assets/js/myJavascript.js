@@ -465,7 +465,7 @@ function inject_function_settings() {
     });
 
     //KEY110NAME
-    $('#apply_SetKEY110NAME').on('click', function() {
+    $('#apply_KEY110NAME').on('click', function() {
       let data = {
           "KEY110NAME": $("#SetKEY110NAME").val()
         };
