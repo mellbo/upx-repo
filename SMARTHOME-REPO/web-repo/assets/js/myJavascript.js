@@ -235,7 +235,43 @@ function inject_function_settings() {
       _js	= null; data = null;          
     });
     
-    //save_welcome_setup: smartWelcomeEnable & smartWelcomeAutoSetup
+    //CENTRALA_ON_HISTERIZIS
+    $('#apply_CENTRALA_ON_HISTERIZIS').on('click', function() {
+      let data = {
+          "CENTRALA_ON_HISTERIZIS":  parseFloat($("#set_CENTRALA_ON_HISTERIZIS").val())
+        };
+      let _js = JSON.stringify(data);
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_CENTRALA_ON_HISTERIZIS').addClass('hidden'); 
+    }); 
+
+    //TEMP_INDOOR_CALCULATION_METHOD
+    $('#apply_TEMP_INDOOR_CALCULATION_METHOD').on('click', function() {
+      let data = {
+          "TEMP_INDOOR_CALCULATION_METHOD": parseInt($("#set_TEMP_INDOOR_CALCULATION_METHOD").val(), 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_TEMP_INDOOR_CALCULATION_METHOD').addClass('hidden'); 
+    });
+    
+    //jalAutoModeRun
+    $('#apply_jalAutoModeRun').on('click', function() {
+      let data = {
+          "jalAutoModeRun": parseInt($("#set_jalAutoModeRun").val(), 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_jalAutoModeRun').addClass('hidden'); 
+    });    
+    
+    //smartWelcomeEnable & smartWelcomeAutoSetup
     $('#save_welcome_setup').on('click', function() {
       let times = [];
        times.push($('#welcome_Luni').val());
@@ -269,33 +305,54 @@ function inject_function_settings() {
       if (websck_is_connected) websocket.send(_js);
       _js	= null; data = null;   
     });
-    
-    //CENTRALA_ON_HISTERIZIS
-    $('#apply_CENTRALA_ON_HISTERIZIS').on('click', function() {
+ 
+    //LowLightPoint
+    $('#apply_LowLightPoint').on('click', function() {
       let data = {
-          "CENTRALA_ON_HISTERIZIS":  parseFloat($("#set_CENTRALA_ON_HISTERIZIS").val())
-        };
-      let _js = JSON.stringify(data);
-      if (websck_is_connected) websocket.send(_js);
-      _js	= null; data = null;
-      
-      $('#apply_CENTRALA_ON_HISTERIZIS').addClass('hidden'); 
-    });
-    
-    //TEMP_INDOOR_CALCULATION_METHOD
-    $('#apply_TEMP_INDOOR_CALCULATION_METHOD').on('click', function() {
-      let data = {
-          "TEMP_INDOOR_CALCULATION_METHOD": parseInt($("#set_TEMP_INDOOR_CALCULATION_METHOD").val(), 10)
+          "LowLightPoint": parseInt($("#set_LowLightPoint").val(), 10)
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
       _js	= null; data = null;
       
-      $('#apply_TEMP_INDOOR_CALCULATION_METHOD').addClass('hidden'); 
+      $('#apply_LowLightPoint').addClass('hidden'); 
     });
+
+    //jaluzHisterizis
+    $('#apply_jaluzHisterizis').on('click', function() {
+      let data = {
+          "jaluzHisterizis": parseInt($("#set_jaluzHisterizis").val(), 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_jaluzHisterizis').addClass('hidden'); 
+    });
+
+    //FunTemperatureTrigger
+    $('#apply_FunTemperatureTrigger').on('click', function() {
+      let data = {
+          "FunTemperatureTrigger": parseInt($("#set_FunTemperatureTrigger").val(), 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_FunTemperatureTrigger').addClass('hidden'); 
+    });  
     
-    //jalAutoModeRun    
-    // AICI AI RAMAS
+    //CLIMA_MODE / climatizareOption
+    $("#climatizareOption").on("change", function(slideEvt) {
+      let mode = $(this).val();
+      let data = {
+          "CLIMA_MODE": parseInt(mode, 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+    });
+
     
     //--> QUICK SAVING SEND 
     
