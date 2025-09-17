@@ -427,7 +427,7 @@ function inject_function_settings() {
     //KEY110_ENABLE
     $("#setKEY110_ENABLE").on("change", function(e) {
       let data = {
-          "KEY110_ENABLE": $('#setKEY110_ENABLE').is(":checked")
+          "KEY110ENABLE": $('#setKEY110_ENABLE').is(":checked")
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
@@ -437,7 +437,7 @@ function inject_function_settings() {
     //KEY120_ENABLE
     $("#setKEY120_ENABLE").on("change", function(e) {
       let data = {
-          "KEY120_ENABLE": $('#setKEY120_ENABLE').is(":checked")
+          "KEY120ENABLE": $('#setKEY120_ENABLE').is(":checked")
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
@@ -447,7 +447,7 @@ function inject_function_settings() {
     //KEY130_ENABLE
     $("#setKEY130_ENABLE").on("change", function(e) {
       let data = {
-          "KEY130_ENABLE": $('#setKEY130_ENABLE').is(":checked")
+          "KEY130ENABLE": $('#setKEY130_ENABLE').is(":checked")
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
@@ -457,7 +457,7 @@ function inject_function_settings() {
     //KEY255_ENABLE
     $("#setKEY255_ENABLE").on("change", function(e) {
       let data = {
-          "KEY255_ENABLE": $('#setKEY255_ENABLE').is(":checked")
+          "KEY255ENABLE": $('#setKEY255_ENABLE').is(":checked")
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
@@ -805,10 +805,10 @@ function parseSettings(jsonData){
   $("#set_THERMOSTAT_OUTSIDE_ENABLE").prop('checked',jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"]);
   $('#set_forceMainDoorOpen').prop('checked', jsonData.SYSTEM["forceMainDoorOpen"]);
   $("#set_AlowLightOFF").prop('checked',jsonData.SYSTEM["AlowLightOFF"]);	
-	$("#setKEY110_ENABLE").prop('checked',jsonData.SYSTEM["KEY110_ENABLE"]);
-	$("#setKEY120_ENABLE").prop('checked',jsonData.SYSTEM["KEY120_ENABLE"]);
-	$("#setKEY130_ENABLE").prop('checked',jsonData.SYSTEM["KEY130_ENABLE"]);
-	$("#setKEY255_ENABLE").prop('checked',jsonData.SYSTEM["KEY255_ENABLE"]);
+	$("#setKEY110_ENABLE").prop('checked',jsonData.SYSTEM["KEY110ENABLE"]);
+	$("#setKEY120_ENABLE").prop('checked',jsonData.SYSTEM["KEY120ENABLE"]);
+	$("#setKEY130_ENABLE").prop('checked',jsonData.SYSTEM["KEY130ENABLE"]);
+	$("#setKEY255_ENABLE").prop('checked',jsonData.SYSTEM["KEY255ENABLE"]);
 	
 	$("#SetKEY110NAME").val(jsonData.SYSTEM["KEY110NAME"]);
 	$("#SetKEY120NAME").val(jsonData.SYSTEM["KEY120NAME"]);
@@ -879,10 +879,10 @@ function saveSettings() {
 		"CENTRALA_ON_HISTERIZIS":$('#set_CENTRALA_ON_HISTERIZIS').val(),
 		"AddNewTemperatureInMonth":AddNewTemperatureInMonth,
 		
-		"KEY110_ENABLE":$('#setKEY110_ENABLE').is(":checked"),
-		"KEY120_ENABLE":$('#setKEY120_ENABLE').is(":checked"),
-		"KEY130_ENABLE":$('#setKEY130_ENABLE').is(":checked"),
-		"KEY255_ENABLE":$('#setKEY255_ENABLE').is(":checked"),
+		"KEY110ENABLE":$('#setKEY110_ENABLE').is(":checked"),
+		"KEY120ENABLE":$('#setKEY120_ENABLE').is(":checked"),
+		"KEY130ENABLE":$('#setKEY130_ENABLE').is(":checked"),
+		"KEY255ENABLE":$('#setKEY255_ENABLE').is(":checked"),
 		"SetKEY110NAME":$('#SetKEY110NAME').val(),
 		"SetKEY120NAME":$('#SetKEY120NAME').val(),
 		"SetKEY130NAME":$('#SetKEY130NAME').val(),
