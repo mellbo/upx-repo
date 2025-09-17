@@ -371,7 +371,7 @@ function inject_function_settings() {
     //forceMainDoorOpen
     $("#set_forceMainDoorOpen").on("change", function(e) {
       let data = {
-          "forceMainDoorOpen": $(this).val().is(":checked")
+          "forceMainDoorOpen": $(this).is(":checked")
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
