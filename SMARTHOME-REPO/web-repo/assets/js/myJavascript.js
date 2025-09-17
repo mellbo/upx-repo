@@ -602,7 +602,10 @@ if(check == true){
 }
 
 function parseSettings(jsonData){
-	if (jsonData == null) {return;}
+	if (jsonData == null) {
+    $('#idPlsWait').removeClass('hidden');
+    return;
+    }
   console.log(jsonData);
   
   $("#set_THERMOSTAT_OUTSIDE_ENABLE").attr('checked',jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"]);  
