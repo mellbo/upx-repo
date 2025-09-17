@@ -333,18 +333,6 @@ function inject_function_settings() {
       
       $('#apply_jaluzHisterizis').addClass('hidden'); 
     });
-
-    //FunTemperatureTrigger
-    $('#apply_FunTemperatureTrigger').on('click', function() {
-      let data = {
-          "FunTemperatureTrigger": parseInt($("#set_FunTemperatureTrigger").val(), 10)
-        };
-      let _js = JSON.stringify(data);	
-      if (websck_is_connected) websocket.send(_js);
-      _js	= null; data = null;
-      
-      $('#apply_FunTemperatureTrigger').addClass('hidden'); 
-    });  
     
     //CLIMA_MODE / climatizareOption
     $("#climatizareOption").on("change", function(slideEvt) {
@@ -390,6 +378,41 @@ function inject_function_settings() {
         $('#set_forceMainDoorOpen').prop("disabled", false);
       }, 3000));     
     });
+    
+    //AlowLightOFF
+    $("#set_AlowLightOFF").on("change", function(slideEvt) {
+      let mode = parseInt($(this).val(), 10);
+      let data = {
+          "AlowLightOFF": mode
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+    });
+
+    //FunTemperatureTrigger
+    $('#apply_FunTemperatureTrigger').on('click', function() {
+      let data = {
+          "FunTemperatureTrigger": parseInt($("#set_FunTemperatureTrigger").val(), 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_FunTemperatureTrigger').addClass('hidden'); 
+    });
+
+    //LivoloTestID
+    $('#apply_LivoloTestID').on('click', function() {
+      let data = {
+          "LivoloTestID": parseFloat($("#setLivoloTestID").val())
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_LivoloTestID').addClass('hidden'); 
+    });     
     
     //--> QUICK SAVING SEND 
     
@@ -561,12 +584,8 @@ function inject_function_settings() {
 
     });
 
-
-    //BuTTON
-    $('#setLivoloTestID').keyup(function(event) {
-        if (event.keyCode === 13) {
-            $("#save").click();
-        }
+    $('#setLivoloTestID').on("change", function(e) {
+      $("#apply_LivoloTestID").removeClass('hidden');
     });
 
     $('#gradeCelsius').keyup(function(event) {
@@ -701,16 +720,13 @@ function parseSettings(jsonData){
     }
   console.log(jsonData);
   
-  $("#set_THERMOSTAT_OUTSIDE_ENABLE").attr('checked',jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"]);  
-	
-  //$("#set_forceMainDoorOpen").attr('checked',jsonData.SYSTEM["forceMainDoorOpen"]);
+  $("#set_THERMOSTAT_OUTSIDE_ENABLE").prop('checked',jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"]);
   $('#set_forceMainDoorOpen').prop('checked', jsonData.SYSTEM["forceMainDoorOpen"]);
-	
-  $("#set_AlowLightOFF").attr('checked',jsonData.SYSTEM["AlowLightOFF"]);	
-	$("#setKEY110_ENABLE").attr('checked',jsonData.SYSTEM["KEY110_ENABLE"]);
-	$("#setKEY120_ENABLE").attr('checked',jsonData.SYSTEM["KEY120_ENABLE"]);
-	$("#setKEY130_ENABLE").attr('checked',jsonData.SYSTEM["KEY130_ENABLE"]);
-	$("#setKEY255_ENABLE").attr('checked',jsonData.SYSTEM["KEY255_ENABLE"]);
+  $("#set_AlowLightOFF").prop('checked',jsonData.SYSTEM["AlowLightOFF"]);	
+	$("#setKEY110_ENABLE").prop('checked',jsonData.SYSTEM["KEY110_ENABLE"]);
+	$("#setKEY120_ENABLE").prop('checked',jsonData.SYSTEM["KEY120_ENABLE"]);
+	$("#setKEY130_ENABLE").prop('checked',jsonData.SYSTEM["KEY130_ENABLE"]);
+	$("#setKEY255_ENABLE").prop('checked',jsonData.SYSTEM["KEY255_ENABLE"]);
 	
 	$("#SetKEY110NAME").val(jsonData.SYSTEM["KEY110NAME"]);
 	$("#SetKEY120NAME").val(jsonData.SYSTEM["KEY120NAME"]);
@@ -737,8 +753,8 @@ function parseSettings(jsonData){
     }
 	$('#climatizareOption').val(jsonData.SYSTEM["CLIMA_MODE"]);
   $('#force24Thermo').val(jsonData.SYSTEM["THERMOSTATFORCE24"]);
-  $("#smartWelcomeEnable").attr('checked',jsonData.SYSTEM["smartWelcomeEnable"]);
-  $("#smartWelcomeAutoSetup").attr('checked',jsonData.SYSTEM["smartWelcomeAutoSetup"]);
+  $("#smartWelcomeEnable").prop('checked',jsonData.SYSTEM["smartWelcomeEnable"]);
+  $("#smartWelcomeAutoSetup").prop('checked',jsonData.SYSTEM["smartWelcomeAutoSetup"]);
   
   $("#welcome_Luni").val(jsonData.SYSTEM["Welcome_Time"]["day1"]);
   $("#welcome_Marti").val(jsonData.SYSTEM["Welcome_Time"]["day2"]);
