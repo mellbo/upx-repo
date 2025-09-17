@@ -375,7 +375,18 @@ function inject_function_settings() {
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
-      _js	= null; data = null;          
+      _js	= null; data = null;
+      $('#set_forceMainDoorOpen').prop("disabled", true);
+      // auto-reset
+      timers.push(setTimeout(function(){
+        let data = {
+            "forceMainDoorOpen": false
+          };
+        let _js = JSON.stringify(data);	
+        if (websck_is_connected) websocket.send(_js);
+        _js	= null; data = null;
+        $('#set_forceMainDoorOpen').prop("disabled", false);
+      }, 3000));     
     });
     
     //--> QUICK SAVING SEND 
