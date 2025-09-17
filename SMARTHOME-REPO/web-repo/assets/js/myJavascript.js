@@ -15,6 +15,7 @@ var gateway = window.location.port
 var websocket;
 var websck_is_connected = false;
 var millis_esp = 0;
+var isLOCAL = 0;
 var ERROR_INSTANCE = 0;
 var paginaVizibila = true;
  
@@ -110,10 +111,13 @@ function onMessage(event) {
       location.replace("/protection");
       return;
     }
-    
-		millis_esp = parseInt(jsonObject['cMs'], 10);
-    if (jsonObject.hasOwnProperty("dormitorLDR") == true)
-      LIVE_DORMITOR_LDR = jsonObject["dormitorLDR"];    
+
+    if (jsonObject.hasOwnProperty("cMs") == true)    
+        millis_esp = parseInt(jsonObject['cMs'], 10);
+    if (jsonObject.hasOwnProperty("Local") == true) 
+        isLOCAL = jsonObject["Local"];
+    if (jsonObject.hasOwnProperty("dormitorLDR") == true) 
+        LIVE_DORMITOR_LDR = jsonObject["dormitorLDR"];    
     
     let el = document.getElementById("idcMillis");
     if (el) el.innerText = millis_esp;
@@ -344,9 +348,20 @@ function inject_function_settings() {
     
     //CLIMA_MODE / climatizareOption
     $("#climatizareOption").on("change", function(slideEvt) {
-      let mode = $(this).val();
+      let mode = parseInt($(this).val(), 10);
       let data = {
           "CLIMA_MODE": parseInt(mode, 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+    });
+    
+    //UserBeepMode
+    $("#beepModeID").on("change", function(slideEvt) {
+      let mode = parseInt($(this).val(), 10);
+      let data = {
+          "UserBeepMode": mode
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
@@ -690,6 +705,9 @@ function parseSettings(jsonData){
   THERMOSTATLAST = jsonData.SYSTEM["THERMOSTAT_LAST"];
   $('#prefLDRShow').text(PREFERED_LIGHT_DORMITOR);
   $('#beepModeID').val(jsonData.SYSTEM["UserBeepMode"]);
+  isLOCAL = jsonData["Local"];
+  if (isLOCAL) $('#set_forceMainDoorOpen').prop("disabled", true) else
+      $('#set_forceMainDoorOpen').prop("disabled", false);
 	$('#climatizareOption').val(jsonData.SYSTEM["CLIMA_MODE"]);
   $('#force24Thermo').val(jsonData.SYSTEM["THERMOSTATFORCE24"]);
   $("#smartWelcomeEnable").attr('checked',jsonData.SYSTEM["smartWelcomeEnable"]);
