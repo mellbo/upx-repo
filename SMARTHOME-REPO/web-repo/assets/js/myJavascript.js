@@ -380,20 +380,19 @@ function inject_function_settings() {
     });
     
     //AlowLightOFF
-    $("#set_AlowLightOFF").on("change", function(slideEvt) {
-      let mode = parseInt($(this).val(), 10);
+    $("#set_AlowLightOFF").on("change", function(e) {
       let data = {
-          "AlowLightOFF": mode
+          "AlowLightOFF": $('#set_AlowLightOFF').is(":checked")
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
-      _js	= null; data = null;
+      _js	= null; data = null;          
     });
 
     //FunTemperatureTrigger
     $('#apply_FunTemperatureTrigger').on('click', function() {
       let data = {
-          "FunTemperatureTrigger": parseInt($("#set_FunTemperatureTrigger").val(), 10)
+          "FunTemperatureTrigger": parseFloat($("#set_FunTemperatureTrigger").val())
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
@@ -405,7 +404,7 @@ function inject_function_settings() {
     //LivoloTestID
     $('#apply_LivoloTestID').on('click', function() {
       let data = {
-          "LivoloTestID": parseFloat($("#setLivoloTestID").val())
+          "LivoloTestID": parseInt($("#setLivoloTestID").val(), 10)
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
