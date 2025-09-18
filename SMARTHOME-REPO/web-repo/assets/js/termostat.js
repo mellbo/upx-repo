@@ -1,1 +1,554 @@
-function updateHomeData(e){var t=JSON.parse(e);return[t.LIVE.THERMOSTAT,t.LIVE.MATRIX_INDOOR,t.LIVE.CentralaOn]}var thermostatDial=function(){function e(e,a,r){var i=document.createElementNS("http://www.w3.org/2000/svg",e);return t(i,a),r&&r.appendChild(i),i}function t(e,t){for(var a in t)e.setAttribute(a,t[a])}function a(e,t,a){var r=t*Math.PI/180,i=e[0]-a[0],s=e[1]-a[1];return[i*Math.cos(r)-s*Math.sin(r)+a[0],i*Math.sin(r)+s*Math.cos(r)+a[1]]}function r(e,t,r){return e.map(function(e){return a(e,t,r)})}function i(e){return e.map(function(e,t){return(t>0?"L":"M")+e[0]+" "+e[1]}).join(" ")+"Z"}function s(e,t,a){return["M",e,",",t,"m",0-a,",",0,"a",a,",",a,0,1,",",0,2*a,",",0,"a",a,",",a,0,1,",",0,0-2*a,",",0,"z"].join(" ").replace(/\s,\s/g,",")}function n(e,t,a){return e<t?t:e>a?a:e}function u(e){return Math.round(2*e)/2}function c(e,t,a){e.classList[a?"add":"remove"](t)}return function(d,o){var l=this,m={tickDegrees:300,rangeValue:(o={diameter:(o=o||{}).diameter||400,minValue:o.minValue||10,maxValue:o.maxValue||30,numTicks:o.numTicks||150,onSetTargetTemperature:o.onSetTargetTemperature||function(){}}).maxValue-o.minValue,radius:o.diameter/2,ticksOuterRadius:o.diameter/30,ticksInnerRadius:o.diameter/8,hvac_states:["off","heating","cooling"],dragLockAxisDistance:15};m.lblAmbientPosition=[m.radius,m.ticksOuterRadius-(m.ticksOuterRadius-m.ticksInnerRadius)/2],m.offsetDegrees=180-(360-m.tickDegrees)/2;var p={target_temperature:o.minValue,ambient_temperature:o.minValue,hvac_state:m.hvac_states[0],has_leaf:!1,away:!1};Object.defineProperty(this,"target_temperature",{get:function(){return p.target_temperature},set:function(e){p.target_temperature=n(u(+e),o.minValue,o.maxValue),j()}}),Object.defineProperty(this,"ambient_temperature",{get:function(){return p.ambient_temperature},set:function(e){p.ambient_temperature=u(+e),j()}}),Object.defineProperty(this,"hvac_state",{get:function(){return p.hvac_state},set:function(e){m.hvac_states.indexOf(e)>=0&&(p.hvac_state=e,j())}}),Object.defineProperty(this,"has_leaf",{get:function(){return p.has_leaf},set:function(e){p.has_leaf=!!e,j()}}),Object.defineProperty(this,"away",{get:function(){return p.away},set:function(e){p.away=!!e,j()}});for(var f,h,_,g,v=e("svg",{width:"100%",height:"100%",viewBox:"0 0 "+o.diameter+" "+o.diameter,class:"dial"},d),T=(e("circle",{cx:m.radius,cy:m.radius,r:m.radius,class:"dial__shape"},v),e("path",{d:(f=m.radius,h=m.radius,_=m.radius-4,g=m.radius-8,s(f,h,_)+" "+s(f,h,g)),class:"dial__editableIndicator"},v),e("g",{class:"dial__ticks"},v)),b=[[m.radius-1,m.ticksOuterRadius],[m.radius+1,m.ticksOuterRadius],[m.radius+1,m.ticksInnerRadius],[m.radius-1,m.ticksInnerRadius]],x=[[m.radius-1.5,m.ticksOuterRadius],[m.radius+1.5,m.ticksOuterRadius],[m.radius+1.5,m.ticksInnerRadius+20],[m.radius-1.5,m.ticksInnerRadius+20]],k=m.tickDegrees/o.numTicks,y=[],V=0;V<o.numTicks;V++)y.push(e("path",{d:i(b)},T));var M=e("text",{x:m.radius,y:m.radius,class:"dial__lbl dial__lbl--target"},v),S=document.createTextNode("");M.appendChild(S);var O=e("text",{x:m.radius+m.radius/2.5,y:m.radius-m.radius/8,class:"dial__lbl dial__lbl--target--half"},v),w=document.createTextNode("5");O.appendChild(w);var E=e("text",{class:"dial__lbl dial__lbl--ambient"},v),L=document.createTextNode("");E.appendChild(L);var A=e("text",{x:m.radius,y:m.radius,class:"dial__lbl dial__lbl--away"},v),P=document.createTextNode("AWAY");A.appendChild(P),e("path",{class:"dial__ico__leaf"},v);var R=m.radius/5/100,D=["M",3,84,"c",24,17,51,18,73,-6,"C",100,52,100,22,100,4,"c",-13,15,-37,9,-70,19,"C",4,32,0,63,0,76,"c",6,-7,18,-17,33,-23,24,-9,34,-9,48,-20,-9,10,-20,16,-43,24,"C",22,63,8,78,3,84,"z"].map(function(e){return isNaN(e)?e:e*R}).join(" "),I=[m.radius-100*R*.5,1.5*m.radius];function j(){v.classList[l.away?"add":"remove"]("away"),Array.prototype.slice.call(v.classList).forEach(function(e){e.match(/^dial--state--/)&&v.classList.remove(e)}),v.classList.add("dial--state--"+l.hvac_state),function(){var e,a;l.away?a=e=l.ambient_temperature:(e=Math.min(l.ambient_temperature,l.target_temperature),a=Math.max(l.ambient_temperature,l.target_temperature));var s=n(Math.round((e-o.minValue)/m.rangeValue*o.numTicks),0,o.numTicks-1),u=n(Math.round((a-o.minValue)/m.rangeValue*o.numTicks),0,o.numTicks-1);y.forEach(function(e,a){var n=a>=s&&a<=u;t(e,{d:i(r(a==s||a==u?x:b,a*k-m.offsetDegrees,[m.radius,m.radius])),class:n?"active":""})})}(),S.nodeValue=Math.floor(l.target_temperature),c(O,"shown",l.target_temperature%1!=0),function(){L.nodeValue=Math.floor(l.ambient_temperature),l.ambient_temperature%1!=0&&(L.nodeValue+=".5");var e=n(l.ambient_temperature,o.minValue,o.maxValue);degs=m.tickDegrees*(e-o.minValue)/m.rangeValue-m.offsetDegrees,e>l.target_temperature?degs+=8:degs-=8;var r=a(m.lblAmbientPosition,degs,[m.radius,m.radius]);t(E,{x:r[0],y:r[1]})}(),c(v,"has-leaf",l.has_leaf)}e("path",{class:"dial__ico__leaf",d:D,transform:"translate("+I[0]+","+I[1]+")"},v),j();var N,C={inProgress:!1,startPoint:null,startTemperature:0,lockAxis:void 0};function $(e){return e.targetTouches&&e.targetTouches.length?[e.targetTouches[0].clientX,e.targetTouches[0].clientY]:[e.x,e.y]}function J(e){N=setTimeout(function(){c(v,"dial--edit",!0),C.inProgress=!0,C.startPoint=$(e),C.startTemperature=l.target_temperature||o.minValue,C.lockAxis=void 0},500)}function Y(e){clearTimeout(N),c(v,"dial--edit",!1),C.inProgress&&(C.inProgress=!1,l.target_temperature!=C.startTemperature&&"function"==typeof o.onSetTargetTemperature&&o.onSetTargetTemperature(l.target_temperature))}function H(e){if(e.preventDefault(),C.inProgress){var t,a=$(e),r=C.startPoint[1]-a[1],i=a[0]-C.startPoint[0];"x"==C.lockAxis?t=i:"y"==C.lockAxis?t=r:Math.abs(r)>m.dragLockAxisDistance?(C.lockAxis="y",t=r):Math.abs(i)>m.dragLockAxisDistance?(C.lockAxis="x",t=i):t=Math.abs(r)>Math.abs(i)?r:i;var s=t*(o.diameter/d.clientWidth)/o.diameter*m.rangeValue;l.target_temperature=u(C.startTemperature+s)}}v.addEventListener("mousedown",J),v.addEventListener("touchstart",J),v.addEventListener("mouseup",Y),v.addEventListener("mouseleave",Y),v.addEventListener("touchend",Y),v.addEventListener("mousemove",H),v.addEventListener("touchmove",H)}}(),nest=new thermostatDial(document.getElementById("thermostat"),{onSetTargetTemperature:function(e){var t={act:"addTemperature",newTemp:+e};$.ajax({url:"../php/settings_param.php",type:"post",data:t,success:function(t){$("#replySave").html(t),nest.ambient_temperature<+e?nest.has_leaf=1:nest.has_leaf=0}})}});function saveSettings(e){var t=JSON.parse(e);if(null!=t){t.SYSTEM.THERMOSTATFORCE24="1";var a='{"act":"write","SYSTEM":'+JSON.stringify(t.SYSTEM)+"}",r=JSON.parse(a);$.ajax({url:"../php/settings_param.php",type:"post",data:r,success:function(e){$("#replySave").html(e)}})}}function UpdateSettings(){$.ajax({url:"../php/settings_param.php",type:"post",data:{act:"read"},success:function(e){saveSettings(e)}})}$.ajax({url:"../php/liveParamToJson.php",data:"",success:function(e){var t=updateHomeData(e);nest.target_temperature=t[0],nest.ambient_temperature=t[1];var a="true"===t[2].toLowerCase();nest.has_leaf=a?1:0}}),$("#btn_turbo").on("click",function(e){UpdateSettings()});
+function updateHomeData(dataFromPhp) {
+				//-->OUT TEXT JSON
+				var jsonData = JSON.parse(dataFromPhp);
+                var thermostat = jsonData.LIVE["THERMOSTAT"];
+                var temperaturaInt = jsonData.LIVE["MATRIX_INDOOR"];
+                var centralaOn = jsonData.LIVE["CentralaOn"];
+     return [thermostat,temperaturaInt,centralaOn];
+}
+
+var thermostatDial = (function() {
+	
+	/*
+	 * Utility functions
+	 */
+	
+	// Create an element with proper SVG namespace, optionally setting its attributes and appending it to another element
+	function createSVGElement(tag,attributes,appendTo) {
+		var element = document.createElementNS('http://www.w3.org/2000/svg',tag);
+		attr(element,attributes);
+		if (appendTo) {
+			appendTo.appendChild(element);
+		}
+		return element;
+	}
+	
+	// Set attributes for an element
+	function attr(element,attrs) {
+		for (var i in attrs) {
+			element.setAttribute(i,attrs[i]);
+		}
+	}
+	
+	// Rotate a cartesian point about given origin by X degrees
+	function rotatePoint(point, angle, origin) {
+		var radians = angle * Math.PI/180;
+		var x = point[0]-origin[0];
+		var y = point[1]-origin[1];
+		var x1 = x*Math.cos(radians) - y*Math.sin(radians) + origin[0];
+		var y1 = x*Math.sin(radians) + y*Math.cos(radians) + origin[1];
+		return [x1,y1];
+	}
+	
+	// Rotate an array of cartesian points about a given origin by X degrees
+	function rotatePoints(points, angle, origin) {
+		return points.map(function(point) {
+			return rotatePoint(point, angle, origin);
+		});
+	}
+	
+	// Given an array of points, return an SVG path string representing the shape they define
+	function pointsToPath(points) {
+		return points.map(function(point, iPoint) {
+			return (iPoint>0?'L':'M') + point[0] + ' ' + point[1];
+		}).join(' ')+'Z';
+	}
+	
+	function circleToPath(cx, cy, r) {
+		return [
+			"M",cx,",",cy,
+			"m",0-r,",",0,
+			"a",r,",",r,0,1,",",0,r*2,",",0,
+			"a",r,",",r,0,1,",",0,0-r*2,",",0,
+			"z"
+		].join(' ').replace(/\s,\s/g,",");
+	}
+	
+	function donutPath(cx,cy,rOuter,rInner) {
+		return circleToPath(cx,cy,rOuter) + " " + circleToPath(cx,cy,rInner);
+	}
+	
+	// Restrict a number to a min + max range
+	function restrictToRange(val,min,max) {
+		if (val < min) return min;
+		if (val > max) return max;
+		return val;
+	}
+	
+	// Round a number to the nearest 0.5
+	function roundHalf(num) {
+		return Math.round(num*2)/2;
+	}
+	
+	function setClass(el, className, state) {
+		el.classList[state ? 'add' : 'remove'](className);
+	}
+	
+	/*
+	 * The "MEAT"
+	 */
+
+	return function(targetElement, options) {
+		var self = this;
+		
+		/*
+		 * Options
+		 */
+		options = options || {};
+		options = {
+			diameter: options.diameter || 400,
+			minValue: options.minValue || 10, // Minimum value for target temperature
+			maxValue: options.maxValue || 30, // Maximum value for target temperature
+			numTicks: options.numTicks || 150, // Number of tick lines to display around the dial
+			onSetTargetTemperature: options.onSetTargetTemperature || function() {}, // Function called when new target temperature set by the dial
+		};
+		
+		/*
+		 * Properties - calculated from options in many cases
+		 */
+		var properties = {
+			tickDegrees: 300, //  Degrees of the dial that should be covered in tick lines
+			rangeValue: options.maxValue - options.minValue,
+			radius: options.diameter/2,
+			ticksOuterRadius: options.diameter / 30,
+			ticksInnerRadius: options.diameter / 8,
+			hvac_states: ['off', 'heating', 'cooling'],
+			dragLockAxisDistance: 15,
+		}
+		properties.lblAmbientPosition = [properties.radius, properties.ticksOuterRadius-(properties.ticksOuterRadius-properties.ticksInnerRadius)/2]
+		properties.offsetDegrees = 180-(360-properties.tickDegrees)/2;
+		
+		/*
+		 * Object state
+		 */
+		var state = {
+			target_temperature: options.minValue,
+			ambient_temperature: options.minValue,
+			hvac_state: properties.hvac_states[0],
+			has_leaf: false,
+			away: false
+		};
+		
+		/*
+		 * Property getter / setters
+		 */
+		Object.defineProperty(this,'target_temperature',{
+			get: function() {
+				return state.target_temperature;
+			},
+			set: function(val) {
+				state.target_temperature = restrictTargetTemperature(+val);
+				render();
+			}
+		});
+		Object.defineProperty(this,'ambient_temperature',{
+			get: function() {
+				return state.ambient_temperature;
+			},
+			set: function(val) {
+				state.ambient_temperature = roundHalf(+val);
+				render();
+			}
+		});
+		Object.defineProperty(this,'hvac_state',{
+			get: function() {
+				return state.hvac_state;
+			},
+			set: function(val) {
+				if (properties.hvac_states.indexOf(val)>=0) {
+					state.hvac_state = val;
+					render();
+				}
+			}
+		});
+		Object.defineProperty(this,'has_leaf',{
+			get: function() {
+				return state.has_leaf;
+			},
+			set: function(val) {
+				state.has_leaf = !!val;
+				render();
+			}
+		});
+		Object.defineProperty(this,'away',{
+			get: function() {
+				return state.away;
+			},
+			set: function(val) {
+				state.away = !!val;
+				render();
+			}
+		});
+		
+		/*
+		 * SVG
+		 */
+		var svg = createSVGElement('svg',{
+			width: '100%', //options.diameter+'px',
+			height: '100%', //options.diameter+'px',
+			viewBox: '0 0 '+options.diameter+' '+options.diameter,
+			class: 'dial'
+		},targetElement);
+		// CIRCULAR DIAL
+		var circle = createSVGElement('circle',{
+			cx: properties.radius,
+			cy: properties.radius,
+			r: properties.radius,
+			class: 'dial__shape'
+		},svg);
+		// EDITABLE INDICATOR
+		var editCircle = createSVGElement('path',{
+			d: donutPath(properties.radius,properties.radius,properties.radius-4,properties.radius-8),
+			class: 'dial__editableIndicator',
+		},svg);
+		
+		/*
+		 * Ticks
+		 */
+		var ticks = createSVGElement('g',{
+			class: 'dial__ticks'	
+		},svg);
+		var tickPoints = [
+			[properties.radius-1, properties.ticksOuterRadius],
+			[properties.radius+1, properties.ticksOuterRadius],
+			[properties.radius+1, properties.ticksInnerRadius],
+			[properties.radius-1, properties.ticksInnerRadius]
+		];
+		var tickPointsLarge = [
+			[properties.radius-1.5, properties.ticksOuterRadius],
+			[properties.radius+1.5, properties.ticksOuterRadius],
+			[properties.radius+1.5, properties.ticksInnerRadius+20],
+			[properties.radius-1.5, properties.ticksInnerRadius+20]
+		];
+		var theta = properties.tickDegrees/options.numTicks;
+		var tickArray = [];
+		for (var iTick=0; iTick<options.numTicks; iTick++) {
+			tickArray.push(createSVGElement('path',{d:pointsToPath(tickPoints)},ticks));
+		};
+		
+		/*
+		 * Labels
+		 */
+		var lblTarget = createSVGElement('text',{
+			x: properties.radius,
+			y: properties.radius,
+			class: 'dial__lbl dial__lbl--target'
+		},svg);
+		var lblTarget_text = document.createTextNode('');
+		lblTarget.appendChild(lblTarget_text);
+		//
+		var lblTargetHalf = createSVGElement('text',{
+			x: properties.radius + properties.radius/2.5,
+			y: properties.radius - properties.radius/8,
+			class: 'dial__lbl dial__lbl--target--half'
+		},svg);
+		var lblTargetHalf_text = document.createTextNode('5');
+		lblTargetHalf.appendChild(lblTargetHalf_text);
+		//
+		var lblAmbient = createSVGElement('text',{
+			class: 'dial__lbl dial__lbl--ambient'
+		},svg);
+		var lblAmbient_text = document.createTextNode('');
+		lblAmbient.appendChild(lblAmbient_text);
+		//
+		var lblAway = createSVGElement('text',{
+			x: properties.radius,
+			y: properties.radius,
+			class: 'dial__lbl dial__lbl--away'
+		},svg);
+		var lblAway_text = document.createTextNode('AWAY');
+		lblAway.appendChild(lblAway_text);
+		//
+		var icoLeaf = createSVGElement('path',{
+			class: 'dial__ico__leaf'
+		},svg);
+		
+		/*
+		 * LEAF
+		 */
+		var leafScale = properties.radius/5/100;
+		var leafDef = ["M", 3, 84, "c", 24, 17, 51, 18, 73, -6, "C", 100, 52, 100, 22, 100, 4, "c", -13, 15, -37, 9, -70, 19, "C", 4, 32, 0, 63, 0, 76, "c", 6, -7, 18, -17, 33, -23, 24, -9, 34, -9, 48, -20, -9, 10, -20, 16, -43, 24, "C", 22, 63, 8, 78, 3, 84, "z"].map(function(x) {
+			return isNaN(x) ? x : x*leafScale;
+		}).join(' ');
+		var translate = [properties.radius-(leafScale*100*0.5),properties.radius*1.5]
+		var icoLeaf = createSVGElement('path',{
+			class: 'dial__ico__leaf',
+			d: leafDef,
+			transform: 'translate('+translate[0]+','+translate[1]+')'
+		},svg);
+			
+		/*
+		 * RENDER
+		 */
+		function render() {
+			renderAway();
+			renderHvacState();
+			renderTicks();
+			renderTargetTemperature();
+			renderAmbientTemperature();
+			renderLeaf();
+		}
+		render();
+
+		/*
+		 * RENDER - ticks
+		 */
+		function renderTicks() {
+			var vMin, vMax;
+			if (self.away) {
+				vMin = self.ambient_temperature;
+				vMax = vMin;
+			} else {
+				vMin = Math.min(self.ambient_temperature, self.target_temperature);
+				vMax = Math.max(self.ambient_temperature, self.target_temperature);
+			}
+			var min = restrictToRange(Math.round((vMin-options.minValue)/properties.rangeValue * options.numTicks),0,options.numTicks-1);
+			var max = restrictToRange(Math.round((vMax-options.minValue)/properties.rangeValue * options.numTicks),0,options.numTicks-1);
+			//
+			tickArray.forEach(function(tick,iTick) {
+				var isLarge = iTick==min || iTick==max;
+				var isActive = iTick >= min && iTick <= max;
+				attr(tick,{
+					d: pointsToPath(rotatePoints(isLarge ? tickPointsLarge: tickPoints,iTick*theta-properties.offsetDegrees,[properties.radius, properties.radius])),
+					class: isActive ? 'active' : ''
+				});
+			});
+		}
+	
+		/*
+		 * RENDER - ambient temperature
+		 */
+		function renderAmbientTemperature() {
+			lblAmbient_text.nodeValue = Math.floor(self.ambient_temperature);
+			if (self.ambient_temperature%1!=0) {
+				lblAmbient_text.nodeValue += '.5';
+			}
+			var peggedValue = restrictToRange(self.ambient_temperature, options.minValue, options.maxValue);
+			degs = properties.tickDegrees * (peggedValue-options.minValue)/properties.rangeValue - properties.offsetDegrees;
+			if (peggedValue > self.target_temperature) {
+				degs += 8;
+			} else {
+				degs -= 8;
+			}
+			var pos = rotatePoint(properties.lblAmbientPosition,degs,[properties.radius, properties.radius]);
+			attr(lblAmbient,{
+				x: pos[0],
+				y: pos[1]
+			});
+		}
+
+		/*
+		 * RENDER - target temperature
+		 */
+		function renderTargetTemperature() {
+			lblTarget_text.nodeValue = Math.floor(self.target_temperature);
+			setClass(lblTargetHalf,'shown',self.target_temperature%1!=0);
+		}
+		
+		/*
+		 * RENDER - leaf
+		 */
+		function renderLeaf() {
+			setClass(svg,'has-leaf',self.has_leaf);
+		}
+		
+		/*
+		 * RENDER - HVAC state
+		 */
+		function renderHvacState() {
+			Array.prototype.slice.call(svg.classList).forEach(function(c) {
+				if (c.match(/^dial--state--/)) {
+					svg.classList.remove(c);
+				};
+			});
+			svg.classList.add('dial--state--'+self.hvac_state);
+		}
+		
+		/*
+		 * RENDER - awau
+		 */
+		function renderAway() {
+			svg.classList[self.away ? 'add' : 'remove']('away');
+		}
+		
+		/*
+		 * Drag to control
+		 */
+		var _drag = {
+			inProgress: false,
+			startPoint: null,
+			startTemperature: 0,
+			lockAxis: undefined
+		};
+		
+		function eventPosition(ev) {
+			if (ev.targetTouches && ev.targetTouches.length) {
+				return  [ev.targetTouches[0].clientX, ev.targetTouches[0].clientY];
+			} else {
+				return [ev.x, ev.y];
+			};
+		}
+		
+		var startDelay;
+		function dragStart(ev) {
+			startDelay = setTimeout(function() {
+				setClass(svg, 'dial--edit', true);
+				_drag.inProgress = true;
+				_drag.startPoint = eventPosition(ev);
+				_drag.startTemperature = self.target_temperature || options.minValue;
+				_drag.lockAxis = undefined;
+			},500);
+		};
+		
+		function dragEnd (ev) {
+			clearTimeout(startDelay);
+			setClass(svg, 'dial--edit', false);
+			if (!_drag.inProgress) return;
+			_drag.inProgress = false;
+			if (self.target_temperature != _drag.startTemperature) {
+				if (typeof options.onSetTargetTemperature == 'function') {
+					options.onSetTargetTemperature(self.target_temperature);
+				};
+			};
+		};
+		
+		function dragMove(ev) {
+			ev.preventDefault();
+			if (!_drag.inProgress) return;
+			var evPos =  eventPosition(ev);
+			var dy = _drag.startPoint[1]-evPos[1];
+			var dx = evPos[0] - _drag.startPoint[0];
+			var dxy;
+			if (_drag.lockAxis == 'x') {
+				dxy  = dx;
+			} else if (_drag.lockAxis == 'y') {
+				dxy = dy;
+			} else if (Math.abs(dy) > properties.dragLockAxisDistance) {
+				_drag.lockAxis = 'y';
+				dxy = dy;
+			} else if (Math.abs(dx) > properties.dragLockAxisDistance) {
+				_drag.lockAxis = 'x';
+				dxy = dx;
+			} else {
+				dxy = (Math.abs(dy) > Math.abs(dx)) ? dy : dx;
+			};
+			var dValue = (dxy*getSizeRatio())/(options.diameter)*properties.rangeValue;
+			self.target_temperature = roundHalf(_drag.startTemperature+dValue);
+		}
+		
+		svg.addEventListener('mousedown',dragStart);
+		svg.addEventListener('touchstart',dragStart);
+		
+		svg.addEventListener('mouseup',dragEnd);
+		svg.addEventListener('mouseleave',dragEnd);
+		svg.addEventListener('touchend',dragEnd);
+		
+		svg.addEventListener('mousemove',dragMove);
+		svg.addEventListener('touchmove',dragMove);
+		//
+		
+		/*
+		 * Helper functions
+		 */
+		function restrictTargetTemperature(t) {
+			return restrictToRange(roundHalf(t),options.minValue,options.maxValue);
+		}
+		
+		function angle(point) {
+			var dx = point[0] - properties.radius;
+			var dy = point[1] - properties.radius;
+			var theta = Math.atan(dx/dy) / (Math.PI/180);
+			if (point[0]>=properties.radius && point[1] < properties.radius) {
+				theta = 90-theta - 90;
+			} else if (point[0]>=properties.radius && point[1] >= properties.radius) {
+				theta = 90-theta + 90;
+			} else if (point[0]<properties.radius && point[1] >= properties.radius) {
+				theta = 90-theta + 90;
+			} else if (point[0]<properties.radius && point[1] < properties.radius) {
+				theta = 90-theta+270;
+			}
+			return theta;
+		};
+		
+		function getSizeRatio() {
+			return options.diameter / targetElement.clientWidth;
+		}
+		
+	};
+})();
+
+/* ==== */
+
+var nest = new thermostatDial(document.getElementById('thermostat'),{
+	onSetTargetTemperature: function(v) {
+        
+        var sendData = {"act":"addTemperature","newTemp":+v}
+	    $.ajax({
+    		url: "../php/settings_param.php",
+            type:'post',
+    		data: sendData,
+    		success: function(data) { 
+            $('#replySave').html(data); 
+                if (nest.ambient_temperature < +v) {
+                    nest.has_leaf = 1;
+                } else {
+                    nest.has_leaf = 0;
+                }
+	    	}
+	    });	
+        
+	}
+});
+
+
+    $.ajax({
+	    	url: "../php/liveParamToJson.php",
+			data: "",
+			success: function(data) {
+            /*PRELUARE DATE*/
+				var rezultat = updateHomeData(data);
+                nest.target_temperature = rezultat[0];
+                nest.ambient_temperature = rezultat[1];                
+                var myBool = (rezultat[2].toLowerCase() === 'true');
+                nest.has_leaf = (myBool ? 1:0);
+				}
+			});	
+
+
+$("#btn_turbo").on("click",function(e){
+   UpdateSettings(); 
+});
+
+
+
+
+function saveSettings(preLoad) {
+	var jsonData = JSON.parse(preLoad);
+	if (jsonData == null) {return;} 
+  jsonData.SYSTEM["THERMOSTATFORCE24"] = "1";
+  
+  var jsonFormed = '{"act":"write","SYSTEM":'+JSON.stringify(jsonData.SYSTEM)+'}';
+	var sendData = JSON.parse(jsonFormed);
+ 
+	$.ajax({
+		url: "../php/settings_param.php",
+        type:'post',
+		data: sendData,
+		success: function(data) {
+            $('#replySave').html(data);  //response   
+		}
+	});	    
+}
+
+
+function UpdateSettings() {
+	/*PRELUARE DATE*/
+	$.ajax({
+		url: "../php/settings_param.php",
+        type:'post',
+		data: {'act':'read'},
+		success: function(data) {
+            saveSettings(data);       
+		}
+	});
+}
