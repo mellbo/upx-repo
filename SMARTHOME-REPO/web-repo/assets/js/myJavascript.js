@@ -3,7 +3,7 @@ var PAGENAME = '';
 var AddNewTemperatureInMonth = '';
 var resetThermostat = 0;
 var PREFERED_LIGHT_DORMITOR = 0;
-var LAST_OUTDOOR_LDR = 0;
+var LIVE_DORMITOR_LDR = 0;
 var idleTime = 0;
 var THERMOSTATLAST = '';
 var timers = [];
@@ -15,6 +15,7 @@ var gateway = window.location.port
 var websocket;
 var websck_is_connected = false;
 var millis_esp = 0;
+var isLOCAL = 0;
 var ERROR_INSTANCE = 0;
 var paginaVizibila = true;
  
@@ -40,10 +41,9 @@ $(document).ready(function() {
         ) loadNewBackGround();
 
     if (PAGENAME == 'settings') {
+      $('#idPlsWait').removeClass('hidden'); 
       inject_function_settings();      
-      //Load Calendar Data
       loadCalendar(); 
-      loadSetings();
     }
 	
     if (PAGENAME == 'logs') {
@@ -72,11 +72,15 @@ $(document).ready(function() {
 /*------------------------------------------------------------------------------------*/
   function onOpen(event) {
     websck_is_connected = 1;  
-		if (PAGENAME == 'settings') verificaVersiune();
-    pool_info_page(); //pool now   
+		if (PAGENAME == 'settings') {
+      verificaVersiune();
+      getSettingsDataCmd();  // pool_info_page() delayed included here
+    } else {
+      pool_info_page(); //pool now   
+    }
     setTimeout(function() {
       checkMillis();
-    }, 2000);    
+    }, 8000);    
     console.log('Connection opened');
 }
 /*-----------------------------------------------------------------------------------*/
@@ -96,8 +100,8 @@ $(document).ready(function() {
 /*-----------------------------------------------------------------------------------*/  
   /*update fields*/
 function onMessage(event) {
-	let jsonObject = JSON.parse(event.data);
-		millis_esp = parseInt(jsonObject['cMs'], 10);
+	let jsonObject = JSON.parse(event.data); 
+  
     //quick banned from server
     if (jsonObject.hasOwnProperty("ERROR_INSTANCE") == true) {
       ERROR_INSTANCE = 1;
@@ -107,14 +111,25 @@ function onMessage(event) {
       location.replace("/protection");
       return;
     }
+
+    if (jsonObject.hasOwnProperty("cMs") == true)    
+        millis_esp = parseInt(jsonObject['cMs'], 10);
+    if (jsonObject.hasOwnProperty("Local") == true) 
+        isLOCAL = jsonObject["Local"];
+    if (jsonObject.hasOwnProperty("dormitorLDR") == true) 
+        LIVE_DORMITOR_LDR = jsonObject["dormitorLDR"];    
     
     let el = document.getElementById("idcMillis");
-    if (el) el.innerText = jsonObject['cMs'];
+    if (el) el.innerText = millis_esp;
     
     if (PAGENAME == 'index') {
       updLiveParamIndex(jsonObject);
     }
-    console.log(jsonObject);  // just for LAB
+    
+    if (PAGENAME == 'settings') {
+      $("#dormitorLDR").html(LIVE_DORMITOR_LDR);
+      if (jsonObject.hasOwnProperty("settings_data") == true) parseSettings(jsonObject);
+    }    
 		jsonObject = null;
 }
 /*-----------------------------------------------------------------------------------*/
@@ -125,7 +140,7 @@ async function verificaVersiune() {
         VERSION = versionElement.innerHTML.trim();
     } else return;
 		  
-    const dataRaw = await fetch('https://mellbo.github.io/upx-repo/VPS-UART/firmware/version');
+    const dataRaw = await fetch('https://mellbo.github.io/upx-repo/SMARTHOME-REPO/firmware/version');
     const data = await dataRaw.text();
     const ini = Object.fromEntries(
         data.split('\n').map(line => line.split('=').map(param => param.trim()))
@@ -138,7 +153,7 @@ async function verificaVersiune() {
 			const idNewFirmwareURL = document.getElementById("idNewFirmwareURL");
 			if (idNewFirmwareURL) {
 				idNewFirmwareURL.href = ini.url;
-				idNewFirmware.classList.remove('d-none');
+				idNewFirmware.classList.remove('hidden');
 			}
 		}			
     } else {
@@ -147,8 +162,23 @@ async function verificaVersiune() {
 }
 /*-----------------------------------------------------------------------------------*/
 const LIVE_DATA_TYPE = 1; // index.html - LiveData
+const GET_DATA_TYPE  = 2;
 const ONLY_PING = 254;
       //ERROR_INSTANCE = 255 but not use from script->esp
+/*-----------------------------------------------------------------------------------*/      
+function getSettingsDataCmd() {
+  if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
+  let data = {
+		"REQUEST_INFO": GET_DATA_TYPE
+	};
+	
+	let _js = JSON.stringify(data);	
+  if (websck_is_connected) websocket.send(_js);
+	_js	= null;
+	data = null;
+  setTimeout(pool_info_page, 1000); //delayed start here
+}
+/*-----------------------------------------------------------------------------------*/
 function pool_info_page() {
   if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
   let DATA_SET_TYPE = ONLY_PING;
@@ -168,7 +198,7 @@ function pool_info_page() {
   if (websck_is_connected) {
     timers.push(setTimeout(function(){
       pool_info_page();
-      }, 1000));	
+      }, 2000));	
   }   
 }
 /*-----------------------------------------------------------------------------------*/
@@ -188,7 +218,7 @@ function checkMillis() {
     }, 3000);
   } else {
     checkMillis.lastMillis = currentMillis;
-    timers.push(setTimeout(checkMillis, 3000)); // rearming checkMillis()
+    timers.push(setTimeout(checkMillis, 5000)); // rearming checkMillis()
   }
 }
 /*-----------------------------------------------------------------------------------*/
@@ -197,6 +227,279 @@ function checkMillis() {
 function inject_function_settings() {
   console.log("loading action and function settings");   
   /*SET ACTION*/
+  
+    /* QUICK SAVING SEND */
+    //THERMOSTAT_OUTSIDE_ENABLE
+    $("#set_THERMOSTAT_OUTSIDE_ENABLE").on("change", function(e) {
+      let data = {
+          "THERMOSTAT_OUTSIDE_ENABLE": $('#set_THERMOSTAT_OUTSIDE_ENABLE').is(":checked")
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;          
+    });
+    
+    //CENTRALA_ON_HISTERIZIS
+    $('#apply_CENTRALA_ON_HISTERIZIS').on('click', function() {
+      let data = {
+          "CENTRALA_ON_HISTERIZIS":  parseFloat($("#set_CENTRALA_ON_HISTERIZIS").val())
+        };
+      let _js = JSON.stringify(data);
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_CENTRALA_ON_HISTERIZIS').addClass('hidden'); 
+    }); 
+
+    //TEMP_INDOOR_CALCULATION_METHOD
+    $('#apply_TEMP_INDOOR_CALCULATION_METHOD').on('click', function() {
+      let data = {
+          "TEMP_INDOOR_CALCULATION_METHOD": parseInt($("#set_TEMP_INDOOR_CALCULATION_METHOD").val(), 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_TEMP_INDOOR_CALCULATION_METHOD').addClass('hidden'); 
+    });
+    
+    //jalAutoModeRun
+    $('#apply_jalAutoModeRun').on('click', function() {
+      let data = {
+          "jalAutoModeRun": parseInt($("#set_jalAutoModeRun").val(), 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_jalAutoModeRun').addClass('hidden'); 
+    });    
+    
+    //smartWelcomeEnable & smartWelcomeAutoSetup
+    $('#save_welcome_setup').on('click', function() {
+      let times = [];
+       times.push($('#welcome_Luni').val());
+       times.push($('#welcome_Marti').val());
+       times.push($('#welcome_Miercuri').val());
+       times.push($('#welcome_Joi').val());
+       times.push($('#welcome_Vineri').val());
+       times.push($('#welcome_Sambata').val());
+       times.push($('#welcome_Duminica').val());
+
+      let data = {
+          "save_welcome_setup": 1,
+          "smartWelcomeEnable": $('#smartWelcomeEnable').is(":checked"),
+          "smartWelcomeAutoSetup": $('#smartWelcomeAutoSetup').is(":checked"),
+          "smartWelcomeTimes": times
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      $('#smartWelcomeWindow').removeClass('in');
+    });
+    
+    // PREFERED_LIGHT_DORMITOR
+    $('#preff_ldr').on('click', function() {
+      PREFERED_LIGHT_DORMITOR = LIVE_DORMITOR_LDR;
+      $('#prefLDRShow').text(PREFERED_LIGHT_DORMITOR);
+      let data = {
+          "PREFERED_LIGHT_DORMITOR": parseInt(PREFERED_LIGHT_DORMITOR, 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;   
+    });
+ 
+    //LowLightPoint
+    $('#apply_LowLightPoint').on('click', function() {
+      let data = {
+          "LowLightPoint": parseInt($("#set_LowLightPoint").val(), 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_LowLightPoint').addClass('hidden'); 
+    });
+
+    //jaluzHisterizis
+    $('#apply_jaluzHisterizis').on('click', function() {
+      let data = {
+          "jaluzHisterizis": parseInt($("#set_jaluzHisterizis").val(), 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_jaluzHisterizis').addClass('hidden'); 
+    });
+    
+    //CLIMA_MODE / climatizareOption
+    $("#climatizareOption").on("change", function(slideEvt) {
+      let mode = parseInt($(this).val(), 10);
+      let data = {
+          "CLIMA_MODE": parseInt(mode, 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+    });
+    
+    //UserBeepMode
+    $("#beepModeID").on("change", function(slideEvt) {
+      let mode = parseInt($(this).val(), 10);
+      let data = {
+          "UserBeepMode": mode
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+    });
+
+    //forceMainDoorOpen
+    //⚠️ nu ar trebui sa re-trimita comanda de zero ptr ca in ESP trebuie asta
+    $("#set_forceMainDoorOpen").on("change", function(e) {
+      let data = {
+          "forceMainDoorOpen": $(this).is(":checked")
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      $('#set_forceMainDoorOpen').prop("disabled", true);
+      
+      // auto-reset
+      timers.push(setTimeout(function(){
+        let data = {
+            "forceMainDoorOpen": false
+          };
+        let _js = JSON.stringify(data);	
+        if (websck_is_connected) websocket.send(_js);
+        _js	= null; data = null;
+        $('#set_forceMainDoorOpen').prop('checked', false);
+        $('#set_forceMainDoorOpen').prop("disabled", false);
+      }, 3000));     
+    });
+    
+    //AlowLightOFF
+    $("#set_AlowLightOFF").on("change", function(e) {
+      let data = {
+          "AlowLightOFF": $('#set_AlowLightOFF').is(":checked")
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;          
+    });
+
+    //FunTemperatureTrigger
+    $('#apply_FunTemperatureTrigger').on('click', function() {
+      let data = {
+          "FunTemperatureTrigger": parseFloat($("#set_FunTemperatureTrigger").val())
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_FunTemperatureTrigger').addClass('hidden'); 
+    });
+
+    //LivoloTestID
+    $('#apply_LivoloTestID').on('click', function() {
+      let data = {
+          "LivoloTestID": parseInt($("#setLivoloTestID").val(), 10)
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_LivoloTestID').addClass('hidden'); 
+    });     
+    
+    // THERMOSTATFORCE24
+    //⚠️ inca nu merge
+    $("#force24Thermo").on("change", function(slideEvt) {
+      let mode = parseInt($(this).val(), 10);
+      let data = {
+          "THERMOSTATFORCE24": mode
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+    });  
+    
+    //KEY110_ENABLE
+    $("#setKEY110_ENABLE").on("change", function(e) {
+      let data = {
+          "KEY110ENABLE": $('#setKEY110_ENABLE').is(":checked")
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;          
+    });
+
+    //KEY120_ENABLE
+    $("#setKEY120_ENABLE").on("change", function(e) {
+      let data = {
+          "KEY120ENABLE": $('#setKEY120_ENABLE').is(":checked")
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;          
+    });
+ 
+    //KEY130_ENABLE
+    $("#setKEY130_ENABLE").on("change", function(e) {
+      let data = {
+          "KEY130ENABLE": $('#setKEY130_ENABLE').is(":checked")
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;          
+    });
+
+    //KEY255_ENABLE
+    $("#setKEY255_ENABLE").on("change", function(e) {
+      let data = {
+          "KEY255ENABLE": $('#setKEY255_ENABLE').is(":checked")
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;          
+    });
+
+    //KEY110_NAME
+    $('#apply_KEY110NAME').on('click', function() {
+      let data = {
+          "KEY110_NAME": $("#SetKEY110NAME").val()
+        };
+      let _js = JSON.stringify(data);	
+      if (websck_is_connected) websocket.send(_js);
+      _js	= null; data = null;
+      
+      $('#apply_KEY110NAME').addClass('hidden'); 
+    });
+    
+    //--> QUICK SAVING SEND 
+    
+    //SetKEY110NAME
+    $("#SetKEY110NAME").on("input", function(slideEvt) {
+        $("#apply_KEY110NAME").removeClass('hidden');
+    });    
+
+    //SetKEY120NAME
+    $("#SetKEY120NAME").on("input", function(slideEvt) {
+        $("#apply_KEY120NAME").removeClass('hidden');
+    }); 
+    
+    //SetKEY130NAME
+    $("#SetKEY130NAME").on("input", function(slideEvt) {
+        $("#apply_KEY130NAME").removeClass('hidden');
+    });     
+
+    //SetKEY255NAME
+    $("#SetKEY255NAME").on("input", function(slideEvt) {
+        $("#apply_KEY255NAME").removeClass('hidden');
+    }); 
+    
     //set_NewTEMPInCALL
     $('#set_NewTEMPInCALL').slider({
         id: 'ex1Slider', //class
@@ -226,8 +529,10 @@ function inject_function_settings() {
         handle: 'round',
         focus: false,
     });
+
     $("#set_CENTRALA_ON_HISTERIZIS").on("change", function(slideEvt) {
         $("#param1Value").text($(this).val());
+        $("#apply_CENTRALA_ON_HISTERIZIS").removeClass('hidden');
     });
 
     //set_TEMP_INDOOR_CALCULATION_METHOD
@@ -245,6 +550,7 @@ function inject_function_settings() {
     $("#set_TEMP_INDOOR_CALCULATION_METHOD").on("change", function(slideEvt) {
         $("#param2Value").text($(this).val());
         $('#metodaCalculBtn').addClass('in');
+        $("#apply_TEMP_INDOOR_CALCULATION_METHOD").removeClass('hidden');
     });
 
     //set_jalAutoModeRun
@@ -263,20 +569,25 @@ function inject_function_settings() {
 
     $("#set_jalAutoModeRun").on("change", function(slideEvt) {
         $("#param3Value").text($(this).val());
+        $("#apply_jalAutoModeRun").removeClass('hidden');
     });
 
     //preset
     $("#MROFF").on("click", function(e) {
         setSlideValue("#set_jalAutoModeRun", "#param3Value", 0);
+        $("#apply_jalAutoModeRun").removeClass('hidden');
     });
     $("#MRUP").on("click", function(e) {
         setSlideValue("#set_jalAutoModeRun", "#param3Value", 1);
+        $("#apply_jalAutoModeRun").removeClass('hidden');
     });
     $("#MRDOWN").on("click", function(e) {
         setSlideValue("#set_jalAutoModeRun", "#param3Value", 2);
+        $("#apply_jalAutoModeRun").removeClass('hidden');
     });
     $("#MRAUTOMAT").on("click", function(e) {
         setSlideValue("#set_jalAutoModeRun", "#param3Value", 3);
+        $("#apply_jalAutoModeRun").removeClass('hidden');
     });
     //preset end
 
@@ -294,6 +605,7 @@ function inject_function_settings() {
     });
     $("#set_LowLightPoint").on("change", function(slideEvt) {
         $("#param4Value").text($(this).val());
+        $("#apply_LowLightPoint").removeClass('hidden');
     });
 
     //set_jaluzHisterizis
@@ -310,6 +622,7 @@ function inject_function_settings() {
     });
     $("#set_jaluzHisterizis").on("change", function(slideEvt) {
         $("#param5Value").text($(this).val());
+        $("#apply_jaluzHisterizis").removeClass('hidden');
     });
 
     //set_FunTemperatureTrigger
@@ -326,6 +639,7 @@ function inject_function_settings() {
     });
     $("#set_FunTemperatureTrigger").on("change", function(slideEvt) {
         $("#param6Value").text($(this).val());
+        $("#apply_FunTemperatureTrigger").removeClass('hidden');
     });
 
     /*SLIDERS END*/
@@ -354,12 +668,8 @@ function inject_function_settings() {
 
     });
 
-
-    //BuTTON
-    $('#setLivoloTestID').keyup(function(event) {
-        if (event.keyCode === 13) {
-            $("#save").click();
-        }
+    $('#setLivoloTestID').on("change", function(e) {
+      $("#apply_LivoloTestID").removeClass('hidden');
     });
 
     $('#gradeCelsius').keyup(function(event) {
@@ -367,11 +677,6 @@ function inject_function_settings() {
             $('#set_NewTEMPInCALL').slider('setValue', $(this).val(), true);
             $("#adaugaInThermostat").click();
         }
-    });
-
-    $('#preff_ldr').on('click', function() {
-        PREFERED_LIGHT_DORMITOR = LAST_OUTDOOR_LDR;
-        saveSettings();
     });
 
     $('#btnKeyInfo').on('click', function() {
@@ -410,10 +715,6 @@ function inject_function_settings() {
         }
     })
 
-    $('#save2').on('click', function() {
-        saveSettings();
-    });
-
     $('#save').on('click', function() {
         saveSettings();
     });
@@ -435,7 +736,11 @@ function inject_function_settings() {
         } else {
           $('.smartWelcome').prop("disabled", false);
         }
-     });      
+     });
+    document.getElementById('idRestoreESP').addEventListener('click', restoreESP);
+    document.getElementById('idRebootESP').addEventListener('click', rebootESP);
+    document.getElementById('idShutDown').addEventListener('click', PowerOff);
+    document.getElementById('idBtnSafeMod').addEventListener('click', rebootInSafeMode);
 } //.inject_function_settings()
 /*-----------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
@@ -492,47 +797,25 @@ if(check == true){
   }
 }
 
-function loadSetings() {
-	/*PRELUARE DATE*/
-    console.log("loadSetings Disabled");
-    return;  
-	$.ajax({
-		url: "../php/settings_param.php",
-        type:'post',
-		data: {'act':'read'},
-		success: function(data) {
-            parseSettings(data);       
-		}
-	});
-}
-
-function parseSettings(raw){
-/*
-    $('#set_THERMOSTAT_OUTSIDE_ENABLE').attr('checked',true);
-    //alert($('#set_THERMOSTAT_OUTSIDE_ENABLE:checked').val() ? 1:);
-    alert(
-       $('#set_THERMOSTAT_OUTSIDE_ENABLE').attr('checked')?"True":"False" 
-    );
-*/
-    console.log("parseSettings Disabled");
+function parseSettings(jsonData){
+	if (jsonData == null) {
+    $('#idPlsWait').removeClass('hidden');
     return;
-    
-	var jsonData = JSON.parse(raw);
-	if (jsonData == null) {return;}
-    
-  $("#set_THERMOSTAT_OUTSIDE_ENABLE").attr('checked',(jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"].toLowerCase() === 'true'));
-	$("#set_forceMainDoorOpen").attr('checked',(jsonData.SYSTEM["forceMainDoorOpen"].toLowerCase() === 'true'));
-	$("#set_AlowLightOFF").attr('checked',(jsonData.SYSTEM["AlowLightOFF"].toLowerCase() === 'true'));
+    }
+  console.log(jsonData);
+  
+  $("#set_THERMOSTAT_OUTSIDE_ENABLE").prop('checked',jsonData.SYSTEM["THERMOSTAT_OUTSIDE_ENABLE"]);
+  $('#set_forceMainDoorOpen').prop('checked', jsonData.SYSTEM["forceMainDoorOpen"]);
+  $("#set_AlowLightOFF").prop('checked',jsonData.SYSTEM["AlowLightOFF"]);	
+	$("#setKEY110_ENABLE").prop('checked',jsonData.SYSTEM["KEY110ENABLE"]);
+	$("#setKEY120_ENABLE").prop('checked',jsonData.SYSTEM["KEY120ENABLE"]);
+	$("#setKEY130_ENABLE").prop('checked',jsonData.SYSTEM["KEY130ENABLE"]);
+	$("#setKEY255_ENABLE").prop('checked',jsonData.SYSTEM["KEY255ENABLE"]);
 	
-	$("#setKEY110_ENABLE").attr('checked',(jsonData.SYSTEM["KEY110_ENABLE"].toLowerCase() === 'true'));
-	$("#setKEY120_ENABLE").attr('checked',(jsonData.SYSTEM["KEY120_ENABLE"].toLowerCase() === 'true'));
-	$("#setKEY130_ENABLE").attr('checked',(jsonData.SYSTEM["KEY130_ENABLE"].toLowerCase() === 'true'));
-	$("#setKEY255_ENABLE").attr('checked',(jsonData.SYSTEM["KEY255_ENABLE"].toLowerCase() === 'true'));
-	
-	$("#SetKEY110NAME").val(jsonData.SYSTEM["SetKEY110NAME"]);
-	$("#SetKEY120NAME").val(jsonData.SYSTEM["SetKEY120NAME"]);
-	$("#SetKEY130NAME").val(jsonData.SYSTEM["SetKEY130NAME"]);
-	$("#SetKEY255NAME").val(jsonData.SYSTEM["SetKEY255NAME"]);
+	$("#SetKEY110NAME").val(jsonData.SYSTEM["KEY110NAME"]);
+	$("#SetKEY120NAME").val(jsonData.SYSTEM["KEY120NAME"]);
+	$("#SetKEY130NAME").val(jsonData.SYSTEM["KEY130NAME"]);
+	$("#SetKEY255NAME").val(jsonData.SYSTEM["KEY255NAME"]);
 	
 	$("#setLivoloTestID").val(jsonData.SYSTEM["LivoloTestID"]);    
 	
@@ -542,31 +825,48 @@ function parseSettings(raw){
 	setSlideValue("#set_LowLightPoint","#param4Value",jsonData.SYSTEM["LowLightPoint"]);
 	setSlideValue("#set_jaluzHisterizis","#param5Value",jsonData.SYSTEM["jaluzHisterizis"]);
 	setSlideValue("#set_FunTemperatureTrigger","#param6Value",jsonData.SYSTEM["FunTemperatureTrigger"]);	
-    PREFERED_LIGHT_DORMITOR = jsonData.SYSTEM["PREFERED_LIGHT_DORMITOR"];
-    THERMOSTATLAST = jsonData.SYSTEM["THERMOSTAT_LAST"];
-    $('#prefLDRShow').text(PREFERED_LIGHT_DORMITOR);
-    $('#beepModeID').val(jsonData.SYSTEM["UserBeepMode"]);
+  PREFERED_LIGHT_DORMITOR = jsonData.SYSTEM["PREFERED_LIGHT_DORMITOR"];
+  THERMOSTATLAST = jsonData.SYSTEM["THERMOSTAT_LAST"];
+  $('#prefLDRShow').text(PREFERED_LIGHT_DORMITOR);
+  $('#beepModeID').val(jsonData.SYSTEM["UserBeepMode"]);
+  isLOCAL = jsonData["isLOCAL"];
+    if (isLOCAL) {
+      $('#set_forceMainDoorOpen').prop("disabled", false);
+    } else {
+       $('#set_forceMainDoorOpen').prop("disabled", true);
+    }
 	$('#climatizareOption').val(jsonData.SYSTEM["CLIMA_MODE"]);
-    $('#force24Thermo').val(jsonData.SYSTEM["THERMOSTATFORCE24"]);
-  $("#smartWelcomeEnable").attr('checked',(jsonData.SYSTEM["smartWelcomeEnable"].toLowerCase() === 'true'));
-  $("#smartWelcomeAutoSetup").attr('checked',(jsonData.SYSTEM["smartWelcomeAutoSetup"].toLowerCase() === 'true'));
-  $("#welcome_Luni").val(jsonData.SYSTEM["welcome_Luni"]);
-  $("#welcome_Marti").val(jsonData.SYSTEM["welcome_Marti"]);
-  $("#welcome_Miercuri").val(jsonData.SYSTEM["welcome_Miercuri"]);
-  $("#welcome_Joi").val(jsonData.SYSTEM["welcome_Joi"]);
-  $("#welcome_Vineri").val(jsonData.SYSTEM["welcome_Vineri"]);
-  $("#welcome_Sambata").val(jsonData.SYSTEM["welcome_Sambata"]);
-  $("#welcome_Duminica").val(jsonData.SYSTEM["welcome_Duminica"]);
+  $('#force24Thermo').val(jsonData.SYSTEM["THERMOSTATFORCE24"]);
+  $("#smartWelcomeEnable").prop('checked',jsonData.SYSTEM["smartWelcomeEnable"]);
+  $("#smartWelcomeAutoSetup").prop('checked',jsonData.SYSTEM["smartWelcomeAutoSetup"]);
+  
+  $("#welcome_Luni").val(jsonData.SYSTEM["Welcome_Time"]["day1"]);
+  $("#welcome_Marti").val(jsonData.SYSTEM["Welcome_Time"]["day2"]);
+  $("#welcome_Miercuri").val(jsonData.SYSTEM["Welcome_Time"]["day3"]);
+  $("#welcome_Joi").val(jsonData.SYSTEM["Welcome_Time"]["day4"]);
+  $("#welcome_Vineri").val(jsonData.SYSTEM["Welcome_Time"]["day5"]);
+  $("#welcome_Sambata").val(jsonData.SYSTEM["Welcome_Time"]["day6"]);
+  $("#welcome_Duminica").val(jsonData.SYSTEM["Welcome_Time"]["day7"]);
 
   if ($("#smartWelcomeAutoSetup").is(':checked')) {
    event.preventDefault();
    $('.smartWelcome').prop("disabled", true);
   } else {
     $('.smartWelcome').prop("disabled", false);
-  } 
+  }
+  
+  $('#idPlsWait').addClass('hidden');
 }
 
 function saveSettings() {
+    let data = {
+      "THERMOSTAT_OUTSIDE_ENABLE": $('#set_THERMOSTAT_OUTSIDE_ENABLE').is(":checked")
+    };
+    let _js = JSON.stringify(data);	
+    if (websck_is_connected) websocket.send(_js);
+    _js	= null;
+    data = null;  
+    
     console.log("Save Settings Disabled");
     return;
 	var sendData = {"act":"write","SYSTEM":{
@@ -581,10 +881,10 @@ function saveSettings() {
 		"CENTRALA_ON_HISTERIZIS":$('#set_CENTRALA_ON_HISTERIZIS').val(),
 		"AddNewTemperatureInMonth":AddNewTemperatureInMonth,
 		
-		"KEY110_ENABLE":$('#setKEY110_ENABLE').is(":checked"),
-		"KEY120_ENABLE":$('#setKEY120_ENABLE').is(":checked"),
-		"KEY130_ENABLE":$('#setKEY130_ENABLE').is(":checked"),
-		"KEY255_ENABLE":$('#setKEY255_ENABLE').is(":checked"),
+		"KEY110ENABLE":$('#setKEY110_ENABLE').is(":checked"),
+		"KEY120ENABLE":$('#setKEY120_ENABLE').is(":checked"),
+		"KEY130ENABLE":$('#setKEY130_ENABLE').is(":checked"),
+		"KEY255ENABLE":$('#setKEY255_ENABLE').is(":checked"),
 		"SetKEY110NAME":$('#SetKEY110NAME').val(),
 		"SetKEY120NAME":$('#SetKEY120NAME').val(),
 		"SetKEY130NAME":$('#SetKEY130NAME').val(),
@@ -632,8 +932,8 @@ function processCalorPos(id,calSt,calReq) {
 }
 
 function updLiveParamIndex(jsonData) {
+        console.log(jsonData);
 				//-->UPDATE ITEMS BY ID & INI 'NAME' ITEM
-				var DaSauNu = "";
         var blinkClass = "";
 				var cal1St,cal1Req,cal1Vcc;
 				var cal2St,cal2Req,cal2Vcc;
@@ -673,13 +973,12 @@ function updLiveParamIndex(jsonData) {
 				 $("#TEMP_BUCATARIE").html(jsonData["TEMP_BUCATARIE"]);
 				 $("#TEMP_DORMITOR").html('<div>'+jsonData["TEMP_DORMITOR"]+'&nbsp;&nbsp;'+processCalorPos("cal6",cal5St,cal5Req)+'</div>');
 				 
-				 //$("#TEMP_DORMITOR2").html(jsonData["TEMP_DORMITOR2"]);
-                 blinkClass = checkValueForBlink(jsonData["HUM_DORMITOR2"],20,65);
+         blinkClass = checkValueForBlink(jsonData["HUM_DORMITOR2"],20,65);
 				 $("#TEMP_DORMITOR2").html('<div class="'+blinkClass+'">'+jsonData["TEMP_DORMITOR2"]+
 										   '&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+jsonData["HUM_DORMITOR2"] +
 										   '%&nbsp;&nbsp;'+processCalorPos("cal5",cal6St,cal6Req)+'</div>');				 
 				 
-                 blinkClass = checkValueForBlink(jsonData["HOL_HUMIDITY"],20,65);
+         blinkClass = checkValueForBlink(jsonData["HOL_HUMIDITY"],20,65);
 				 $("#TEMP_HOL").html('<div class="'+blinkClass+'">'+jsonData["TEMP_HOL"]+
 									 '&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+jsonData["HOL_HUMIDITY"] +
 									 '%&nbsp;&nbsp;'+processCalorPos("cal1",cal1St,cal1Req)+processCalorPos("cal2",cal2St,cal2Req)+
@@ -694,72 +993,59 @@ function updLiveParamIndex(jsonData) {
 				 blinkClass = checkValueForBlink(jsonData["VOLTAGE_MAIN"],14.9,15.6);
 				 $("#VOLTAGE_MAIN").html('<div class="'+blinkClass+'">'+jsonData["VOLTAGE_MAIN"]+'</div>');
 				 
-				if (jsonData["CentralaOn"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#CentralaOn").html(DaSauNu + ' de ' + jsonData["IncalzireSecondsLastState"]);
-				if (jsonData["ClimaOn"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#ClimaON").html(DaSauNu);				 
+				 $("#CentralaOn").html((jsonData["CentralaOn"]?"DA":"NU") + ' de ' + jsonData["IncalzireSecondsLastState"]);
+				 $("#ClimaON").html((jsonData["ClimaOn"]?"DA":"NU"));				 
 				 $("#jalAutoModeRun").html(decodeJalAutoMode(jsonData["jalAutoModeRun"]));
-				 $("#LowLightPoint").html(jsonData["LowLightPoint"]);
-				if (jsonData["AlowLightOFF"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#AlowLightOFF").html(DaSauNu);
-				if (jsonData["HomeIsAlone"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#HomeIsAlone").html(DaSauNu);
+				 $("#LowLightPoint").html(jsonData["LowLightPoint"]);		
+         $("#AlowLightOFF").html((jsonData["AlowLightOFF"]?"DA":"NU"));
+				 $("#HomeIsAlone").html((jsonData["HomeIsAlone"]?"DA":"NU"));
 				 $("#jaluzHisterizis").html(jsonData["jaluzHisterizis"]);
     
 				 blinkClass = checkValueForBlink(jsonData["KEY110BATTERY"],2.75,3.30);
 				 $("#KEY110BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY110BATTERY"]+'</div>');				 				 
-				 $("#KEY110CONTOR").html(jsonData["KEY110CONTOR"]);
+				 //--$("#KEY110CONTOR").html(jsonData["KEY110CONTOR"]);
 				 $("#KEY110LASTSEEN").html(jsonData["KEY110LASTSEEN"]);
-				if (jsonData["KEY110ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#KEY110ENABLE").html(DaSauNu);
-				if (jsonData["KEY110HOME"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#KEY110HOME").html(DaSauNu +', de '+jsonData['KEY110LASTCHANGE']);
+				 $("#KEY110ENABLE").html((jsonData["KEY110ENABLE"]?"DA":"NU"));
+				 $("#KEY110HOME").html((jsonData["KEY110HOME"]?"DA":"NU") +', de '+jsonData['KEY110LASTCHANGE']);
 				 $("#KEY110NAME").html(jsonData["KEY110NAME"]);
 
 				 blinkClass = checkValueForBlink(jsonData["KEY120BATTERY"],2.75,3.30);
 				 $("#KEY120BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY120BATTERY"]+'</div>');					 
-				 $("#KEY120CONTOR").html(jsonData["KEY120CONTOR"]);
+				 //--$("#KEY120CONTOR").html(jsonData["KEY120CONTOR"]);
 				 $("#KEY120LASTSEEN").html(jsonData["KEY120LASTSEEN"]);
-				if (jsonData["KEY120ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#KEY120ENABLE").html(DaSauNu);
-				if (jsonData["KEY120HOME"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#KEY120HOME").html(DaSauNu +', de '+jsonData['KEY120LASTCHANGE']);
+				 $("#KEY120ENABLE").html((jsonData["KEY120ENABLE"]?"DA":"NU"));
+				 $("#KEY120HOME").html((jsonData["KEY120HOME"]?"DA":"NU") +', de '+jsonData['KEY120LASTCHANGE']);
 				 $("#KEY120NAME").html(jsonData["KEY120NAME"]);
 
 				 blinkClass = checkValueForBlink(jsonData["KEY130BATTERY"],2.75,3.30);
 				 $("#KEY130BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY130BATTERY"]+'</div>'); 
-				 $("#KEY130CONTOR").html(jsonData["KEY130CONTOR"]);
+				 //--$("#KEY130CONTOR").html(jsonData["KEY130CONTOR"]);
 				 $("#KEY130LASTSEEN").html(jsonData["KEY130LASTSEEN"]);
-				if (jsonData["KEY130ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#KEY130ENABLE").html(DaSauNu);
-				if (jsonData["KEY130HOME"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#KEY130HOME").html(DaSauNu +', de '+jsonData['KEY130LASTCHANGE']);
+				 $("#KEY130ENABLE").html((jsonData["KEY130ENABLE"]?"DA":"NU"));
+				 $("#KEY130HOME").html((jsonData["KEY130HOME"]?"DA":"NU") +', de '+jsonData['KEY130LASTCHANGE']);
 				 $("#KEY130NAME").html(jsonData["KEY130NAME"]);
 
 				 blinkClass = checkValueForBlink(jsonData["KEY255BATTERY"],2.75,3.30);
 				 $("#KEY255BATTERY").html('<div class="'+blinkClass+'">'+jsonData["KEY255BATTERY"]+'</div>'); 				 
-				 $("#KEY255CONTOR").html(jsonData["KEY255CONTOR"]);
+				 //--$("#KEY255CONTOR").html(jsonData["KEY255CONTOR"]);
 				 $("#KEY255LASTSEEN").html(jsonData["KEY255LASTSEEN"]);
-				if (jsonData["KEY255ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#KEY255ENABLE").html(DaSauNu);
-				if (jsonData["KEY255HOME"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#KEY255HOME").html(DaSauNu +', de '+jsonData['KEY255LASTCHANGE']);
+				 $("#KEY255ENABLE").html((jsonData["KEY255ENABLE"]?"DA":"NU"));
+				 $("#KEY255HOME").html((jsonData["KEY255HOME"]?"DA":"NU") +', de '+jsonData['KEY255LASTCHANGE']);
 				 $("#KEY255NAME").html(jsonData["KEY255NAME"]);
     
 				 $("#TEMP_INDOOR_CALCULATION_METHOD").html(jsonData["TEMP_INDOOR_CALCULATION_METHOD"]);
 				 $("#CENTRALA_ON_HISTERIZIS").html(jsonData["CENTRALA_ON_HISTERIZIS"]);
-				if (jsonData["THERMOSTAT_OUTSIDE_ENABLE"] == "True") {DaSauNu = "DA";} else {DaSauNu = "NU";}
-				 $("#THERMOSTAT_OUTSIDE_ENABLE").html(DaSauNu);
-				 $("#ThisUpdateTime").html(jsonData["ThisUpdateTime"]);
+				 $("#THERMOSTAT_OUTSIDE_ENABLE").html((jsonData["THERMOSTAT_OUTSIDE_ENABLE"]?"DA":"NU"));
+				 //-?$("#ThisUpdateTime").html(jsonData["ThisUpdateTime"]);
 				 $("#TEMP_GATEWAY").html(jsonData["TEMP_GATEWAY"]);
 				 $("#TEMP_MATRIX").html((temp_resimtita(parseFloat(jsonData["MATRIX_INDOOR"]), parseFloat(jsonData["HOL_HUMIDITY"]), 0.2))).toString();
 				 $("#jalModeNow").html(decodeJalModeNow(jsonData["jalModeNow"]));
+         LIVE_DORMITOR_LDR = jsonData["dormitorLDR"];
 				 $("#outdoorLDR").html(jsonData["outdoorLDR"]);
-				 $("#dormitorLDR").html(jsonData["dormitorLDR"]);
-                   LAST_OUTDOOR_LDR = jsonData["dormitorLDR"];
+				 $("#dormitorLDR").html(LIVE_DORMITOR_LDR);      
 				 $("#MATRIX_INDOOR").html(jsonData["MATRIX_INDOOR"]);
 				 $("#jalAutoModeRunDSP").html(jsonData["jalAutoModeRun"]);    
-                 $("#updateTime").text(jsonData["ThisUpdateTime"]);
+         $("#updateTime").text(jsonData["LocalTime"]);
 }
 
 function getLogs(type) {
@@ -866,17 +1152,14 @@ function checkValueForBlink(value,minVal,MaxVal) {
     }
 }
 
-// AICI CE FAC ???!!!!!!
 function checkIfMobile() {
     var viewport = $('.xyzzy:visible').attr('data-size');
         if( viewport == 'xs' ) {
             $('#interfaceContainer').removeClass('home-product');
-            //$('#loginID').removeClass('home-product');  // not find in file
-            //$('#LogsContainerID').removeClass('home-product'); //not find in file
             $('#sumarID').addClass('hidden');
             return true;
         } else {
-            return false;
+          return false;
         }
 }
 
@@ -900,9 +1183,80 @@ function info_reboot_web(lvState){
 
 function loadNewBackGround() {
   const totalImages = 20;
-  const randomNum = Math.floor(Math.random() * totalImages) + 1;
+  const randomNum = Math.floor(Math.random() * 21);  // 0…20 inclusiv
   const element = document.querySelector('.home-product');
   if(element) {
     element.style.backgroundImage = `url("https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/img/background/${randomNum}.jpg")`;
   }  
 }
+
+/*------------------------------------------------------------------------------------------------*/
+function restoreESP(){
+	let data = {
+		"RESET": 1
+	};
+	
+	let _js = JSON.stringify(data);	
+    if (websck_is_connected) websocket.send(_js);
+	_js	= null;
+	data = null;
+	alert("The system is resetting and restarting, approximately 1 minute.\n" +
+      "After restoration, you may need to enter SAFEMODE\n" +
+      "to input the configuration data for Internet WIFI.\n" +
+      "My address for AP is: http://192.168.1.1\n\n" +
+      "Confirm this dialog after you are already connected to 'UPX-SMARTHOME'!");
+
+	setTimeout(function(){
+		window.location.replace("http://192.168.1.1");
+		}, 3000);			  
+}
+/*------------------------------------------------------------------------------------------------*/
+function rebootESP(){
+	let data = {
+		"RESTART": 1
+	};
+	
+	let _js = JSON.stringify(data);	
+    if (websck_is_connected) websocket.send(_js);
+	_js	= null;
+	data = null;
+	alert("The system is restarting, 30 seconds.\n" +
+      "Refresh the page after the time has elapsed.");
+
+	setTimeout(function(){
+		location.reload();
+		}, 3000);		  
+}
+/*------------------------------------------------------------------------------------------------*/
+function PowerOff(){
+	if (confirm("Do you really want to shut down the system?")) {
+		let data = {"SHUTDOWN": 1};
+		let _js = JSON.stringify(data);	
+		if (websck_is_connected) websocket.send(_js);
+		_js	= null;
+		data = null;
+		alert("Power OFF.\nHave nice Day.");
+    window.location.replace("https://upx.ro");
+	}
+}
+/*------------------------------------------------------------------------------------------------*/
+function rebootInSafeMode(){
+  ERROR_INSTANCE = 1;
+	let data = {
+		"SAFEMODE": 1
+	};
+	
+	let _js = JSON.stringify(data);	
+    if (websck_is_connected) websocket.send(_js);
+	_js	= null;
+	data = null;
+	alert("The system is restarting and will run in AP-SAFEMODE.\n" +
+      "Look for the WIFI SSID 'UPX-VPS-GATEWAY' and connect to it.\n" +
+      "My address for AP is: http://192.168.1.1\n\n" +
+      "Confirm this dialog after you are already connected to 'UPX-SMARTHOME'!");
+
+	setTimeout(function(){
+		window.location.replace("http://192.168.1.1");
+		}, 3000);		  
+}
+/*------------------------------------------------------------------------------------------------*/

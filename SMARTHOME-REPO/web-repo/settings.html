@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>SMART HOME</title>
+    <meta name="theme-color" content="#2a60aa">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT">
@@ -29,6 +30,9 @@
     <div class="hidden" id="idNoConnexion" style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.59);z-index: 9999;font-size: 5vw;">
         <p class="text-center" style="position: fixed;top: 50%;color: white;min-width: 100%;">Reboot Page..</p>
     </div>
+    <div class="hidden" id="idPlsWait" style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.59);z-index: 9999;font-size: 5vw;">
+        <p class="text-center" style="position: fixed;top: 50%;color: white;min-width: 100%;">Loading...</p>
+    </div>
     <div style="background-color:transparent;">
         <div class="visible-xs-block xyzzy" data-size="xs"></div>
         <div class="visible-sm-block xyzzy" data-size="sm"></div>
@@ -37,7 +41,7 @@
     </div>
     <div style="background-color:transparent;">
         <nav class="navbar navbar-inverse navigation-clean" style="font-family:Aldrich, sans-serif;font-size:15px;">
-            <div class="container-fluid">
+            <div class="container-fluid"><span class="label label-info pull-right" id="idcMillis" style="font-size: 10px;font-family: 'News Cycle', sans-serif;">00:00:00</span>
                 <div class="navbar-header"><a class="navbar-brand" style="font-size:24px;" href="#"> <i class="fa fa-microchip icon" style="font-size:22px;width:33px;color:rgb(255,0,0);"></i> SMART HOME by UPX</a><button data-toggle="collapse" class="navbar-toggle collapsed" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                 <div class="collapse navbar-collapse" id="navcol-1">
                     <ul class="nav navbar-nav navbar-right" style="font-size:20px;font-family:'News Cycle', sans-serif;">
@@ -52,7 +56,7 @@
         </nav>
     </div>
     <div class="intro" style="height:2px;background-color:#ffcc1e;"></div>
-    <div class="container-fluid" id="settingsContainerID" style="background:linear-gradient(135deg, #172a74, #21a9af);font-size:13px;font-family:'News Cycle', sans-serif;">
+    <div class="container-fluid" id="settingsContainerID" style="background: linear-gradient(135deg, #172a74, #21a9af);font-size: 13px;font-family: 'News Cycle', sans-serif;">
         <div style="height:15px;"></div>
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -73,14 +77,14 @@
                                 <p>Histerizis termostat Centrala</p>
                             </div>
                             <div class="col-md-6 col-sm-6"><span id="param1Value" class="pull-left">0 </span>
-                                <div class="pull-right" style="width:80%;"><input type="range" id="set_CENTRALA_ON_HISTERIZIS" value="0.20" min="0.2" max="5.0" step="0.1"></div>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_CENTRALA_ON_HISTERIZIS" value="0.20" min="0.2" max="5.0" step="0.1"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_CENTRALA_ON_HISTERIZIS" type="button" style="margin: 5px;">Aplica</button></div>
                             </div>
                             <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
                             <div class="col-md-6 col-sm-6">
-                                <p style="width:186px;">Metoda calcul Interior</p>
+                                <p>Metoda calcul Interior</p>
                             </div>
                             <div class="col-md-6 col-sm-6"><span id="param2Value" class="pull-left">0 </span>
-                                <div class="pull-right" style="width:80%;"><input type="range" id="set_TEMP_INDOOR_CALCULATION_METHOD" value="1" min="0" max="5" step="1"></div>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_TEMP_INDOOR_CALCULATION_METHOD" value="1" min="0" max="5" step="1"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_TEMP_INDOOR_CALCULATION_METHOD" type="button" style="margin: 5px;">Aplica</button></div>
                             </div>
                             <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
                             <div class="panel-group" role="tablist" aria-multiselectable="true" id="accordion-1" style="margin:0px;">
@@ -142,7 +146,7 @@
                                                     <div class="panel-heading" role="tab" style="background-color:#336699;height:21px;padding:0px;">
                                                         <h4 class="panel-title"><i class="fa fa-fire" style="padding:3px;width:22px;color:#ffcc1e;font-size:13px;"></i><a role="button" data-toggle="collapse" aria-expanded="false" data-parent="#accordion-2" href="#accordion-2 .item-1" style="font-size:14px;margin:-4px;font-family:'News Cycle', sans-serif;color:#ffcc1e;">Setup Smart Heating for 'Welcome"</a></h4>
                                                     </div>
-                                                    <div class="panel-collapse collapse item-1" role="tabpanel" id="metodaCalculBtn" style="background-color:transparent;">
+                                                    <div class="panel-collapse collapse item-1" role="tabpanel" id="smartWelcomeWindow" style="background-color:transparent;">
                                                         <div class="panel-body text-left">
                                                             <div class="col-md-12 col-sm-12">
                                                                 <div class="checkbox"><label><input type="checkbox" id="smartWelcomeEnable" checked="">Functie activa</label></div>
@@ -209,7 +213,7 @@
                                                             </div>
                                                             <div class="col-md-6 col-sm-6"><i class="glyphicon glyphicon-cog" style="font-size: 70px;"></i>
                                                                 <div class="checkbox"><label><input type="checkbox" id="smartWelcomeAutoSetup" checked="">Ajusteaza automat</label></div>
-                                                                <p class="form-control-static" style="font-size: 10px;color: #51b5e0;">Modul automat, seteaza o ora mai mare de ora 15, cand utilizatorul revine acasa dupa o perioada mai mare de 2h.</p><button class="btn btn-default btn-xs" data-bss-hover-animate="flash" id="save2" style="background-color: rgb(255,204,30);font-family: Aldrich, sans-serif;font-size: 18px;color: rgb(24,55,122);" type="button">Aplica</button>
+                                                                <p class="form-control-static" style="font-size: 10px;color: #51b5e0;">Modul automat, seteaza o ora mai mare de ora 15, cand utilizatorul revine acasa dupa o perioada mai mare de 2h.</p><button class="btn btn-default btn-xs" data-bss-hover-animate="flash" id="save_welcome_setup" style="background-color: rgb(255,204,30);font-family: Aldrich, sans-serif;font-size: 18px;color: rgb(24,55,122);" type="button">Aplica</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -242,21 +246,21 @@
                                 <p>Tip Mod Automat </p>
                             </div>
                             <div class="col-md-6 col-sm-6"><span id="param3Value" class="pull-left">0 </span>
-                                <div class="pull-right" style="width:80%;"><input type="range" id="set_jalAutoModeRun" value="0" min="0" max="900" step="1"></div>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_jalAutoModeRun" value="0" min="0" max="900" step="1"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_jalAutoModeRun" type="button" style="margin: 5px;">Aplica</button></div>
                             </div>
                             <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
                             <div class="col-md-6 col-sm-6">
                                 <p>Prag Zi/Noapte</p>
                             </div>
                             <div class="col-md-6 col-sm-6"><span id="param4Value" class="pull-left">0 </span>
-                                <div class="pull-right" style="width:80%;"><input type="range" id="set_LowLightPoint" value="20" min="0" max="500" step="1"></div>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_LowLightPoint" value="20" min="0" max="500" step="1"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_LowLightPoint" type="button" style="margin: 5px;">Aplica</button></div>
                             </div>
                             <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
                             <div class="col-md-6 col-sm-6">
                                 <p>Histerizis Jaluzele</p>
                             </div>
                             <div class="col-md-6 col-sm-6"><span id="param5Value" class="pull-left">0 </span>
-                                <div class="pull-right" style="width:80%;"><input type="range" id="set_jaluzHisterizis" value="20" min="0" max="200" step="1"></div>
+                                <div class="pull-right" style="width:80%;"><input type="range" id="set_jaluzHisterizis" value="20" min="0" max="200" step="1"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_jaluzHisterizis" type="button" style="margin: 5px;">Aplica</button></div>
                             </div>
                             <div style="height:53px;"></div>
                             <div class="col-md-12">
@@ -340,13 +344,13 @@
                                 <p>Porneste ventilatia PCB daca temperatura PC este mai mare de</p>
                             </div>
                             <div class="col-md-6 col-sm-6"><span id="param6Value" class="pull-left">0 </span>
-                                <div class="pull-right" style="width:68%;"><input type="range" id="set_FunTemperatureTrigger" value="24.0" min="20.0" max="50.0" step="0.25"></div>
+                                <div class="pull-right" style="width:68%;"><input type="range" id="set_FunTemperatureTrigger" value="24.0" min="20.0" max="50.0" step="0.25"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_FunTemperatureTrigger" type="button" style="margin: 5px;">Aplica</button></div>
                             </div>
                             <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
                             <div class="col-md-6 col-sm-6">
                                 <p>TEST LIVOLO ID (trimite puls de configurare pentru LIVOLO)</p>
                             </div>
-                            <div class="col-md-6 col-sm-6"><input type="number" data-bss-hover-animate="flash" id="setLivoloTestID" style="border-radius:5px;border-width:1px;border-style:solid;width:85px;height:25px;background-color:transparent;font-size:12px;padding:10px;" value="0" placeholder="LIVOLO ID" min="0" max="999" step="1"></div>
+                            <div class="col-md-6 col-sm-6"><input type="number" data-bss-hover-animate="flash" id="setLivoloTestID" style="border-radius:5px;border-width:1px;border-style:solid;width:85px;height:25px;background-color:transparent;font-size:12px;padding:10px;" value="0" placeholder="LIVOLO ID" min="0" max="999" step="1"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_LivoloTestID" type="button" style="margin: 5px;">Aplica</button></div>
                             <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
                             <div class="col-md-6 col-sm-6 inline-block">
                                 <p style="margin:6px;padding:5px;">Forteaza centrala ON 24ºC</p>
@@ -371,17 +375,17 @@
                             <h3 class="panel-title" style="background-color:transparent;color:#ffcc1e;"><i class="icon ion-android-settings" style="padding:0px;margin:0;width:22px;color:#ffcc1e;"></i> KEY SETUP</h3>
                         </div>
                         <div class="panel-body" style="color:rgb(255,255,255);">
-                            <div class="col-md-3 col-sm-3" style="background-color:#336699;"><i class="icon ion-radio-waves" style="font-size:20px;"></i><span style="font-size:20px;font-family:Aldrich, sans-serif;"> KEY 110</span>
-                                <div class="checkbox" data-bss-hover-animate="flash"><label><input type="checkbox" id="setKEY110_ENABLE">ACTIVAT</label></div><label style="font-size:15px;" for="SetKEY110NAME">NAME :</label><input type="text" data-bss-hover-animate="flash" id="SetKEY110NAME" style="border-radius:5px;border-width:1px;border-style:solid;height:25px;background-color:transparent;font-size:12px;padding:10px;margin:4px;" value="default" placeholder="Set Name for KEY" autocomplete="on">
+                            <div class="col-md-3 col-sm-3" style="background-color:#336699;"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_KEY110NAME" type="button" style="margin: 5px;">Aplica</button><i class="icon ion-radio-waves" style="font-size:20px;"></i><span style="font-size:20px;font-family:Aldrich, sans-serif;"> KEY 110</span>
+                                <div class="checkbox" data-bss-hover-animate="flash"><label><input type="checkbox" id="setKEY110_ENABLE">ACTIVAT</label></div><label style="font-size:15px;" for="SetKEY110NAME">NAME :</label><input type="text" data-bss-hover-animate="flash" id="SetKEY110NAME" style="border-radius: 5px;border-width: 1px;border-style: solid;height: 25px;background-color: transparent;font-size: 12px;padding: 10px;margin: 4px;" placeholder="Set Name for KEY" autocomplete="off" maxlength="30">
                             </div>
-                            <div class="col-md-3 col-sm-3" style="background-color:#346ca4;"><i class="icon ion-radio-waves" style="font-size:20px;"></i><span style="font-size:20px;font-family:Aldrich, sans-serif;"> KEY 120</span>
-                                <div class="checkbox" data-bss-hover-animate="flash"><label><input type="checkbox" id="setKEY120_ENABLE">ACTIVAT</label></div><label style="font-size:15px;" for="SetKEY120NAME">NAME :</label><input type="text" data-bss-hover-animate="flash" id="SetKEY120NAME" style="border-radius:5px;border-width:1px;border-style:solid;height:25px;background-color:transparent;font-size:12px;padding:10px;margin:4px;" value="default" placeholder="Set Name for KEY" autocomplete="on">
+                            <div class="col-md-3 col-sm-3" style="background-color:#346ca4;"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_KEY120NAME" type="button" style="margin: 5px;">Aplica</button><i class="icon ion-radio-waves" style="font-size:20px;"></i><span style="font-size:20px;font-family:Aldrich, sans-serif;"> KEY 120</span>
+                                <div class="checkbox" data-bss-hover-animate="flash"><label><input type="checkbox" id="setKEY120_ENABLE">ACTIVAT</label></div><label style="font-size:15px;" for="SetKEY120NAME">NAME :</label><input type="text" data-bss-hover-animate="flash" id="SetKEY120NAME" style="border-radius:5px;border-width:1px;border-style:solid;height:25px;background-color:transparent;font-size:12px;padding:10px;margin:4px;" placeholder="Set Name for KEY" autocomplete="off" maxlength="30">
                             </div>
-                            <div class="col-md-3 col-sm-3" style="background-color:#336699;"><i class="icon ion-radio-waves" style="font-size:20px;"></i><span style="font-size:20px;font-family:Aldrich, sans-serif;"> KEY 130</span>
-                                <div class="checkbox"><label data-bss-hover-animate="flash"><input type="checkbox" id="setKEY130_ENABLE">ACTIVAT</label></div><label style="font-size:15px;" for="SetKEY130NAME">NAME :</label><input type="text" data-bss-hover-animate="flash" id="SetKEY130NAME" style="border-radius:5px;border-width:1px;border-style:solid;height:25px;background-color:transparent;font-size:12px;padding:10px;margin:4px;" value="default" placeholder="Set Name for KEY" autocomplete="on">
+                            <div class="col-md-3 col-sm-3" style="background-color:#336699;"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_KEY130NAME" type="button" style="margin: 5px;">Aplica</button><i class="icon ion-radio-waves" style="font-size:20px;"></i><span style="font-size:20px;font-family:Aldrich, sans-serif;"> KEY 130</span>
+                                <div class="checkbox"><label data-bss-hover-animate="flash"><input type="checkbox" id="setKEY130_ENABLE">ACTIVAT</label></div><label style="font-size:15px;" for="SetKEY130NAME">NAME :</label><input type="text" data-bss-hover-animate="flash" id="SetKEY130NAME" style="border-radius:5px;border-width:1px;border-style:solid;height:25px;background-color:transparent;font-size:12px;padding:10px;margin:4px;" placeholder="Set Name for KEY" autocomplete="off" maxlength="30">
                             </div>
-                            <div class="col-md-3 col-sm-3" style="background-color:#4b739c;"><i class="icon ion-radio-waves" style="font-size:20px;"></i><span style="font-size:20px;font-family:Aldrich, sans-serif;"> KEY 255</span>
-                                <div class="checkbox"><label data-bss-hover-animate="flash"><input type="checkbox" id="setKEY255_ENABLE">ACTIVAT</label></div><label style="font-size:15px;" for="SetKEY255NAME">NAME :</label><input type="text" data-bss-hover-animate="flash" id="SetKEY255NAME" style="border-radius:5px;border-width:1px;border-style:solid;height:25px;background-color:transparent;font-size:12px;padding:10px;margin:4px;" value="default" placeholder="Set Name for KEY" autocomplete="on">
+                            <div class="col-md-3 col-sm-3" style="background-color:#4b739c;"><button class="btn btn-info btn-xs hidden blink pull-right" id="apply_KEY255NAME" type="button" style="margin: 5px;">Aplica</button><i class="icon ion-radio-waves" style="font-size:20px;"></i><span style="font-size:20px;font-family:Aldrich, sans-serif;"> KEY 255</span>
+                                <div class="checkbox"><label data-bss-hover-animate="flash"><input type="checkbox" id="setKEY255_ENABLE">ACTIVAT</label></div><label style="font-size:15px;" for="SetKEY255NAME">NAME :</label><input type="text" data-bss-hover-animate="flash" id="SetKEY255NAME" style="border-radius:5px;border-width:1px;border-style:solid;height:25px;background-color:transparent;font-size:12px;padding:10px;margin:4px;" placeholder="Set Name for KEY" autocomplete="off" maxlength="30">
                             </div>
                         </div>
                     </div>
@@ -399,15 +403,37 @@
                 <div class="hidden-xs hidden-sm intro" style="height:4px;background-color:#ff0f00;"></div>
                 <div style="height:15px;"></div>
             </div>
-            <div class="col-md-12 hidden-xs hidden-sm">
-                <form id="upload" action="php/upload.php" name="upload" method="post" enctype="multipart/form-data">
-                    <p class="col-sm-6" style="color:rgba(255,204,30,0.75);font-size:16px;font-family:Aldrich, sans-serif;">Atentie. Aceasta zona este destinata unui update de firmware system. Aveti nevoie de un fisier valid pentru update firmare.</p>
-                    <div class="form-group pull-right">
-                        <div class="col-sm-4"><label class="control-label col-sm-2 pull-right" style="color:#ffcc1e;padding:8px 12px;width:134px;font-size:16px;" for="inputFileID">UPDATE SYSTEM</label></div>
-                        <div class="col-sm-4"><input type="file" id="inputFileID" class="btn btn-primary" name="fisier" required="" accept=".bin"></div>
-                        <div class="col-sm-4"><button class="btn btn-info" type="submit">UPGRADE</button></div>
+            <div class="col-md-12">
+                <div class="panel panel-info" style="background-color:transparent;">
+                    <div class="panel-heading" style="background-color:#336699;">
+                        <h3 class="panel-title" style="background-color:transparent;color:#ffcc1e;"><i class="icon ion-android-unlock" style="padding:0px;margin:0;width:22px;color:#ffcc1e;"></i>&nbsp;Advanced Setup</h3>
                     </div>
-                </form>
+                    <div class="panel-body" style="color:rgb(255,255,255);">
+                        <div class="col-md-12" style="padding: 10px;">
+                            <p class="hidden blink" id="idNewFirmware">New version firmware! Download from<a id="idNewFirmwareURL" href="#" style="padding-left: 0.5rem !important;font-size: 15px;">HERE</a></p><span id="idVersion" class="info">%VERSION%</span>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <form>
+                                <div class="form-group actBtnSafeMod" id="idBtnSafeMod"><span class="label">REBOT IN SAFEMODE</span></div>
+                            </form>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <form>
+                                <div class="form-group actBtnReset" id="idRestoreESP"><span class="label">RESTORE SYSTEM</span></div>
+                            </form>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <form>
+                                <div class="form-group actBtnRestart" id="idRebootESP"><span class="label">REBOOT</span></div>
+                            </form>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <form>
+                                <div class="form-group actBtnShtDown" id="idShutDown"><span class="label">SHUTDOWN</span></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div style="height:15px;"></div>

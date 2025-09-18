@@ -11,6 +11,11 @@ input[type='checkbox'] {
   height: 10px;
 }
 
+input::placeholder {
+  color: yellow;
+  opacity: 1;
+}
+
 @keyframes backgroundScroll {
   from {
     background-position: 0 0;
@@ -55,6 +60,93 @@ input[type='checkbox'] {
   animation: blink 1s infinite;
 }
 
+/* PAGE SETTINGS */
+
+.info {
+  padding: 1px;
+  font-size: 80%;
+  font-weight: 400;
+  display: block;
+  width: fit-content;
+  background-color: rgb(23,136,170);
+}
+
+.actBtnSafeMod {
+  background: #424242;
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.actBtnSafeMod:hover {
+  color: red;
+}
+
+.actBtnSafeMod .label {
+  color: rgb(245,245,245);
+  width: 100% !important;
+  font-weight: 500;
+  font-size: inherit;
+}
+
+.actBtnReset {
+  background: #cba009;
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.actBtnReset:hover {
+  color: #f917e2;
+}
+
+.actBtnReset .label {
+  color: rgb(245,245,245);
+  width: 100% !important;
+  font-weight: 500;
+  font-size: inherit;
+}
+
+.actBtnShtDown {
+  background: #ea2215;
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.actBtnShtDown:hover {
+  color: #ff8be5;
+}
+
+.actBtnShtDown .label {
+  font-weight: 700;
+  color: rgb(239,230,3);
+  width: 100% !important;
+  font-size: inherit;
+}
+
+.actBtnRestart {
+  background: rgb(87,174,0);
+  box-shadow: 0px 0px 7px 3px;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.actBtnRestart:hover {
+  color: #ffe500;
+}
+
+.actBtnRestart .label {
+  color: rgb(160,0,0);
+  width: 100% !important;
+  font-weight: 500;
+  font-size: inherit;
+}
+
 @keyframes blink {
   0% {
     opacity: 0.10;
@@ -72,3 +164,4 @@ input[type='checkbox'] {
     opacity: 100;
   }
 }
+
