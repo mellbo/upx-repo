@@ -140,7 +140,7 @@ async function verificaVersiune() {
         VERSION = versionElement.innerHTML.trim();
     } else return;
 		  
-    const dataRaw = await fetch('https://mellbo.github.io/upx-repo/VPS-UART/firmware/version');
+    const dataRaw = await fetch('https://mellbo.github.io/upx-repo/SMARTHOME-REPO/firmware/version');
     const data = await dataRaw.text();
     const ini = Object.fromEntries(
         data.split('\n').map(line => line.split('=').map(param => param.trim()))
@@ -153,7 +153,7 @@ async function verificaVersiune() {
 			const idNewFirmwareURL = document.getElementById("idNewFirmwareURL");
 			if (idNewFirmwareURL) {
 				idNewFirmwareURL.href = ini.url;
-				idNewFirmware.classList.remove('d-none');
+				idNewFirmware.classList.remove('hidden');
 			}
 		}			
     } else {
