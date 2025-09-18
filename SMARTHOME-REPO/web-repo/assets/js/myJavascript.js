@@ -357,6 +357,7 @@ function inject_function_settings() {
     });
 
     //forceMainDoorOpen
+    //⚠️ nu ar trebui sa re-trimita comanda de zero ptr ca in ESP trebuie asta
     $("#set_forceMainDoorOpen").on("change", function(e) {
       let data = {
           "forceMainDoorOpen": $(this).is(":checked")
@@ -414,7 +415,8 @@ function inject_function_settings() {
     });     
     
     // THERMOSTATFORCE24
-    $("#beepModeID").on("change", function(slideEvt) {
+    //⚠️ inca nu merge
+    $("#force24Thermo").on("change", function(slideEvt) {
       let mode = parseInt($(this).val(), 10);
       let data = {
           "THERMOSTATFORCE24": mode
@@ -464,10 +466,10 @@ function inject_function_settings() {
       _js	= null; data = null;          
     });
 
-    //KEY110NAME
+    //KEY110_NAME
     $('#apply_KEY110NAME').on('click', function() {
       let data = {
-          "KEY110NAME": $("#SetKEY110NAME").val()
+          "KEY110_NAME": $("#SetKEY110NAME").val()
         };
       let _js = JSON.stringify(data);	
       if (websck_is_connected) websocket.send(_js);
@@ -479,22 +481,22 @@ function inject_function_settings() {
     //--> QUICK SAVING SEND 
     
     //SetKEY110NAME
-    $("#SetKEY110NAME").on("change", function(slideEvt) {
+    $("#SetKEY110NAME").on("input", function(slideEvt) {
         $("#apply_KEY110NAME").removeClass('hidden');
     });    
 
     //SetKEY120NAME
-    $("#SetKEY120NAME").on("change", function(slideEvt) {
+    $("#SetKEY120NAME").on("input", function(slideEvt) {
         $("#apply_KEY120NAME").removeClass('hidden');
     }); 
     
     //SetKEY130NAME
-    $("#SetKEY130NAME").on("change", function(slideEvt) {
+    $("#SetKEY130NAME").on("input", function(slideEvt) {
         $("#apply_KEY130NAME").removeClass('hidden');
     });     
 
     //SetKEY255NAME
-    $("#SetKEY255NAME").on("change", function(slideEvt) {
+    $("#SetKEY255NAME").on("input", function(slideEvt) {
         $("#apply_KEY255NAME").removeClass('hidden');
     }); 
     
