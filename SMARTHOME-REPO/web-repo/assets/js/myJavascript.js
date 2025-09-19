@@ -1237,8 +1237,8 @@ function info_reboot_web(lvState){
 }
 
 function loadNewBackGround() {
-  const totalImages = 20;
-  const randomNum = Math.floor(Math.random() * 21);  // 0…20 inclusiv
+  const totalImages = 15;
+  const randomNum = Math.floor(Math.random() * (totalImages+1));
   const element = document.querySelector('.home-product');
   if(element) {
     element.style.backgroundImage = `url("https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/img/background/${randomNum}.jpg")`;
