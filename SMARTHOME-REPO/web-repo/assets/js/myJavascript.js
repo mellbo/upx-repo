@@ -234,11 +234,23 @@ function checkMillis() {
 /*FOR SETTINGS PAGE*/
 function inject_function_settings() {
   console.log("loading action and function settings");
+  /*
     function setSlideValue(id,idShow,value){
       if (id != null) {$(id).slider('setValue', value, true);}
       if (idShow != null) {$(idShow).text($(id).val());}    
     }
-    
+  */
+    var setSlideValue = function(id, idShow, value){
+      if (id != null) { $(id).slider('setValue', value, true); }
+      if (idShow != null) { $(idShow).text($(id).val()); }
+    };
+/*
+// sau..
+    window.setSlideValue = function(id, idShow, value){
+      if (id != null) { $(id).slider('setValue', value, true); }
+      if (idShow != null) { $(idShow).text($(id).val()); }
+    };
+*/    
   /*SET ACTION*/
     /* QUICK SAVING SEND */
     //THERMOSTAT_OUTSIDE_ENABLE
@@ -841,6 +853,7 @@ if(check == true){
   }
 }
 
+/* FUCNTION PARSE QUICK UPDATE IN SETTINGS PAGE */
 function parseQuickSys(jsonData){
 	if (jsonData == null) {   
     return;
