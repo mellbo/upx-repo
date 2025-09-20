@@ -1194,11 +1194,12 @@ function getSettingsDataCmd() {
 /*-----------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
 /* CE FAC CU ASTEA ?!? */
-/*FUNCTION FOR CALENDAR ?*/
+/*
+//-FUNCTION FOR CALENDAR
 function loadCalendar() {
     console.log("Load Calendar Disabled");
     return;  
-	/*PRELUARE DATE*/
+	//PRELUARE DATE
     var res = '';
 	$.ajax({
 		url: "../php/calendar_extras.php",
@@ -1224,7 +1225,7 @@ function addInCallendar(e) {
 }
 
 function deleteItmCalendar(index) {
-	/*PRELUARE DATE*/
+	// PRELUARE DATE
 WRN_PROFILE_DELETE = "Doriti sa stergeti "+index+" ?";  
 var check = confirm(WRN_PROFILE_DELETE);  
 if(check == true){
@@ -1242,7 +1243,7 @@ if(check == true){
   }
 }
 
-/*FUNCTION FOR LOGS ?*/
+//- FUNCTION FOR LOGS
 function getLogs(type) {
     console.log("getLogs:",type," disabled");
     return;
@@ -1281,3 +1282,4 @@ function updateLogsInForm(type,htmlCode) {
         break;
     }    
 }
+*/
