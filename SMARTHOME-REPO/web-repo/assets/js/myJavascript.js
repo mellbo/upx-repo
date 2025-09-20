@@ -23,13 +23,12 @@ var paginaVizibila = true;
  /*
  This var must be same in Arduino header.h
 */
- 
-function onVisibilityChange() {
-  paginaVizibila = !document.hidden;
-  ERROR_INSTANCE = 1;
-  websocket.close();
-  location.replace("/protection");
-} 
+const LIVE_DATA_TYPE = 1; // index.html - live_data
+const GET_DATA_TYPE  = 2; // settings.html - SYSTEM
+const GET_DATA_QUICK = 3; // setings.html - qck_set_fdbck
+const ONLY_PING = 254;
+      //ERROR_INSTANCE = 255 but not use from script->esp 
+
  
 $(document).ready(function() {
     initWebSocket(); //ESP WebSocket  
@@ -43,6 +42,7 @@ $(document).ready(function() {
 
     if (PAGENAME == 'index') {
       $('#idPlsWait').removeClass('hidden'); //show Loading
+      inject_function_index();
     }
 
     if (PAGENAME == 'settings') {
@@ -72,174 +72,18 @@ $(document).ready(function() {
     document.removeEventListener("visibilitychange", onVisibilityChange);
   });    
 }); //end onLoad		
-
-/*ESP WebSocket*/
-/*------------------------------------------------------------------------------------*/
-  function onOpen(event) {
-    websck_is_connected = 1;  
-		if (PAGENAME == 'settings') {
-      verificaVersiune();
-      getSettingsDataCmd();  // pool_info_page() delayed included here
-    } else {
-      setTimeout(pool_info_page, 250);
-      //pool_info_page(); //pool now   
-    }
-    setTimeout(function() {
-      checkMillis();
-    }, 8000);    
-    console.log('Connection opened');
-}
-/*-----------------------------------------------------------------------------------*/
-  function onClose(event) {
-    websck_is_connected = 0;
-    console.log('Connection closed');
-    if (!ERROR_INSTANCE) setTimeout(initWebSocket, 2000); //retry websocket
-  }
-/*-----------------------------------------------------------------------------------*/
-  function initWebSocket() {
-    console.log('Trying to open a WebSocket connection...');
-    websocket = new WebSocket(gateway);
-    websocket.onopen    = onOpen;
-    websocket.onclose   = onClose;
-    websocket.onmessage = onMessage;
-  }
-/*-----------------------------------------------------------------------------------*/  
-  /*update fields*/
-function onMessage(event) {
-	let jsonObject = JSON.parse(event.data); 
-  
-    //quick banned from server
-    if (jsonObject.hasOwnProperty("ERROR_INSTANCE") == true) {
-      ERROR_INSTANCE = 1;
-      websocket.close();
-      jsonObject = null;
-      alert("You have to many page opened. Keep only one in your in browser or slow down action!");
-      location.replace("/protection");
-      return;
-    }
-
-    if (jsonObject.hasOwnProperty("cMs") == true)    
-        millis_esp = parseInt(jsonObject['cMs'], 10);
-    if (jsonObject.hasOwnProperty("Local") == true) 
-        isLOCAL = jsonObject["Local"];
-    if (jsonObject.hasOwnProperty("SIGNALPWR") == true) 
-        RSSI = jsonObject["SIGNALPWR"];      
-   
-    let el = document.getElementById("idcMillis");
-    if (el) el.innerHTML = millis_esp + ' - \u{1F4F6} ' + RSSI + '%';
-    
-    if (PAGENAME == 'index') {
-      if (jsonObject.hasOwnProperty("live_data") == true)
-          updLiveParamIndex(jsonObject);
-    }
-    
-    if (PAGENAME == 'settings') {
-      if (jsonObject.hasOwnProperty("SYSTEM") == true) parseSettings(jsonObject);
-      if (jsonObject.hasOwnProperty("QUICKSYSTEM") == true) parseQuickSys(jsonObject);      
-    }    
-		jsonObject = null;
-}
-/*-----------------------------------------------------------------------------------*/
-async function verificaVersiune() {
-	let VERSION = '';
-    const versionElement = document.getElementById("idVersion");
-    if (versionElement) {
-        VERSION = versionElement.innerHTML.trim();
-    } else return;
-		  
-    const dataRaw = await fetch('https://mellbo.github.io/upx-repo/SMARTHOME-REPO/firmware/version');
-    const data = await dataRaw.text();
-    const ini = Object.fromEntries(
-        data.split('\n').map(line => line.split('=').map(param => param.trim()))
-    );
-	console.log("Check VERSION..");
-    if (ini.version !== VERSION) {
-		console.log("Update available!"); 
-		const idNewFirmware = document.getElementById("idNewFirmware");
-		if (idNewFirmware) {
-			const idNewFirmwareURL = document.getElementById("idNewFirmwareURL");
-			if (idNewFirmwareURL) {
-				idNewFirmwareURL.href = ini.url;
-				idNewFirmware.classList.remove('hidden');
-			}
-		}			
-    } else {
-		console.log("No update available"); 
-	}
-}
-/*-----------------------------------------------------------------------------------*/
-const LIVE_DATA_TYPE = 1; // index.html - live_data
-const GET_DATA_TYPE  = 2; // settings.html - SYSTEM
-const GET_DATA_QUICK = 3; // setings.html - qck_set_fdbck
-const ONLY_PING = 254;
-      //ERROR_INSTANCE = 255 but not use from script->esp
-/*-----------------------------------------------------------------------------------*/      
-function getSettingsDataCmd() {
-  if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
-  let data = {
-		"REQUEST_INFO": GET_DATA_TYPE
-	};
-	
-	let _js = JSON.stringify(data);	
-  if (websck_is_connected) websocket.send(_js);
-	_js	= null;
-	data = null;
-  setTimeout(pool_info_page, 1000); //delayed start here
-}
-/*-----------------------------------------------------------------------------------*/
-function pool_info_page() {
-  if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
-  let DATA_SET_TYPE = ONLY_PING;
-  
-  if (PAGENAME == 'index') DATA_SET_TYPE = LIVE_DATA_TYPE;
-  if (PAGENAME == 'settings') DATA_SET_TYPE = GET_DATA_QUICK;
-  let data = {
-		"REQUEST_INFO": DATA_SET_TYPE
-	};
-	
-	let _js = JSON.stringify(data);	
-  if (websck_is_connected) websocket.send(_js);
-	_js	= null;
-	data = null;
-  
-  // rearm pool
-  if (websck_is_connected) {
-    timers.push(setTimeout(function(){
-      pool_info_page();
-      }, 2000));	
-  }   
-}
-/*-----------------------------------------------------------------------------------*/
-function checkMillis() {
-  if (ERROR_INSTANCE) {
-    return;
-  }
-
-  let currentMillis = millis_esp;
-  if (typeof checkMillis.lastMillis === 'undefined') {
-    checkMillis.lastMillis = 0;
-  }
-  if (currentMillis === checkMillis.lastMillis) {
-    info_reboot_web(true);
-    setTimeout(function() {
-      window.location.reload(true);
-    }, 3000);
-  } else {
-    checkMillis.lastMillis = currentMillis;
-    timers.push(setTimeout(checkMillis, 5000)); // rearming checkMillis()
-  }
-}
 /*-----------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
 /*FOR SETTINGS PAGE*/
 function inject_function_settings() {
   console.log("loading action and function settings");
   /*COMMON FUCNTION FOR SETTINGS*/
+ 	/*-----------------------------------------------------------------------------------*/
     window.setSlideValue = function(id, idShow, value){
       if (id != null) { $(id).slider('setValue', value, true); }
       if (idShow != null) { $(idShow).text($(id).val()); }
     };
-
+	/*-----------------------------------------------------------------------------------*/
   /* FUCNTION PARSE QUICK UPDATE IN SETTINGS PAGE */
     window.parseQuickSys = function (jsonData){
       if (jsonData == null) {   
@@ -258,7 +102,7 @@ function inject_function_settings() {
         $('#force24Thermo').val(sys_data["THERMOSTATFORCE24"]);
       }
     }
-
+	/*-----------------------------------------------------------------------------------*/
 		window.parseSettings = function (jsonData){
 			if (jsonData == null) {   
 		    return;
@@ -319,7 +163,82 @@ function inject_function_settings() {
 		  
 		  $('#idPlsWait').addClass('hidden'); // hide Loading
 		}
-
+	/*-----------------------------------------------------------------------------------*/
+		window.restoreESP = function (){
+			let data = {
+				"RESET": 1
+			};
+			
+			let _js = JSON.stringify(data);	
+		    if (websck_is_connected) websocket.send(_js);
+			_js	= null;
+			data = null;
+			alert("The system is resetting and restarting, approximately 1 minute.\n" +
+		      "After restoration, you may need to enter SAFEMODE\n" +
+		      "to input the configuration data for Internet WIFI.\n" +
+		      "My address for AP is: http://192.168.1.1\n\n" +
+		      "Confirm this dialog after you are already connected to 'UPX-SMARTHOME'!");
+		
+			setTimeout(function(){
+				window.location.replace("http://192.168.1.1");
+				}, 3000);			  
+		}
+	/*-----------------------------------------------------------------------------------*/
+		window.rebootESP = function (){
+			let data = {
+				"RESTART": 1
+			};
+			
+			let _js = JSON.stringify(data);	
+		    if (websck_is_connected) websocket.send(_js);
+			_js	= null;
+			data = null;
+			alert("The system is restarting, 30 seconds.\n" +
+		      "Refresh the page after the time has elapsed.");
+		
+			setTimeout(function(){
+				location.reload();
+				}, 3000);		  
+		}
+	/*-----------------------------------------------------------------------------------*/
+		window.ClearData = function (){
+			if (confirm("Do you really want to clear data on system ?")) {
+				let data = {"CLEAR_DATA": 1};
+				let _js = JSON.stringify(data);	
+				if (websck_is_connected) websocket.send(_js);
+				_js	= null;
+				data = null;
+		    
+		    alert("System data has been cleared. Setup again your system.\n" +
+		          "System rebooting. Wait ~1 min for refresh.");
+		
+		    setTimeout(function(){
+		      location.reload();
+				}, 3000);
+			}
+		}
+	/*-----------------------------------------------------------------------------------*/
+		window.rebootInSafeMode = function (){
+		  ERROR_INSTANCE = 1;
+			let data = {
+				"SAFEMODE": 1
+			};
+			
+			let _js = JSON.stringify(data);	
+		    if (websck_is_connected) websocket.send(_js);
+			_js	= null;
+			data = null;
+			alert("The system is restarting and will run in AP-SAFEMODE.\n" +
+		      "Look for the WIFI SSID 'UPX-SMARTHOME' and connect to it.\n" +
+		      "My address for AP is: http://192.168.1.1\n\n" +
+		      "Confirm this dialog after you are already connected to 'UPX-SMARTHOME'!");
+		
+			setTimeout(function(){
+				window.location.replace("http://192.168.1.1");
+				}, 3000);		  
+		}
+	/*-----------------------------------------------------------------------------------*/
+  /*-----------------------------------------------------------------------------------*/
   /*SET ACTION*/
     /* QUICK SAVING SEND */
     //THERMOSTAT_OUTSIDE_ENABLE
@@ -872,7 +791,410 @@ function inject_function_settings() {
 } //.inject_function_settings()
 /*-----------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
-/*FUNCTION FOR settings.html*/
+function inject_function_index() {
+  /*-----------------------------------------------------------------------------------*/  
+		window.checkValueForBlink = function (value,minVal,MaxVal) {
+		    var fVal = parseFloat(value);
+		    if ((fVal < minVal) || (fVal > MaxVal)) {
+		        return 'blink';
+		    } else {
+		        return '';
+		    }
+		}  
+  /*-----------------------------------------------------------------------------------*/
+		window.temp_resimtita = function (temp,hum,wspeed) {
+			var calc_temp = "N/A";
+			calc_temp = parseFloat((temp + 0.33*(hum/100.0)*6.105*Math.exp(17.27*temp/(237.7+temp))- 0.70*wspeed - 4.00)).toFixed(2);
+			return calc_temp;
+		}  
+  /*-----------------------------------------------------------------------------------*/
+		window.decodeJalModeNow = function (mode) {
+		    switch(mode){
+		        case 0:
+		            return 'MANUAL';
+		        break;
+		            
+		        case 1:
+		            return 'AUTO';
+		        break;
+		            
+		        case 2:
+		            return 'USER LDR';
+		        break;
+		            
+		        default:
+		            return mode;
+		        break;
+		            
+		    }
+		}
+  /*-----------------------------------------------------------------------------------*/
+		window.decodeJalAutoMode = function (mod) {
+		    switch(mod){
+		        case 0:
+		            return 'STOP';
+		            break;
+		        case 1:
+		            return 'OPEN MAX';
+		            break;
+		        case 2:
+		            return 'CLOSE MAX';
+		            break;
+		        case 3:
+		            return 'SYSTEM';
+		            break;
+		            
+		        default:
+		            return 'POSITION';
+		            break;
+		            
+		    }
+		}
+  /*-----------------------------------------------------------------------------------*/      
+    window.processCalorPos = function (id,calSt,calReq) {
+		 var res = "";
+		  if (calSt == "1") {
+			 res = '<i id="'+id+'" class="icon ion-ios-flame" style="margin: 0px 5px 0px;color: #ff5c38;"></i>';
+		  }
+		  if (calSt == "2") {
+			 res = '<i id="'+id+'" class="icon ion-ios-flame" style="margin: 0px 5px 0px;color: #00fff0;"></i>';	  
+		  }
+		  if (calSt != calReq) {
+			res = '<i id="'+id+'" class="icon ion-ios-flame blink" style="margin: 0px 5px 0px;color: #ffcc1e;"></i>';	
+		  } 
+		  return res;
+		}
+	/*-----------------------------------------------------------------------------------*/	
+		window.updLiveParamIndex = function (jsonData) {
+		        console.log(jsonData);
+		        const live_data = jsonData["live_data"];
+						//-->UPDATE ITEMS BY ID & INI 'NAME' ITEM
+		        var blinkClass = "";
+						var cal1St,cal1Req,cal1Vcc;
+						var cal2St,cal2Req,cal2Vcc;
+						var cal3St,cal3Req,cal3Vcc;
+						var cal4St,cal4Req,cal4Vcc;
+						var cal5St,cal5Req,cal5Vcc;
+						var cal6St,cal6Req,cal6Vcc;
+						 
+						 cal1Req = live_data["CALOR1_SET_STATE"];
+						 cal2Req = live_data["CALOR2_SET_STATE"];
+						 cal3Req = live_data["CALOR3_SET_STATE"];
+						 cal4Req = live_data["CALOR4_SET_STATE"];
+						 cal5Req = live_data["CALOR5_SET_STATE"];
+						 cal6Req = live_data["CALOR6_SET_STATE"];
+						 
+						 cal1St = live_data["CALOR1_CUR_STATE"];
+						 cal2St = live_data["CALOR2_CUR_STATE"];
+						 cal3St = live_data["CALOR3_CUR_STATE"];
+						 cal4St = live_data["CALOR4_CUR_STATE"];
+						 cal5St = live_data["CALOR5_CUR_STATE"];
+						 cal6St = live_data["CALOR6_CUR_STATE"];
+						 
+						 blinkClass = checkValueForBlink(live_data["CALOR1_VCC"],2100,3300);
+						 $("#CALOR1_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR1_VCC"]+'mV</div>');
+						 blinkClass = checkValueForBlink(live_data["CALOR2_VCC"],2100,3300);
+						 $("#CALOR2_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR2_VCC"]+'mV</div>');
+						 blinkClass = checkValueForBlink(live_data["CALOR3_VCC"],2100,3300);
+						 $("#CALOR3_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR3_VCC"]+'mV</div>');				 
+						 blinkClass = checkValueForBlink(live_data["CALOR4_VCC"],2100,3300);
+						 $("#CALOR4_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR4_VCC"]+'mV</div>');				 
+						 blinkClass = checkValueForBlink(live_data["CALOR5_VCC"],2100,3300);
+						 $("#CALOR5_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR5_VCC"]+'mV</div>');
+						 blinkClass = checkValueForBlink(live_data["CALOR6_VCC"],2100,3300);
+						 $("#CALOR6_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR6_VCC"]+'mV</div>');
+						 				 
+						 $("#THERMOSTAT").html(live_data["THERMOSTAT"]);
+						 $("#TEMP_BUCATARIE").html(live_data["TEMP_BUCATARIE"]);
+						 $("#TEMP_DORMITOR").html('<div>'+live_data["TEMP_DORMITOR"]+'&nbsp;&nbsp;'+processCalorPos("cal6",cal5St,cal5Req)+'</div>');
+						 
+		         blinkClass = checkValueForBlink(live_data["HUM_DORMITOR2"],20,65);
+						 $("#TEMP_DORMITOR2").html('<div class="'+blinkClass+'">'+live_data["TEMP_DORMITOR2"]+
+												   '&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+live_data["HUM_DORMITOR2"] +
+												   '%&nbsp;&nbsp;'+processCalorPos("cal5",cal6St,cal6Req)+'</div>');				 
+						 
+		         blinkClass = checkValueForBlink(live_data["HOL_HUMIDITY"],20,65);
+						 $("#TEMP_HOL").html('<div class="'+blinkClass+'">'+live_data["TEMP_HOL"]+
+											 '&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+live_data["HOL_HUMIDITY"] +
+											 '%&nbsp;&nbsp;'+processCalorPos("cal1",cal1St,cal1Req)+processCalorPos("cal2",cal2St,cal2Req)+
+											 processCalorPos("cal3",cal3St,cal3Req)+
+											 processCalorPos("cal4",cal4St,cal4Req)+'</div>');
+											 
+						 $("#TEMP_EXTERN").html(live_data["TEMP_EXTERN"]+'&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+live_data["HUMIDITY_EXT"] + '%');
+						 blinkClass = checkValueForBlink(live_data["VOLTAGE_BATTERY"],12.0,13.9);
+						 $("#VOLTAGE_BATTERY").html('<div class="'+blinkClass+'">'+live_data["VOLTAGE_BATTERY"]+'</div>');
+						 blinkClass = checkValueForBlink(live_data["VOLTAGE_RAIL12"],11.8,12.5);
+						 $("#VOLTAGE_RAIL12").html('<div class="'+blinkClass+'">'+live_data["VOLTAGE_RAIL12"]+'</div>');				 				 				 
+						 blinkClass = checkValueForBlink(live_data["VOLTAGE_MAIN"],14.9,15.6);
+						 $("#VOLTAGE_MAIN").html('<div class="'+blinkClass+'">'+live_data["VOLTAGE_MAIN"]+'</div>');
+						 
+						 $("#CentralaOn").html((live_data["CentralaOn"]?"DA":"NU") + ' de ' + live_data["IncalzireSecondsLastState"]);
+						 $("#ClimaON").html((live_data["ClimaOn"]?"DA":"NU"));				 
+						 $("#jalAutoModeRun").html(decodeJalAutoMode(live_data["jalAutoModeRun"]));
+						 $("#LowLightPoint").html(live_data["LowLightPoint"]);		
+		         $("#AlowLightOFF").html((live_data["AlowLightOFF"]?"DA":"NU"));
+						 $("#HomeIsAlone").html((live_data["HomeIsAlone"]?"DA":"NU"));
+						 $("#jaluzHisterizis").html(live_data["jaluzHisterizis"]);
+		    
+						 blinkClass = checkValueForBlink(live_data["KEY110BATTERY"],2.75,3.30);
+						 $("#KEY110BATTERY").html('<div class="'+blinkClass+'">'+live_data["KEY110BATTERY"]+'</div>');				 				 
+						 //--$("#KEY110CONTOR").html(live_data["KEY110CONTOR"]);
+						 $("#KEY110LASTSEEN").html(live_data["KEY110LASTSEEN"]);
+						 $("#KEY110ENABLE").html((live_data["KEY110ENABLE"]?"DA":"NU"));
+						 $("#KEY110HOME").html((live_data["KEY110HOME"]?"DA":"NU") +', de '+live_data['KEY110LASTCHANGE']);
+						 $("#KEY110NAME").html(live_data["KEY110NAME"]);
+		
+						 blinkClass = checkValueForBlink(live_data["KEY120BATTERY"],2.75,3.30);
+						 $("#KEY120BATTERY").html('<div class="'+blinkClass+'">'+live_data["KEY120BATTERY"]+'</div>');					 
+						 //--$("#KEY120CONTOR").html(live_data["KEY120CONTOR"]);
+						 $("#KEY120LASTSEEN").html(live_data["KEY120LASTSEEN"]);
+						 $("#KEY120ENABLE").html((live_data["KEY120ENABLE"]?"DA":"NU"));
+						 $("#KEY120HOME").html((live_data["KEY120HOME"]?"DA":"NU") +', de '+live_data['KEY120LASTCHANGE']);
+						 $("#KEY120NAME").html(live_data["KEY120NAME"]);
+		
+						 blinkClass = checkValueForBlink(live_data["KEY130BATTERY"],2.75,3.30);
+						 $("#KEY130BATTERY").html('<div class="'+blinkClass+'">'+live_data["KEY130BATTERY"]+'</div>'); 
+						 //--$("#KEY130CONTOR").html(live_data["KEY130CONTOR"]);
+						 $("#KEY130LASTSEEN").html(live_data["KEY130LASTSEEN"]);
+						 $("#KEY130ENABLE").html((live_data["KEY130ENABLE"]?"DA":"NU"));
+						 $("#KEY130HOME").html((live_data["KEY130HOME"]?"DA":"NU") +', de '+live_data['KEY130LASTCHANGE']);
+						 $("#KEY130NAME").html(live_data["KEY130NAME"]);
+		
+						 blinkClass = checkValueForBlink(live_data["KEY255BATTERY"],2.75,3.30);
+						 $("#KEY255BATTERY").html('<div class="'+blinkClass+'">'+live_data["KEY255BATTERY"]+'</div>'); 				 
+						 //--$("#KEY255CONTOR").html(live_data["KEY255CONTOR"]);
+						 $("#KEY255LASTSEEN").html(live_data["KEY255LASTSEEN"]);
+						 $("#KEY255ENABLE").html((live_data["KEY255ENABLE"]?"DA":"NU"));
+						 $("#KEY255HOME").html((live_data["KEY255HOME"]?"DA":"NU") +', de '+live_data['KEY255LASTCHANGE']);
+						 $("#KEY255NAME").html(live_data["KEY255NAME"]);
+		    
+						 $("#TEMP_INDOOR_CALCULATION_METHOD").html(live_data["TEMP_INDOOR_CALCULATION_METHOD"]);
+						 $("#CENTRALA_ON_HISTERIZIS").html(live_data["CENTRALA_ON_HISTERIZIS"]);
+						 $("#THERMOSTAT_OUTSIDE_ENABLE").html((live_data["THERMOSTAT_OUTSIDE_ENABLE"]?"DA":"NU"));
+						 //-?$("#ThisUpdateTime").html(live_data["ThisUpdateTime"]);
+						 $("#TEMP_GATEWAY").html(live_data["TEMP_GATEWAY"]);
+						 $("#TEMP_MATRIX").html((temp_resimtita(parseFloat(live_data["MATRIX_INDOOR"]), parseFloat(live_data["HOL_HUMIDITY"]), 0.2))).toString();
+						 $("#jalModeNow").html(decodeJalModeNow(live_data["jalModeNow"]));
+		         LIVE_DORMITOR_LDR = live_data["dormitorLDR"];				 
+						 $("#dormitorLDR").html(LIVE_DORMITOR_LDR);
+		         $("#outdoorLDR").html(live_data["outdoorLDR"]);         
+						 $("#MATRIX_INDOOR").html(live_data["MATRIX_INDOOR"]);
+						 $("#jalAutoModeRunDSP").html(live_data["jalAutoModeRun"]);    
+		         $("#updateTime").text(live_data["LocalTime"]);
+		         
+		         $('#idPlsWait').addClass('hidden'); // hide Loading
+		}
+  /*-----------------------------------------------------------------------------------*/	
+} //.inject_function_index
+/*-----------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------*/  
+/* COMMON FUCNTION HERE */
+/*ESP WebSocket*/
+/*------------------------------------------------------------------------------------*/
+  function onOpen(event) {
+    websck_is_connected = 1;  
+		if (PAGENAME == 'settings') {
+      verificaVersiune();
+      getSettingsDataCmd();  // pool_info_page() delayed included here
+    } else {
+      setTimeout(pool_info_page, 250);
+      //pool_info_page(); //pool now   
+    }
+    setTimeout(function() {
+      checkMillis();
+    }, 8000);    
+    console.log('Connection opened');
+}
+/*-----------------------------------------------------------------------------------*/
+  function onClose(event) {
+    websck_is_connected = 0;
+    console.log('Connection closed');
+    if (!ERROR_INSTANCE) setTimeout(initWebSocket, 2000); //retry websocket
+  }
+/*-----------------------------------------------------------------------------------*/
+  function initWebSocket() {
+    console.log('Trying to open a WebSocket connection...');
+    websocket = new WebSocket(gateway);
+    websocket.onopen    = onOpen;
+    websocket.onclose   = onClose;
+    websocket.onmessage = onMessage;
+  }
+/*-----------------------------------------------------------------------------------*/  
+  /*update fields*/
+function onMessage(event) {
+	let jsonObject = JSON.parse(event.data); 
+  
+    //quick banned from server
+    if (jsonObject.hasOwnProperty("ERROR_INSTANCE") == true) {
+      ERROR_INSTANCE = 1;
+      websocket.close();
+      jsonObject = null;
+      alert("You have to many page opened. Keep only one in your in browser or slow down action!");
+      location.replace("/protection");
+      return;
+    }
+
+    if (jsonObject.hasOwnProperty("cMs") == true)    
+        millis_esp = parseInt(jsonObject['cMs'], 10);
+    if (jsonObject.hasOwnProperty("Local") == true) 
+        isLOCAL = jsonObject["Local"];
+    if (jsonObject.hasOwnProperty("SIGNALPWR") == true) 
+        RSSI = jsonObject["SIGNALPWR"];      
+   
+    let el = document.getElementById("idcMillis");
+    if (el) el.innerHTML = millis_esp + ' - \u{1F4F6} ' + RSSI + '%';
+    
+    if (PAGENAME == 'index') {
+      if (jsonObject.hasOwnProperty("live_data") == true)
+          updLiveParamIndex(jsonObject);
+    }
+    
+    if (PAGENAME == 'settings') {
+      if (jsonObject.hasOwnProperty("SYSTEM") == true) parseSettings(jsonObject);
+      if (jsonObject.hasOwnProperty("QUICKSYSTEM") == true) parseQuickSys(jsonObject);      
+    }    
+		jsonObject = null;
+}
+/*-----------------------------------------------------------------------------------*/
+async function verificaVersiune() {
+	let VERSION = '';
+    const versionElement = document.getElementById("idVersion");
+    if (versionElement) {
+        VERSION = versionElement.innerHTML.trim();
+    } else return;
+		  
+    const dataRaw = await fetch('https://mellbo.github.io/upx-repo/SMARTHOME-REPO/firmware/version');
+    const data = await dataRaw.text();
+    const ini = Object.fromEntries(
+        data.split('\n').map(line => line.split('=').map(param => param.trim()))
+    );
+	console.log("Check VERSION..");
+    if (ini.version !== VERSION) {
+		console.log("Update available!"); 
+		const idNewFirmware = document.getElementById("idNewFirmware");
+		if (idNewFirmware) {
+			const idNewFirmwareURL = document.getElementById("idNewFirmwareURL");
+			if (idNewFirmwareURL) {
+				idNewFirmwareURL.href = ini.url;
+				idNewFirmware.classList.remove('hidden');
+			}
+		}			
+    } else {
+		console.log("No update available"); 
+	}
+}
+/*-----------------------------------------------------------------------------------*/
+function onVisibilityChange() {
+  paginaVizibila = !document.hidden;
+  ERROR_INSTANCE = 1;
+  websocket.close();
+  location.replace("/protection");
+} 
+/*-----------------------------------------------------------------------------------*/
+function pool_info_page() {
+  if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
+  let DATA_SET_TYPE = ONLY_PING;
+  
+  if (PAGENAME == 'index') DATA_SET_TYPE = LIVE_DATA_TYPE;
+  if (PAGENAME == 'settings') DATA_SET_TYPE = GET_DATA_QUICK;
+  let data = {
+		"REQUEST_INFO": DATA_SET_TYPE
+	};
+	
+	let _js = JSON.stringify(data);	
+  if (websck_is_connected) websocket.send(_js);
+	_js	= null;
+	data = null;
+  
+  // rearm pool
+  if (websck_is_connected) {
+    timers.push(setTimeout(function(){
+      pool_info_page();
+      }, 2000));	
+  }   
+}
+/*-----------------------------------------------------------------------------------*/
+function checkMillis() {
+  if (ERROR_INSTANCE) {
+    return;
+  }
+
+  let currentMillis = millis_esp;
+  if (typeof checkMillis.lastMillis === 'undefined') {
+    checkMillis.lastMillis = 0;
+  }
+  if (currentMillis === checkMillis.lastMillis) {
+    info_reboot_web(true);
+    setTimeout(function() {
+      window.location.reload(true);
+    }, 3000);
+  } else {
+    checkMillis.lastMillis = currentMillis;
+    timers.push(setTimeout(checkMillis, 5000)); // rearming checkMillis()
+  }
+}
+/*-----------------------------------------------------------------------------------*/
+function timerIncrement() {
+    idleTime = idleTime + 1;
+    if (idleTime > 30) { // 30 minutes
+        idleTime = 0;
+        window.location.reload(true);
+    }
+    if (idleTime > 10) {
+        $("body").css({'overflow': 'hidden'});
+    } else {
+        $("body").css({'overflow': 'auto'});
+    }
+}
+/*-----------------------------------------------------------------------------------*/
+function checkIfMobile() {
+    var viewport = $('.xyzzy:visible').attr('data-size');
+        if( viewport == 'xs' ) {
+            $('#interfaceContainer').removeClass('home-product');
+            $('#sumarID').addClass('hidden');
+            return true;
+        } else {
+          return false;
+        }
+}
+/*-----------------------------------------------------------------------------------*/
+function info_reboot_web(lvState){
+	switch (lvState){
+		case true:
+			$('#idNoConnexion').removeClass('hidden');
+			console.log('Rebooting WebPage');       
+		break;
+		case false:
+			$('#idNoConnexion').addClass('hidden');     
+		break;
+	}
+}
+/*-----------------------------------------------------------------------------------*/
+function loadNewBackGround() {
+  const totalImages = 15;
+  const randomNum = Math.floor(Math.random() * (totalImages+1));
+  const element = document.querySelector('.home-product');
+  if(element) {
+    element.style.backgroundImage = `url("https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/img/background/${randomNum}.jpg")`;
+  }  
+}
+/*-----------------------------------------------------------------------------------*/
+function getSettingsDataCmd() {
+  if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
+  let data = {
+		"REQUEST_INFO": GET_DATA_TYPE
+	};
+	
+	let _js = JSON.stringify(data);	
+  if (websck_is_connected) websocket.send(_js);
+	_js	= null;
+	data = null;
+  setTimeout(pool_info_page, 1000); //delayed start here
+}
+/*-----------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------*/
+/* CE FAC CU ASTEA ?!? */
+/*FUNCTION FOR CALENDAR ?*/
 function loadCalendar() {
     console.log("Load Calendar Disabled");
     return;  
@@ -920,142 +1242,7 @@ if(check == true){
   }
 }
 
-
-/*FUNCTION REGULAR COMMON*/
-function processCalorPos(id,calSt,calReq) {
- var res = "";
-  if (calSt == "1") {
-	 res = '<i id="'+id+'" class="icon ion-ios-flame" style="margin: 0px 5px 0px;color: #ff5c38;"></i>';
-  }
-  if (calSt == "2") {
-	 res = '<i id="'+id+'" class="icon ion-ios-flame" style="margin: 0px 5px 0px;color: #00fff0;"></i>';	  
-  }
-  if (calSt != calReq) {
-	res = '<i id="'+id+'" class="icon ion-ios-flame blink" style="margin: 0px 5px 0px;color: #ffcc1e;"></i>';	
-  } 
-  return res;
-}
-
-function updLiveParamIndex(jsonData) {
-        console.log(jsonData);
-        const live_data = jsonData["live_data"];
-				//-->UPDATE ITEMS BY ID & INI 'NAME' ITEM
-        var blinkClass = "";
-				var cal1St,cal1Req,cal1Vcc;
-				var cal2St,cal2Req,cal2Vcc;
-				var cal3St,cal3Req,cal3Vcc;
-				var cal4St,cal4Req,cal4Vcc;
-				var cal5St,cal5Req,cal5Vcc;
-				var cal6St,cal6Req,cal6Vcc;
-				 
-				 cal1Req = live_data["CALOR1_SET_STATE"];
-				 cal2Req = live_data["CALOR2_SET_STATE"];
-				 cal3Req = live_data["CALOR3_SET_STATE"];
-				 cal4Req = live_data["CALOR4_SET_STATE"];
-				 cal5Req = live_data["CALOR5_SET_STATE"];
-				 cal6Req = live_data["CALOR6_SET_STATE"];
-				 
-				 cal1St = live_data["CALOR1_CUR_STATE"];
-				 cal2St = live_data["CALOR2_CUR_STATE"];
-				 cal3St = live_data["CALOR3_CUR_STATE"];
-				 cal4St = live_data["CALOR4_CUR_STATE"];
-				 cal5St = live_data["CALOR5_CUR_STATE"];
-				 cal6St = live_data["CALOR6_CUR_STATE"];
-				 
-				 blinkClass = checkValueForBlink(live_data["CALOR1_VCC"],2100,3300);
-				 $("#CALOR1_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR1_VCC"]+'mV</div>');
-				 blinkClass = checkValueForBlink(live_data["CALOR2_VCC"],2100,3300);
-				 $("#CALOR2_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR2_VCC"]+'mV</div>');
-				 blinkClass = checkValueForBlink(live_data["CALOR3_VCC"],2100,3300);
-				 $("#CALOR3_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR3_VCC"]+'mV</div>');				 
-				 blinkClass = checkValueForBlink(live_data["CALOR4_VCC"],2100,3300);
-				 $("#CALOR4_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR4_VCC"]+'mV</div>');				 
-				 blinkClass = checkValueForBlink(live_data["CALOR5_VCC"],2100,3300);
-				 $("#CALOR5_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR5_VCC"]+'mV</div>');
-				 blinkClass = checkValueForBlink(live_data["CALOR6_VCC"],2100,3300);
-				 $("#CALOR6_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR6_VCC"]+'mV</div>');
-				 				 
-				 $("#THERMOSTAT").html(live_data["THERMOSTAT"]);
-				 $("#TEMP_BUCATARIE").html(live_data["TEMP_BUCATARIE"]);
-				 $("#TEMP_DORMITOR").html('<div>'+live_data["TEMP_DORMITOR"]+'&nbsp;&nbsp;'+processCalorPos("cal6",cal5St,cal5Req)+'</div>');
-				 
-         blinkClass = checkValueForBlink(live_data["HUM_DORMITOR2"],20,65);
-				 $("#TEMP_DORMITOR2").html('<div class="'+blinkClass+'">'+live_data["TEMP_DORMITOR2"]+
-										   '&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+live_data["HUM_DORMITOR2"] +
-										   '%&nbsp;&nbsp;'+processCalorPos("cal5",cal6St,cal6Req)+'</div>');				 
-				 
-         blinkClass = checkValueForBlink(live_data["HOL_HUMIDITY"],20,65);
-				 $("#TEMP_HOL").html('<div class="'+blinkClass+'">'+live_data["TEMP_HOL"]+
-									 '&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+live_data["HOL_HUMIDITY"] +
-									 '%&nbsp;&nbsp;'+processCalorPos("cal1",cal1St,cal1Req)+processCalorPos("cal2",cal2St,cal2Req)+
-									 processCalorPos("cal3",cal3St,cal3Req)+
-									 processCalorPos("cal4",cal4St,cal4Req)+'</div>');
-									 
-				 $("#TEMP_EXTERN").html(live_data["TEMP_EXTERN"]+'&nbsp;&nbsp;<i class="icon ion-waterdrop"></i>'+live_data["HUMIDITY_EXT"] + '%');
-				 blinkClass = checkValueForBlink(live_data["VOLTAGE_BATTERY"],12.0,13.9);
-				 $("#VOLTAGE_BATTERY").html('<div class="'+blinkClass+'">'+live_data["VOLTAGE_BATTERY"]+'</div>');
-				 blinkClass = checkValueForBlink(live_data["VOLTAGE_RAIL12"],11.8,12.5);
-				 $("#VOLTAGE_RAIL12").html('<div class="'+blinkClass+'">'+live_data["VOLTAGE_RAIL12"]+'</div>');				 				 				 
-				 blinkClass = checkValueForBlink(live_data["VOLTAGE_MAIN"],14.9,15.6);
-				 $("#VOLTAGE_MAIN").html('<div class="'+blinkClass+'">'+live_data["VOLTAGE_MAIN"]+'</div>');
-				 
-				 $("#CentralaOn").html((live_data["CentralaOn"]?"DA":"NU") + ' de ' + live_data["IncalzireSecondsLastState"]);
-				 $("#ClimaON").html((live_data["ClimaOn"]?"DA":"NU"));				 
-				 $("#jalAutoModeRun").html(decodeJalAutoMode(live_data["jalAutoModeRun"]));
-				 $("#LowLightPoint").html(live_data["LowLightPoint"]);		
-         $("#AlowLightOFF").html((live_data["AlowLightOFF"]?"DA":"NU"));
-				 $("#HomeIsAlone").html((live_data["HomeIsAlone"]?"DA":"NU"));
-				 $("#jaluzHisterizis").html(live_data["jaluzHisterizis"]);
-    
-				 blinkClass = checkValueForBlink(live_data["KEY110BATTERY"],2.75,3.30);
-				 $("#KEY110BATTERY").html('<div class="'+blinkClass+'">'+live_data["KEY110BATTERY"]+'</div>');				 				 
-				 //--$("#KEY110CONTOR").html(live_data["KEY110CONTOR"]);
-				 $("#KEY110LASTSEEN").html(live_data["KEY110LASTSEEN"]);
-				 $("#KEY110ENABLE").html((live_data["KEY110ENABLE"]?"DA":"NU"));
-				 $("#KEY110HOME").html((live_data["KEY110HOME"]?"DA":"NU") +', de '+live_data['KEY110LASTCHANGE']);
-				 $("#KEY110NAME").html(live_data["KEY110NAME"]);
-
-				 blinkClass = checkValueForBlink(live_data["KEY120BATTERY"],2.75,3.30);
-				 $("#KEY120BATTERY").html('<div class="'+blinkClass+'">'+live_data["KEY120BATTERY"]+'</div>');					 
-				 //--$("#KEY120CONTOR").html(live_data["KEY120CONTOR"]);
-				 $("#KEY120LASTSEEN").html(live_data["KEY120LASTSEEN"]);
-				 $("#KEY120ENABLE").html((live_data["KEY120ENABLE"]?"DA":"NU"));
-				 $("#KEY120HOME").html((live_data["KEY120HOME"]?"DA":"NU") +', de '+live_data['KEY120LASTCHANGE']);
-				 $("#KEY120NAME").html(live_data["KEY120NAME"]);
-
-				 blinkClass = checkValueForBlink(live_data["KEY130BATTERY"],2.75,3.30);
-				 $("#KEY130BATTERY").html('<div class="'+blinkClass+'">'+live_data["KEY130BATTERY"]+'</div>'); 
-				 //--$("#KEY130CONTOR").html(live_data["KEY130CONTOR"]);
-				 $("#KEY130LASTSEEN").html(live_data["KEY130LASTSEEN"]);
-				 $("#KEY130ENABLE").html((live_data["KEY130ENABLE"]?"DA":"NU"));
-				 $("#KEY130HOME").html((live_data["KEY130HOME"]?"DA":"NU") +', de '+live_data['KEY130LASTCHANGE']);
-				 $("#KEY130NAME").html(live_data["KEY130NAME"]);
-
-				 blinkClass = checkValueForBlink(live_data["KEY255BATTERY"],2.75,3.30);
-				 $("#KEY255BATTERY").html('<div class="'+blinkClass+'">'+live_data["KEY255BATTERY"]+'</div>'); 				 
-				 //--$("#KEY255CONTOR").html(live_data["KEY255CONTOR"]);
-				 $("#KEY255LASTSEEN").html(live_data["KEY255LASTSEEN"]);
-				 $("#KEY255ENABLE").html((live_data["KEY255ENABLE"]?"DA":"NU"));
-				 $("#KEY255HOME").html((live_data["KEY255HOME"]?"DA":"NU") +', de '+live_data['KEY255LASTCHANGE']);
-				 $("#KEY255NAME").html(live_data["KEY255NAME"]);
-    
-				 $("#TEMP_INDOOR_CALCULATION_METHOD").html(live_data["TEMP_INDOOR_CALCULATION_METHOD"]);
-				 $("#CENTRALA_ON_HISTERIZIS").html(live_data["CENTRALA_ON_HISTERIZIS"]);
-				 $("#THERMOSTAT_OUTSIDE_ENABLE").html((live_data["THERMOSTAT_OUTSIDE_ENABLE"]?"DA":"NU"));
-				 //-?$("#ThisUpdateTime").html(live_data["ThisUpdateTime"]);
-				 $("#TEMP_GATEWAY").html(live_data["TEMP_GATEWAY"]);
-				 $("#TEMP_MATRIX").html((temp_resimtita(parseFloat(live_data["MATRIX_INDOOR"]), parseFloat(live_data["HOL_HUMIDITY"]), 0.2))).toString();
-				 $("#jalModeNow").html(decodeJalModeNow(live_data["jalModeNow"]));
-         LIVE_DORMITOR_LDR = live_data["dormitorLDR"];				 
-				 $("#dormitorLDR").html(LIVE_DORMITOR_LDR);
-         $("#outdoorLDR").html(live_data["outdoorLDR"]);         
-				 $("#MATRIX_INDOOR").html(live_data["MATRIX_INDOOR"]);
-				 $("#jalAutoModeRunDSP").html(live_data["jalAutoModeRun"]);    
-         $("#updateTime").text(live_data["LocalTime"]);
-         
-         $('#idPlsWait').addClass('hidden'); // hide Loading
-}
-
+/*FUNCTION FOR LOGS ?*/
 function getLogs(type) {
     console.log("getLogs:",type," disabled");
     return;
@@ -1094,182 +1281,3 @@ function updateLogsInForm(type,htmlCode) {
         break;
     }    
 }
-
-function decodeJalModeNow(mode) {
-    switch(mode){
-        case 0:
-            return 'MANUAL';
-        break;
-            
-        case 1:
-            return 'AUTO';
-        break;
-            
-        case 2:
-            return 'USER LDR';
-        break;
-            
-        default:
-            return mode;
-        break;
-            
-    }
-}
-
-function decodeJalAutoMode(mod) {
-    switch(mod){
-        case 0:
-            return 'STOP';
-            break;
-        case 1:
-            return 'OPEN MAX';
-            break;
-        case 2:
-            return 'CLOSE MAX';
-            break;
-        case 3:
-            return 'SYSTEM';
-            break;
-            
-        default:
-            return 'POSITION';
-            break;
-            
-    }
-}
-
-function timerIncrement() {
-    idleTime = idleTime + 1;
-    if (idleTime > 30) { // 30 minutes
-        idleTime = 0;
-        window.location.reload(true);
-    }
-    if (idleTime > 10) {
-        $("body").css({'overflow': 'hidden'});
-    } else {
-        $("body").css({'overflow': 'auto'});
-    }
-}
-
-function checkValueForBlink(value,minVal,MaxVal) {
-    var fVal = parseFloat(value);
-    if ((fVal < minVal) || (fVal > MaxVal)) {
-        return 'blink';
-    } else {
-        return '';
-    }
-}
-
-function checkIfMobile() {
-    var viewport = $('.xyzzy:visible').attr('data-size');
-        if( viewport == 'xs' ) {
-            $('#interfaceContainer').removeClass('home-product');
-            $('#sumarID').addClass('hidden');
-            return true;
-        } else {
-          return false;
-        }
-}
-
-function temp_resimtita(temp,hum,wspeed) {
-	var calc_temp = "N/A";
-	calc_temp = parseFloat((temp + 0.33*(hum/100.0)*6.105*Math.exp(17.27*temp/(237.7+temp))- 0.70*wspeed - 4.00)).toFixed(2);
-	return calc_temp;
-}
-
-function info_reboot_web(lvState){
-	switch (lvState){
-		case true:
-			$('#idNoConnexion').removeClass('hidden');
-			console.log('Rebooting WebPage');       
-		break;
-		case false:
-			$('#idNoConnexion').addClass('hidden');     
-		break;
-	}
-}
-
-function loadNewBackGround() {
-  const totalImages = 15;
-  const randomNum = Math.floor(Math.random() * (totalImages+1));
-  const element = document.querySelector('.home-product');
-  if(element) {
-    element.style.backgroundImage = `url("https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/img/background/${randomNum}.jpg")`;
-  }  
-}
-
-/*------------------------------------------------------------------------------------------------*/
-function restoreESP(){
-	let data = {
-		"RESET": 1
-	};
-	
-	let _js = JSON.stringify(data);	
-    if (websck_is_connected) websocket.send(_js);
-	_js	= null;
-	data = null;
-	alert("The system is resetting and restarting, approximately 1 minute.\n" +
-      "After restoration, you may need to enter SAFEMODE\n" +
-      "to input the configuration data for Internet WIFI.\n" +
-      "My address for AP is: http://192.168.1.1\n\n" +
-      "Confirm this dialog after you are already connected to 'UPX-SMARTHOME'!");
-
-	setTimeout(function(){
-		window.location.replace("http://192.168.1.1");
-		}, 3000);			  
-}
-/*------------------------------------------------------------------------------------------------*/
-function rebootESP(){
-	let data = {
-		"RESTART": 1
-	};
-	
-	let _js = JSON.stringify(data);	
-    if (websck_is_connected) websocket.send(_js);
-	_js	= null;
-	data = null;
-	alert("The system is restarting, 30 seconds.\n" +
-      "Refresh the page after the time has elapsed.");
-
-	setTimeout(function(){
-		location.reload();
-		}, 3000);		  
-}
-/*------------------------------------------------------------------------------------------------*/
-function ClearData(){
-	if (confirm("Do you really want to clear data on system ?")) {
-		let data = {"CLEAR_DATA": 1};
-		let _js = JSON.stringify(data);	
-		if (websck_is_connected) websocket.send(_js);
-		_js	= null;
-		data = null;
-    
-    alert("System data has been cleared. Setup again your system.\n" +
-          "System rebooting. Wait ~1 min for refresh.");
-
-    setTimeout(function(){
-      location.reload();
-		}, 3000);
-	}
-}
-/*------------------------------------------------------------------------------------------------*/
-function rebootInSafeMode(){
-  ERROR_INSTANCE = 1;
-	let data = {
-		"SAFEMODE": 1
-	};
-	
-	let _js = JSON.stringify(data);	
-    if (websck_is_connected) websocket.send(_js);
-	_js	= null;
-	data = null;
-	alert("The system is restarting and will run in AP-SAFEMODE.\n" +
-      "Look for the WIFI SSID 'UPX-SMARTHOME' and connect to it.\n" +
-      "My address for AP is: http://192.168.1.1\n\n" +
-      "Confirm this dialog after you are already connected to 'UPX-SMARTHOME'!");
-
-	setTimeout(function(){
-		window.location.replace("http://192.168.1.1");
-		}, 3000);		  
-}
-/*------------------------------------------------------------------------------------------------*/
