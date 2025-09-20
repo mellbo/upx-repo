@@ -240,18 +240,16 @@ function inject_function_settings() {
       if (idShow != null) {$(idShow).text($(id).val());}    
     }
   */
-  /*
     var setSlideValue = function(id, idShow, value){
       if (id != null) { $(id).slider('setValue', value, true); }
       if (idShow != null) { $(idShow).text($(id).val()); }
     };
-  */
-
+  /*
     window.setSlideValue = function(id, idShow, value){
       if (id != null) { $(id).slider('setValue', value, true); }
       if (idShow != null) { $(idShow).text($(id).val()); }
     };
-   
+  */
   /*SET ACTION*/
     /* QUICK SAVING SEND */
     //THERMOSTAT_OUTSIDE_ENABLE
