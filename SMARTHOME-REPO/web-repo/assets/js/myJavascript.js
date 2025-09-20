@@ -234,22 +234,92 @@ function checkMillis() {
 /*FOR SETTINGS PAGE*/
 function inject_function_settings() {
   console.log("loading action and function settings");
-  /*
-    function setSlideValue(id,idShow,value){
-      if (id != null) {$(id).slider('setValue', value, true);}
-      if (idShow != null) {$(idShow).text($(id).val());}    
-    }
-  */
-    var setSlideValue = function(id, idShow, value){
-      if (id != null) { $(id).slider('setValue', value, true); }
-      if (idShow != null) { $(idShow).text($(id).val()); }
-    };
-  /*
+  /*COMMON FUCNTION FOR SETTINGS*/
     window.setSlideValue = function(id, idShow, value){
       if (id != null) { $(id).slider('setValue', value, true); }
       if (idShow != null) { $(idShow).text($(id).val()); }
     };
-  */
+
+  /* FUCNTION PARSE QUICK UPDATE IN SETTINGS PAGE */
+    window.parseQuickSys = function (jsonData){
+      if (jsonData == null) {   
+       return;
+      }
+      console.log(jsonData);
+      let en_quick = 0;
+      const sys_data = jsonData["QUICKSYSTEM"];
+      if (sys_data.hasOwnProperty("en_quick") == 1) en_quick = 1;
+      LIVE_DORMITOR_LDR = sys_data["dormitorLDR"];  		 
+      $("#dormitorLDR").html(LIVE_DORMITOR_LDR);
+      if (en_quick) {
+        console.log("Mark en_quick!");
+        $('#climatizareOption').val(sys_data["CLIMA_MODE"]);
+        $('#set_forceMainDoorOpen').prop('checked', sys_data["forceMainDoorOpen"]);
+        $('#force24Thermo').val(sys_data["THERMOSTATFORCE24"]);
+      }
+    }
+
+		window.parseSettings = function (jsonData){
+			if (jsonData == null) {   
+		    return;
+		  }
+		
+		  console.log(jsonData);
+		  const sys_data = jsonData["SYSTEM"];
+		  $("#set_THERMOSTAT_OUTSIDE_ENABLE").prop('checked',sys_data["THERMOSTAT_OUTSIDE_ENABLE"]);
+		  $('#set_forceMainDoorOpen').prop('checked', sys_data["forceMainDoorOpen"]);
+		  $("#set_AlowLightOFF").prop('checked',sys_data["AlowLightOFF"]);	
+			$("#setKEY110_ENABLE").prop('checked',sys_data["KEY110ENABLE"]);
+			$("#setKEY120_ENABLE").prop('checked',sys_data["KEY120ENABLE"]);
+			$("#setKEY130_ENABLE").prop('checked',sys_data["KEY130ENABLE"]);
+			$("#setKEY255_ENABLE").prop('checked',sys_data["KEY255ENABLE"]);
+			
+			$("#SetKEY110NAME").val(sys_data["KEY110NAME"]);
+			$("#SetKEY120NAME").val(sys_data["KEY120NAME"]);
+			$("#SetKEY130NAME").val(sys_data["KEY130NAME"]);
+			$("#SetKEY255NAME").val(sys_data["KEY255NAME"]);
+			
+			$("#setLivoloTestID").val(sys_data["LivoloTestID"]);    
+			
+			setSlideValue("#set_CENTRALA_ON_HISTERIZIS","#param1Value",sys_data["CENTRALA_ON_HISTERIZIS"]);
+			setSlideValue("#set_TEMP_INDOOR_CALCULATION_METHOD","#param2Value",sys_data["TEMP_INDOOR_CALCULATION_METHOD"]);
+			setSlideValue("#set_jalAutoModeRun","#param3Value",sys_data["jalAutoModeRun"]);
+			setSlideValue("#set_LowLightPoint","#param4Value",sys_data["LowLightPoint"]);
+			setSlideValue("#set_jaluzHisterizis","#param5Value",sys_data["jaluzHisterizis"]);
+			setSlideValue("#set_FunTemperatureTrigger","#param6Value",sys_data["FunTemperatureTrigger"]);	
+		  PREFERED_LIGHT_DORMITOR = sys_data["PREFERED_LIGHT_DORMITOR"];
+		  THERMOSTATLAST = sys_data["THERMOSTAT_LAST"];
+		  $('#prefLDRShow').text(PREFERED_LIGHT_DORMITOR);
+		  $('#beepModeID').val(sys_data["UserBeepMode"]);
+		  isLOCAL = jsonData["isLOCAL"];
+		    if (isLOCAL) {
+		      $('#set_forceMainDoorOpen').prop("disabled", false);
+		    } else {
+		       $('#set_forceMainDoorOpen').prop("disabled", true);
+		    }
+			$('#climatizareOption').val(sys_data["CLIMA_MODE"]);
+		  $('#force24Thermo').val(sys_data["THERMOSTATFORCE24"]);
+		  $("#smartWelcomeEnable").prop('checked',sys_data["smartWelcomeEnable"]);
+		  $("#smartWelcomeAutoSetup").prop('checked',sys_data["smartWelcomeAutoSetup"]);
+		  
+		  $("#welcome_Luni").val(sys_data["Welcome_Time"]["day1"]);
+		  $("#welcome_Marti").val(sys_data["Welcome_Time"]["day2"]);
+		  $("#welcome_Miercuri").val(sys_data["Welcome_Time"]["day3"]);
+		  $("#welcome_Joi").val(sys_data["Welcome_Time"]["day4"]);
+		  $("#welcome_Vineri").val(sys_data["Welcome_Time"]["day5"]);
+		  $("#welcome_Sambata").val(sys_data["Welcome_Time"]["day6"]);
+		  $("#welcome_Duminica").val(sys_data["Welcome_Time"]["day7"]);
+		
+		  if ($("#smartWelcomeAutoSetup").is(':checked')) {
+		   event.preventDefault();
+		   $('.smartWelcome').prop("disabled", true);
+		  } else {
+		    $('.smartWelcome').prop("disabled", false);
+		  }
+		  
+		  $('#idPlsWait').addClass('hidden'); // hide Loading
+		}
+
   /*SET ACTION*/
     /* QUICK SAVING SEND */
     //THERMOSTAT_OUTSIDE_ENABLE
@@ -802,9 +872,7 @@ function inject_function_settings() {
 } //.inject_function_settings()
 /*-----------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
-/*FUNCTION FOR settings.html*/ 
-
-
+/*FUNCTION FOR settings.html*/
 function loadCalendar() {
     console.log("Load Calendar Disabled");
     return;  
@@ -852,144 +920,7 @@ if(check == true){
   }
 }
 
-/* FUCNTION PARSE QUICK UPDATE IN SETTINGS PAGE */
-function parseQuickSys(jsonData){
-	if (jsonData == null) {   
-    return;
-  }
-  console.log(jsonData);
-  let en_quick = 0;
-  const sys_data = jsonData["QUICKSYSTEM"];
-  if (sys_data.hasOwnProperty("en_quick") == 1) en_quick = 1;
-  LIVE_DORMITOR_LDR = sys_data["dormitorLDR"];  		 
-  $("#dormitorLDR").html(LIVE_DORMITOR_LDR);
-  if (en_quick) {
-    console.log("Mark en_quick!");
-    $('#climatizareOption').val(sys_data["CLIMA_MODE"]);
-    $('#set_forceMainDoorOpen').prop('checked', sys_data["forceMainDoorOpen"]);
-    $('#force24Thermo').val(sys_data["THERMOSTATFORCE24"]);
-  }
-}
 
-function parseSettings(jsonData){
-	if (jsonData == null) {   
-    return;
-  }
-
-  console.log(jsonData);
-  const sys_data = jsonData["SYSTEM"];
-  $("#set_THERMOSTAT_OUTSIDE_ENABLE").prop('checked',sys_data["THERMOSTAT_OUTSIDE_ENABLE"]);
-  $('#set_forceMainDoorOpen').prop('checked', sys_data["forceMainDoorOpen"]);
-  $("#set_AlowLightOFF").prop('checked',sys_data["AlowLightOFF"]);	
-	$("#setKEY110_ENABLE").prop('checked',sys_data["KEY110ENABLE"]);
-	$("#setKEY120_ENABLE").prop('checked',sys_data["KEY120ENABLE"]);
-	$("#setKEY130_ENABLE").prop('checked',sys_data["KEY130ENABLE"]);
-	$("#setKEY255_ENABLE").prop('checked',sys_data["KEY255ENABLE"]);
-	
-	$("#SetKEY110NAME").val(sys_data["KEY110NAME"]);
-	$("#SetKEY120NAME").val(sys_data["KEY120NAME"]);
-	$("#SetKEY130NAME").val(sys_data["KEY130NAME"]);
-	$("#SetKEY255NAME").val(sys_data["KEY255NAME"]);
-	
-	$("#setLivoloTestID").val(sys_data["LivoloTestID"]);    
-	
-	setSlideValue("#set_CENTRALA_ON_HISTERIZIS","#param1Value",sys_data["CENTRALA_ON_HISTERIZIS"]);
-	setSlideValue("#set_TEMP_INDOOR_CALCULATION_METHOD","#param2Value",sys_data["TEMP_INDOOR_CALCULATION_METHOD"]);
-	setSlideValue("#set_jalAutoModeRun","#param3Value",sys_data["jalAutoModeRun"]);
-	setSlideValue("#set_LowLightPoint","#param4Value",sys_data["LowLightPoint"]);
-	setSlideValue("#set_jaluzHisterizis","#param5Value",sys_data["jaluzHisterizis"]);
-	setSlideValue("#set_FunTemperatureTrigger","#param6Value",sys_data["FunTemperatureTrigger"]);	
-  PREFERED_LIGHT_DORMITOR = sys_data["PREFERED_LIGHT_DORMITOR"];
-  THERMOSTATLAST = sys_data["THERMOSTAT_LAST"];
-  $('#prefLDRShow').text(PREFERED_LIGHT_DORMITOR);
-  $('#beepModeID').val(sys_data["UserBeepMode"]);
-  isLOCAL = jsonData["isLOCAL"];
-    if (isLOCAL) {
-      $('#set_forceMainDoorOpen').prop("disabled", false);
-    } else {
-       $('#set_forceMainDoorOpen').prop("disabled", true);
-    }
-	$('#climatizareOption').val(sys_data["CLIMA_MODE"]);
-  $('#force24Thermo').val(sys_data["THERMOSTATFORCE24"]);
-  $("#smartWelcomeEnable").prop('checked',sys_data["smartWelcomeEnable"]);
-  $("#smartWelcomeAutoSetup").prop('checked',sys_data["smartWelcomeAutoSetup"]);
-  
-  $("#welcome_Luni").val(sys_data["Welcome_Time"]["day1"]);
-  $("#welcome_Marti").val(sys_data["Welcome_Time"]["day2"]);
-  $("#welcome_Miercuri").val(sys_data["Welcome_Time"]["day3"]);
-  $("#welcome_Joi").val(sys_data["Welcome_Time"]["day4"]);
-  $("#welcome_Vineri").val(sys_data["Welcome_Time"]["day5"]);
-  $("#welcome_Sambata").val(sys_data["Welcome_Time"]["day6"]);
-  $("#welcome_Duminica").val(sys_data["Welcome_Time"]["day7"]);
-
-  if ($("#smartWelcomeAutoSetup").is(':checked')) {
-   event.preventDefault();
-   $('.smartWelcome').prop("disabled", true);
-  } else {
-    $('.smartWelcome').prop("disabled", false);
-  }
-  
-  $('#idPlsWait').addClass('hidden'); // hide Loading
-}
-
-function saveSettings() {
-    let data = {
-      "THERMOSTAT_OUTSIDE_ENABLE": $('#set_THERMOSTAT_OUTSIDE_ENABLE').is(":checked")
-    };
-    let _js = JSON.stringify(data);	
-    if (websck_is_connected) websocket.send(_js);
-    _js	= null;
-    data = null;  
-    
-    console.log("Save Settings Disabled");
-    return;
-	var sendData = {"act":"write","SYSTEM":{
-		"jalAutoModeRun":$('#set_jalAutoModeRun').val(),
-		"LowLightPoint":$('#set_LowLightPoint').val(),
-    "THERMOSTAT_OUTSIDE_ENABLE":$('#set_THERMOSTAT_OUTSIDE_ENABLE').is(":checked"),
-		"forceMainDoorOpen":$('#set_forceMainDoorOpen').is(":checked"),
-		"AlowLightOFF":$('#set_AlowLightOFF').is(":checked"),
-		"jaluzHisterizis":$('#set_jaluzHisterizis').val(),
-		"LivoloTestID":$('#setLivoloTestID').val(),
-		"TEMP_INDOOR_CALCULATION_METHOD":$('#set_TEMP_INDOOR_CALCULATION_METHOD').val(),
-		"CENTRALA_ON_HISTERIZIS":$('#set_CENTRALA_ON_HISTERIZIS').val(),
-		"AddNewTemperatureInMonth":AddNewTemperatureInMonth,
-		
-		"KEY110ENABLE":$('#setKEY110_ENABLE').is(":checked"),
-		"KEY120ENABLE":$('#setKEY120_ENABLE').is(":checked"),
-		"KEY130ENABLE":$('#setKEY130_ENABLE').is(":checked"),
-		"KEY255ENABLE":$('#setKEY255_ENABLE').is(":checked"),
-		"SetKEY110NAME":$('#SetKEY110NAME').val(),
-		"SetKEY120NAME":$('#SetKEY120NAME').val(),
-		"SetKEY130NAME":$('#SetKEY130NAME').val(),
-		"SetKEY255NAME":$('#SetKEY255NAME').val(),
-		"FunTemperatureTrigger":$('#set_FunTemperatureTrigger').val(),
-    "resetThermostat":resetThermostat,
-    "PREFERED_LIGHT_DORMITOR":PREFERED_LIGHT_DORMITOR,
-    "THERMOSTAT_LAST":THERMOSTATLAST,
-    "UserBeepMode":$('#beepModeID').val(),
-    "THERMOSTATFORCE24":$('#force24Thermo').val(),
-		"CLIMA_MODE":$('#climatizareOption').val(),
-    "smartWelcomeEnable":$('#smartWelcomeEnable').is(":checked"),
-    "smartWelcomeAutoSetup":$('#smartWelcomeAutoSetup').is(":checked"),
-    "welcome_Luni":$('#welcome_Luni').val(),
-    "welcome_Marti":$('#welcome_Marti').val(),
-    "welcome_Miercuri":$('#welcome_Miercuri').val(),
-    "welcome_Joi":$('#welcome_Joi').val(),
-    "welcome_Vineri":$('#welcome_Vineri').val(),
-    "welcome_Sambata":$('#welcome_Sambata').val(),
-    "welcome_Duminica":$('#welcome_Duminica').val()
-	}};
-    
-	$.ajax({
-		url: "../php/settings_param.php",
-        type:'post',
-		data: sendData,
-		success: function(data) {
-            $('#replySave').html(data);  //response   
-		}
-	});	    
-}
 /*FUNCTION REGULAR COMMON*/
 function processCalorPos(id,calSt,calReq) {
  var res = "";
