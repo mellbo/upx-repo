@@ -1007,7 +1007,7 @@ function inject_function_events() {
   console.log("loading action and function events");
     window.parseErrorEvt = function(data, type_events) {
       console.log(data, type_events);
-      // LIST OF DECODING ERROR HERE    
+      /* LIST OF DECODING ERROR BEGIN HERE */    
       const EventLst = {
         events_info: { // TYPE_INFO
           0: "Reboot, NTC Ready",
@@ -1026,6 +1026,7 @@ function inject_function_events() {
           1: "Eroare 3:1"
         }        
       }; //.EventLst
+      /* LIST OF DECODING ERROR END HERE */
       
       //soubroutine 1
       function insHtmlEvt(newLineHtml, type_events){
@@ -1054,11 +1055,6 @@ function inject_function_events() {
       // main begin here -->
       console.log("data[type_events] --->", data[type_events]);
       
-/*
-arg.forEach(line => {
-  console.log(line);
-});
-*/    
       let event_keys = [type_events];
       if (type_events == "ALL_EVENTS") {
         event_keys = ["events_info", "events_warning", "events_error", "events_misc"];
