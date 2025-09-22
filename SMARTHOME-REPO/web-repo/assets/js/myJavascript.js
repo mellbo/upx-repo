@@ -1006,60 +1006,67 @@ function inject_function_index() {
 function inject_function_events() {
   console.log("loading action and function events");
     window.parseErrorEvt = function(data, type_events) {
-      console.log(data, 'type_events:' + type_events);
-
-      // LIST OF DECODING ERROR HERE     
+      console.log(data, type_events);
+      // LIST OF DECODING ERROR HERE    
       const EventLst = {
         events_info: { // TYPE_INFO
-          0: "Reboot, NTP Ready",
-          1: "Connect to WIFI-STA"
+          0: "Reboot, NTC Ready",
+          1: "Conec"
         },
-        1: { // TYPE_WARNING
+        events_warning: { // TYPE_WARNING
           0: "Eroare 1:0",
           1: "Eroare 1:1"
         },
-        2: { // TYPE_ERROR
+        events_error: { // TYPE_ERROR
           0: "Eroare 2:0",
           1: "Eroare 2:1"
         },
-        3: { // TYPE_MISC
+        events_misc: { // TYPE_MISC
           0: "Eroare 3:0",
           1: "Eroare 3:1"
         }        
       }; //.EventLst
       
-      const events_info = data.events_info;
-      console.log(events_info);
-      return;
-      //------>>
-      // split data
-      const dataarg = data.split(",");
-      let datetime  = dataarg[0];
-      let eventCode = dataarg[1].trim() * 1;
-      //type_events from input
+      //soubroutine 1
+      function insHtmlEvt(newLineHtml, type_events){
+        switch (type_events) {
+          case events_info: //TYPE_INFO
+            $('#idLogInfo').html(newLineHtml);      
+          break;
+
+          case events_warning: //TYPE_WARNING
+            $('#idLogWarning').html(newLineHtml);      
+          break;
+        
+          case events_error: //TYPE_ERROR
+            $('#idLogError').html(newLineHtml);      
+          break;
+
+          case events_misc: //TYPE_MISC
+            $('#idLogMisc').html(newLineHtml);      
+          break;        
+        
+          default:
+          break;
+        } //.sw        
+      } //.insHtmlEvt
       
-      let newLineHtml = datetime + ':' + EventLst[type_events][eventCode];
+      // main begin here -->
+      const eventsRawArr = data.type_events;
+      if (!eventsRawArr.length) {
+        console.log('No event in array');
+        return;  // no data
+      }
+      
+      for (let lineRaw of eventsRawArr) {
+        console.log(lineRaw);
+        const dataarg = lineRaw.split(",");
+        let datetime  = dataarg[0];
+        let eventCode = dataarg[1].trim() * 1;
+        let newLineHtml = datetime + ':' + EventLst[type_events][eventCode];
+        insHtmlEvt(newLineHtml, type_events);
+      }      
      
-      switch (type_events) {
-        case 0: //TYPE_INFO
-          $('#idLogInfo').html(newLineHtml);      
-        break;
-
-        case 1: //TYPE_WARNING
-          $('#idLogWarning').html(newLineHtml);      
-        break;
-        
-        case 2: //TYPE_ERROR
-          $('#idLogError').html(newLineHtml);      
-        break;
-
-        case 3: //TYPE_MISC
-          $('#idLogMisc').html(newLineHtml);      
-        break;        
-        
-        default:
-        break;
-      } //.sw
     } //.parseErrorEvt
     /*-------------------------------------------------------------------------------*/
     window.loadEvents = function(type_events='ALL_EVENTS') {
@@ -1090,7 +1097,8 @@ function inject_function_events() {
     /*-------------------------------------------------------------------------------*/
     // CAll Function first
       timers.push(setTimeout(function(){
-        loadEvents('ALL_EVENTS'); // first load ALL_EVENTS
+        //loadEvents('ALL_EVENTS'); // first load ALL_EVENTS
+        loadEvents('events_info');
         $('#idPlsWait').addClass('hidden'); // hide Loading
       }, 500));      
 } //.inject_function_events
