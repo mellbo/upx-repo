@@ -1052,6 +1052,11 @@ function inject_function_events() {
       } //.insHtmlEvt
       
       // main begin here -->
+      console.log('data -->', data);
+      console.log('type_events -->', type_events);
+      console.log('data.type_events --->', data.type_events);
+      console.log("data['type_events'] --->", data['type_events']);
+      
       const eventsRawArr = data.type_events;
       if (!eventsRawArr.length) {
         console.log('No event in array');
@@ -1085,7 +1090,6 @@ function inject_function_events() {
 							//$('#replySpace').append(data[1]);
               console.log(data[0], data[1]);
 						} else {
-              // fa ceva cu data[2]
               parseErrorEvt(data[2], type_events);
             }				
 					},
