@@ -1074,7 +1074,7 @@ function inject_function_events() {
           let newLineHtml = datetime + ':' + EventLst[event_key][eventCode];
           insHtmlEvt(newLineHtml, event_key);
         }
-      } //.forEach
+      }); //.forEach
     } //.parseErrorEvt
     /*-------------------------------------------------------------------------------*/
     window.loadEvents = function(type_events='ALL_EVENTS') {
