@@ -1007,9 +1007,7 @@ function inject_function_events() {
   console.log("loading action and function events");
     window.parseErrorEvt = function(data, type_events) {
       console.log(data, 'type_events:' + type_events);
-      console.log("data[0]=", data[0]);
-      console.log("data['events_info']=", data['events_info']);
-      return;
+
       // LIST OF DECODING ERROR HERE     
       const EventLst = {
         0: { // TYPE_INFO
@@ -1030,6 +1028,10 @@ function inject_function_events() {
         }        
       }; //.EventLst
       
+      const events_info = data['events_info'];
+      console.log(events_info);
+      return;
+      //------>>
       // split data
       const dataarg = data.split(",");
       let datetime  = dataarg[0];
