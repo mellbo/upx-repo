@@ -1029,10 +1029,11 @@ function inject_function_events() {
       /* LIST OF DECODING ERROR END HERE */
       
       //soubroutine 1
-      function insHtmlEvt(newLineHtml, type_events){
+      function insHtmlEvt(newLineHtml, type_events, rst=false){
         switch (type_events) {
           case 'events_info': //TYPE_INFO
-            $('#idLogInfo').html(newLineHtml);      
+            if (rst) $('#idLogInfo').html(newLineHtml); else
+                      $('#idLogInfo').append('<br>'+newLineHtml);     
           break;
 
           case 'events_warning': //TYPE_WARNING
@@ -1066,13 +1067,13 @@ function inject_function_events() {
           return;  // no data
         }
       
-        for (let lineRaw of eventsRawArr) {
-          console.log(lineRaw);
+        for (let i = 0; i < eventsRawArr.length; i++) {
+          lineRaw = eventsRawArr[i];
           const dataarg = lineRaw.split(",");
           let datetime  = dataarg[0];
           let eventCode = dataarg[1].trim() * 1;
           let newLineHtml = datetime + ':' + EventLst[event_key][eventCode];
-          insHtmlEvt(newLineHtml, event_key);
+          insHtmlEvt(newLineHtml, event_key, !(i?true:false));
         }
       }); //.forEach
     } //.parseErrorEvt
