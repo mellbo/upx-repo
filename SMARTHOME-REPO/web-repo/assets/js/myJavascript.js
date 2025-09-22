@@ -1052,13 +1052,11 @@ function inject_function_events() {
       } //.insHtmlEvt
       
       // main begin here -->
-      console.log('data -->', data);
-      console.log('type_events -->', type_events);
-      console.log('data.type_events --->', data.type_events);
+      console.log('data -->', data, 'type_events-->', type_events);
       console.log("data[type_events] --->", data[type_events]);
       
-      const eventsRawArr = data.type_events;
-      if (!eventsRawArr.length) {
+      const eventsRawArr = data[type_events];
+      if (!eventsRawArr?.length) {
         console.log('No event in array');
         return;  // no data
       }
