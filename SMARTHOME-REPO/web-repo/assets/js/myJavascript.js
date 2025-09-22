@@ -1010,7 +1010,7 @@ function inject_function_events() {
 
       // LIST OF DECODING ERROR HERE     
       const EventLst = {
-        0: { // TYPE_INFO
+        events_info: { // TYPE_INFO
           0: "Reboot, NTP Ready",
           1: "Connect to WIFI-STA"
         },
@@ -1028,7 +1028,7 @@ function inject_function_events() {
         }        
       }; //.EventLst
       
-      const events_info = data['events_info'];
+      const events_info = data.events_info;
       console.log(events_info);
       return;
       //------>>
