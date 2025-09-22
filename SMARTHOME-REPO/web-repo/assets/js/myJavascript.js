@@ -1030,19 +1030,19 @@ function inject_function_events() {
       //soubroutine 1
       function insHtmlEvt(newLineHtml, type_events){
         switch (type_events) {
-          case events_info: //TYPE_INFO
+          case 'events_info': //TYPE_INFO
             $('#idLogInfo').html(newLineHtml);      
           break;
 
-          case events_warning: //TYPE_WARNING
+          case 'events_warning': //TYPE_WARNING
             $('#idLogWarning').html(newLineHtml);      
           break;
         
-          case events_error: //TYPE_ERROR
+          case 'events_error': //TYPE_ERROR
             $('#idLogError').html(newLineHtml);      
           break;
 
-          case events_misc: //TYPE_MISC
+          case 'events_misc': //TYPE_MISC
             $('#idLogMisc').html(newLineHtml);      
           break;        
         
@@ -1052,24 +1052,33 @@ function inject_function_events() {
       } //.insHtmlEvt
       
       // main begin here -->
-      console.log('data -->', data, 'type_events-->', type_events);
       console.log("data[type_events] --->", data[type_events]);
       
-      const eventsRawArr = data[type_events];
-      if (!eventsRawArr?.length) {
-        console.log('No event in array');
-        return;  // no data
+/*
+arg.forEach(line => {
+  console.log(line);
+});
+*/    
+      let event_keys = [type_events];
+      if (type_events == "ALL_EVENTS") {
+        event_keys = ["events_info", "events_warning", "events_error", "events_misc"];
       }
+      event_keys.forEach(event_key => {
+        const eventsRawArr = data[event_key];
+        if (!eventsRawArr?.length) {
+          console.log('No event in array');
+          return;  // no data
+        }
       
-      for (let lineRaw of eventsRawArr) {
-        console.log(lineRaw);
-        const dataarg = lineRaw.split(",");
-        let datetime  = dataarg[0];
-        let eventCode = dataarg[1].trim() * 1;
-        let newLineHtml = datetime + ':' + EventLst[type_events][eventCode];
-        insHtmlEvt(newLineHtml, type_events);
-      }      
-     
+        for (let lineRaw of eventsRawArr) {
+          console.log(lineRaw);
+          const dataarg = lineRaw.split(",");
+          let datetime  = dataarg[0];
+          let eventCode = dataarg[1].trim() * 1;
+          let newLineHtml = datetime + ':' + EventLst[event_key][eventCode];
+          insHtmlEvt(newLineHtml, event_key);
+        }
+      } //.forEach
     } //.parseErrorEvt
     /*-------------------------------------------------------------------------------*/
     window.loadEvents = function(type_events='ALL_EVENTS') {
