@@ -1,5 +1,4 @@
 # Output pins
-RST  = GPIO14  
 LED  = GPIO2  
 LocalIP: DHCP  
 WebPage: http://upx-smart.local/  
