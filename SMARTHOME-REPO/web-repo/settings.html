@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/css/blueFeature.css">
+    <link rel="stylesheet" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/css/dtClockAI.css">
     <link rel="stylesheet" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/css/bootstrap-slider.css">
     <link rel="stylesheet" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/css/styles.css">
 <link rel="icon" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/favicon.ico">
@@ -438,12 +439,36 @@
         </div>
         <div style="height:15px;"></div>
     </div>
+    <div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="timePickerModal" style="font-size: 20px;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background: #4f4f4f;border-top-style: none;"><button class="close" type="button" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title text-primary" style="color: rgb(217,217,217);">Selectie: Ora, Minut, Temperatura</h4>
+                    </div>
+                    <div class="modal-body text-center" style="background: linear-gradient(#848484, #565656), #848484;">
+                        <form>
+                            <div class="form-group">
+                                <div id="hoursWheel" class="wheel-container"></div><span class="wheel-separator">:</span>
+                                <div id="minutesWheel" class="wheel-container"></div>
+                                <div style="margin-top: 15px;">
+                                    <div id="horizontalWheel" class="Hwheel-container horizontal-wheel"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer" style="background: #565656;border-top-style: solid;border-top-color: rgb(36,255,0);"><button class="btn btn-default" type="button" data-dismiss="modal">Anuleaza</button><button class="btn btn-success" id="timePickerOkBtn" type="button" style="font-weight: bold;">Adauga</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/js/bs-init.js"></script>
     <script src="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/js/bootstrap-slider.js"></script>
     <script src="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/js/myJavascript.js"></script>
+    <script src="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/js/jsClockAI.js"></script>
 </body>
 
 </html>
