@@ -1196,6 +1196,7 @@ function inject_function_events() {
 
           //TYPE_WARNING * decodeEventValue
           case 'events_warning':
+            console.log("LINE: 1199!")
             switch (eventCode) {
               // case ...
               default:
