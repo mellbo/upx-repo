@@ -1254,7 +1254,6 @@ function inject_function_events() {
           let eventCode = dataarg[1].trim() * 1;
           let xData     = dataarg[2].trim() * 1;
           let newData = "";
-        console.log("xData",xData,"event_key",event_key,"eventCode",eventCode);
           newData = decodeEventValue(xData, event_key, eventCode).toString();
           let newLineHtml = datetime + ':' + EventLst[event_key][eventCode] + newData;
           insHtmlEvt(newLineHtml, event_key, !(i?true:false));
