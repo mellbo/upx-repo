@@ -1,3 +1,4 @@
+WARNING: WORK IN PROGRESS! DO NOT USE!
 # Output pins
 LED  = GPIO2  
 LocalIP: DHCP  
@@ -24,4 +25,5 @@ IP for AP (safemode): 192.168.1.1/24
 - DestinationEthernet=0.0.0.0.0.0
 - DestinationHostName=upx-vsp.local
 - RemoteDataPort=1001  
+
 `More info (photo) in VPS-UART/TibboVPS/Settings`
