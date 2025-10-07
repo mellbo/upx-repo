@@ -1180,7 +1180,7 @@ function inject_function_events() {
                 return ': ' + decodeJalAutoMode(value);
               break;
               case 20:
-                return ': pos ' + value;
+                return ': pos ' + value.toString();
               break;
               default:
                 /*
@@ -1614,45 +1614,5 @@ if(check == true){
 		}
 	});
   }
-}
-
-//- FUNCTION FOR LOGS
-function getLogs(type) {
-    console.log("getLogs:",type," disabled");
-    return;
-
-    var sendData = {'act':type};
-	$.ajax({
-		url: "../php/getLogs.php",
-        type:'post',
-		data: sendData,
-		success: function(data) {
-            updateLogsInForm(type,data);  //response
-		}
-	});
-}
-
-function updateLogsInForm(type,htmlCode) {
-    switch (type) {
-        case 'readInfo':
-             $('#idLogInfo').html(htmlCode);
-        break;
-
-        case 'readWarning':
-            $('#idLogWarning').html(htmlCode);
-        break;
-
-        case 'readError':
-             $('#idLogError').html(htmlCode);
-        break;
-
-        case 'readKeys':
-             $('#idKeyInfo').html(htmlCode);
-        break;
-
-        default:
-            //
-        break;
-    }
 }
 */
