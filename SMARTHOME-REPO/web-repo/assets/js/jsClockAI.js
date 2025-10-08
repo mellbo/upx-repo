@@ -1,1 +1,244 @@
-class WheelPicker{constructor(t,e){this.container=document.getElementById(t),this.values=e,this.currentY=0,this.velocity=0,this.animating=!1,this.itemHeight=40,this.minY=-(e.length-1)*this.itemHeight,this.maxY=0,this.render(),this.bindEvents()}render(){this.container.innerHTML='<div class="wheel-items"></div>',this.itemsEl=this.container.querySelector(".wheel-items"),this.values.forEach(function(t,e){const i=document.createElement("div");i.className="wheel-item",i.textContent=t.toString().padStart(2,"0"),this.itemsEl.appendChild(i)}.bind(this)),this.updateSelection(),this.itemsEl.style.transform="translateY("+this.currentY+"px)"}bindEvents(){let t=!1,e=0;const i=this;function s(i){t=!0,e=i.touches?i.touches[0].clientY:i.clientY,i.preventDefault()}function n(s){if(!t)return;const n=s.touches?s.touches[0].clientY:s.clientY;let r=n-e;i.currentY+=r,i.currentY>i.maxY&&(i.currentY=i.maxY+(i.currentY-i.maxY)/3),i.currentY<i.minY&&(i.currentY=i.minY+(i.currentY-i.minY)/3),i.itemsEl.style.transform="translateY("+i.currentY+"px)",i.velocity=r,e=n,i.updateSelection()}function r(){t=!1,i.startInertia()}this.container.addEventListener("mousedown",s),this.container.addEventListener("mousemove",n),this.container.addEventListener("mouseup",r),this.container.addEventListener("mouseleave",r),this.container.addEventListener("touchstart",s),this.container.addEventListener("touchmove",n),this.container.addEventListener("touchend",r)}startInertia(){if(this.animating)return;this.animating=!0;const t=this;requestAnimationFrame(function e(){if(Math.abs(t.velocity)<.1)return t.snapToItem(),void(t.animating=!1);t.currentY+=t.velocity,t.currentY>t.maxY&&(t.currentY=t.maxY,t.velocity=0),t.currentY<t.minY&&(t.currentY=t.minY,t.velocity=0),t.itemsEl.style.transform="translateY("+t.currentY+"px)",t.velocity*=.95,t.updateSelection(),requestAnimationFrame(e)})}snapToItem(){const t=Math.round(-this.currentY/this.itemHeight);this.currentY=-t*this.itemHeight,this.itemsEl.style.transform="translateY("+this.currentY+"px)",this.updateSelection()}updateSelection(){const t=Math.round(-this.currentY/this.itemHeight);Array.from(this.itemsEl.children).forEach(function(e,i){e.classList.toggle("selected",i===t)})}getSelected(){const t=Math.round(-this.currentY/this.itemHeight);return this.values[t]}setSelected(t){const e=this.values.indexOf(t);e>=0&&(this.currentY=-e*this.itemHeight,this.itemsEl.style.transform="translateY("+this.currentY+"px)",this.updateSelection())}}class HorizontalWheelPicker{constructor({containerId:t,min:e,max:i,step:s,initialValue:n}){this.container=document.getElementById(t),this.min=e,this.max=i,this.step=s,this.values=[];for(let t=e;t<=i+1e-4;t+=s)this.values.push(parseFloat(t.toFixed(1)));this.currentX=0,this.velocity=0,this.isDragging=!1,this.lastX=0,this.frame=null,this.createUI(),this.setToValue(n),this.bindEvents(),this.animate()}createUI(){this.wheel=document.createElement("div"),this.wheel.className="Hwheel",this.values.forEach(t=>{const e=document.createElement("div");e.className="Hwheel-item",e.textContent=t.toFixed(1),this.wheel.appendChild(e)}),this.container.appendChild(this.wheel);const t=document.createElement("div");t.className="center-marker",this.container.appendChild(t)}bindEvents(){const t=t=>{if(!this.isDragging)return;const e=t.touches?t.touches[0].clientX:t.clientX,i=e-this.lastX;this.currentX+=i,this.velocity=1*i,this.lastX=e},e=t=>{this.isDragging=!0,this.velocity=0,this.lastX=t.touches?t.touches[0].clientX:t.clientX,cancelAnimationFrame(this.frame)},i=()=>{this.isDragging=!1,this.snapToNearest(),this.animate()};this.container.addEventListener("mousedown",e),this.container.addEventListener("touchstart",e),window.addEventListener("mousemove",t),window.addEventListener("touchmove",t),window.addEventListener("mouseup",i),window.addEventListener("touchend",i)}setToValue(t){const e=this.values.findIndex(e=>e===parseFloat(t.toFixed(1)));e>=0&&(this.currentX=80*-e+this.container.offsetWidth/2-40,this.updateActive(),this.wheel.style.transform=`translateX(${this.currentX}px)`)}updateActive(){const t=this.container.offsetWidth/2,e=this.wheel.children;let i=0,s=1/0;for(let n=0;n<e.length;n++){const r=this.currentX+80*n+40,a=Math.abs(t-r);a<s&&(s=a,i=n),e[n].classList.remove("active")}e[i].classList.add("active"),this.selectedValue=this.values[i]}snapToNearest(){const t=this.container.offsetWidth/2;let e=Math.round((t-this.currentX-40)/80);e<0&&(e=0),e>=this.values.length&&(e=this.values.length-1),this.currentX=80*-e+t-40,this.updateActive()}getSelectedValue(){return this.selectedValue}animate(){this.isDragging||(this.currentX+=this.velocity,this.velocity*=.98,Math.abs(this.velocity)<.05&&(this.velocity=0,this.snapToNearest())),this.wheel.style.transform=`translateX(${this.currentX}px)`,this.updateActive(),this.frame=requestAnimationFrame(()=>this.animate())}}
+// ======== WHEEL PICKER CLASA ========
+class WheelPicker {
+  constructor(containerId, values) {
+    this.container = document.getElementById(containerId);
+    this.values = values;
+    this.currentY = 0;
+    this.velocity = 0;
+    this.animating = false;
+    this.itemHeight = 40;
+    this.minY = -(values.length -1)*this.itemHeight;
+    this.maxY = 0;
+    this.render();
+    this.bindEvents();
+  }
+
+  render() {
+    this.container.innerHTML = '<div class="wheel-items"></div>';
+    this.itemsEl = this.container.querySelector('.wheel-items');
+    this.values.forEach(function(val, i){
+      const div = document.createElement('div');
+      div.className = 'wheel-item';
+      div.textContent = val.toString().padStart(2,'0');
+      this.itemsEl.appendChild(div);
+    }.bind(this));
+    this.updateSelection();
+    this.itemsEl.style.transform = 'translateY(' + this.currentY + 'px)';
+  }
+
+  bindEvents() {
+    let isDragging = false;
+    let lastY = 0;
+    const self = this;
+
+    function start(e){
+      isDragging=true;
+      lastY = e.touches ? e.touches[0].clientY : e.clientY;
+      e.preventDefault();
+    }
+
+    function move(e){
+      if(!isDragging) return;
+      const y = e.touches ? e.touches[0].clientY : e.clientY;
+      let delta = y - lastY;
+      self.currentY += delta;
+      if(self.currentY>self.maxY) self.currentY = self.maxY + (self.currentY-self.maxY)/3;
+      if(self.currentY<self.minY) self.currentY = self.minY + (self.currentY-self.minY)/3;
+      self.itemsEl.style.transform = 'translateY(' + self.currentY + 'px)';
+      self.velocity = delta;
+      lastY = y;
+      self.updateSelection();
+    }
+
+    function end(){
+      isDragging=false;
+      self.startInertia();
+    }
+
+    this.container.addEventListener('mousedown', start);
+    this.container.addEventListener('mousemove', move);
+    this.container.addEventListener('mouseup', end);
+    this.container.addEventListener('mouseleave', end);
+    this.container.addEventListener('touchstart', start);
+    this.container.addEventListener('touchmove', move);
+    this.container.addEventListener('touchend', end);
+  }
+
+  startInertia() {
+    if(this.animating) return;
+    this.animating = true;
+    const self = this;
+
+    function step(){
+      if(Math.abs(self.velocity)<0.1){
+        self.snapToItem();
+        self.animating=false;
+        return;
+      }
+      self.currentY += self.velocity;
+      if(self.currentY>self.maxY){ self.currentY=self.maxY; self.velocity=0;}
+      if(self.currentY<self.minY){ self.currentY=self.minY; self.velocity=0;}
+      self.itemsEl.style.transform = 'translateY(' + self.currentY + 'px)';
+      self.velocity *= 0.95;
+      self.updateSelection();
+      requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  snapToItem() {
+    const index = Math.round(-this.currentY/this.itemHeight);
+    this.currentY = -index*this.itemHeight;
+    this.itemsEl.style.transform = 'translateY(' + this.currentY + 'px)';
+    this.updateSelection();
+  }
+
+  updateSelection() {
+    const index = Math.round(-this.currentY/this.itemHeight);
+    Array.from(this.itemsEl.children).forEach(function(el,i){
+      el.classList.toggle('selected', i===index);
+    });
+  }
+  
+  getSelected(){
+    const index = Math.round(-this.currentY/this.itemHeight);
+    return this.values[index];
+  }
+
+  setSelected(value){
+    const index = this.values.indexOf(value);
+    if(index>=0){
+      this.currentY = -index*this.itemHeight;
+      this.itemsEl.style.transform = 'translateY(' + this.currentY + 'px)';
+      this.updateSelection();
+    }
+  }
+}
+/* HORIZONTAL  * HORIZONTAL */
+class HorizontalWheelPicker {
+	constructor({ containerId, min, max, step, initialValue }) {
+		this.container = document.getElementById(containerId);
+		this.min = min;
+		this.max = max;
+		this.step = step;
+		this.values = [];
+		for(let v = min; v <= max + 0.0001; v += step){
+			this.values.push(parseFloat(v.toFixed(1)));
+		}
+
+		this.currentX = 0;
+		this.velocity = 0;
+		this.isDragging = false;
+		this.lastX = 0;
+		this.frame = null;
+
+		this.createUI();
+		this.setToValue(initialValue);
+		this.bindEvents();
+		this.animate();
+	}
+
+	createUI() {
+		this.wheel = document.createElement('div');
+		this.wheel.className = 'Hwheel';
+		this.values.forEach(v => {
+			const div = document.createElement('div');
+			div.className = 'Hwheel-item';
+			div.textContent = v.toFixed(1);
+			this.wheel.appendChild(div);
+		});
+		this.container.appendChild(this.wheel);
+
+		const marker = document.createElement('div');
+		marker.className = 'center-marker';
+		this.container.appendChild(marker);
+	}
+
+	bindEvents() {
+		const onMove = e => {
+			if(!this.isDragging){return;}
+			const x = e.touches ? e.touches[0].clientX : e.clientX;
+			const dx = x - this.lastX;
+			this.currentX += dx;
+			this.velocity = dx * 1.0; //velocity
+			this.lastX = x;
+		};
+
+		const onDown = e => {
+			this.isDragging = true;
+			this.velocity = 0;
+			this.lastX = e.touches ? e.touches[0].clientX : e.clientX;
+			cancelAnimationFrame(this.frame);
+		};
+
+		const onUp = () => {
+			this.isDragging = false;
+			this.snapToNearest();
+			this.animate();
+		};
+
+		this.container.addEventListener('mousedown', onDown);
+		this.container.addEventListener('touchstart', onDown);
+		window.addEventListener('mousemove', onMove);
+		window.addEventListener('touchmove', onMove);
+		window.addEventListener('mouseup', onUp);
+		window.addEventListener('touchend', onUp);
+	}
+
+	setToValue(value) {
+		const index = this.values.findIndex(v => v === parseFloat(value.toFixed(1)));
+		if(index >= 0){
+			this.currentX = ((-index * 80) + (this.container.offsetWidth / 2) - 40);
+			this.updateActive();
+			this.wheel.style.transform = `translateX(${this.currentX}px)`;
+		}
+	}
+
+	updateActive() {
+		const center = this.container.offsetWidth / 2;
+		const items = this.wheel.children;
+		let closestIndex = 0;
+		let closestDist = Infinity;
+
+		for(let i = 0; i < items.length; i++){
+			const itemCenter = this.currentX + i * 80 + 40;
+			const dist = Math.abs(center - itemCenter);
+			if(dist < closestDist){
+				closestDist = dist;
+				closestIndex = i;
+			}
+			items[i].classList.remove('active');
+		}
+
+		items[closestIndex].classList.add('active');
+		this.selectedValue = this.values[closestIndex];
+	}
+
+	snapToNearest() {
+		const center = this.container.offsetWidth / 2;
+		let nearestIndex = Math.round((center - this.currentX - 40) / 80);
+		if(nearestIndex < 0){nearestIndex = 0;}
+		if(nearestIndex >= this.values.length){nearestIndex = this.values.length - 1;}
+		this.currentX = -nearestIndex * 80 + center - 40;
+		this.updateActive();
+	}
+
+	getSelectedValue() {
+		return this.selectedValue;
+	}
+
+	animate() {
+		if(!this.isDragging){
+			this.currentX += this.velocity;
+			this.velocity *= 0.98; //brake def 0.95
+			if(Math.abs(this.velocity) < 0.05){
+				this.velocity = 0;
+				this.snapToNearest();
+			}
+		}
+		this.wheel.style.transform = `translateX(${this.currentX}px)`;
+		this.updateActive();
+		this.frame = requestAnimationFrame(() => this.animate());
+	}
+}
