@@ -410,70 +410,39 @@
                                 <div class="panel-group" role="tablist" aria-multiselectable="true" id="accordion-3" style="margin:0px;">
                                     <div class="panel panel-info" style="background-color:transparent;">
                                         <div class="panel-heading" role="tab" style="background-color:#336699;height:21px;padding:0px;">
-                                            <h4 class="panel-title"><i class="fa fa-fire" style="padding:3px;width:22px;color:#ffcc1e;font-size:13px;"></i><a role="button" data-toggle="collapse" aria-expanded="false" data-parent="#accordion-3" href="#accordion-3 .item-1" style="font-size:14px;margin:-4px;font-family:'News Cycle', sans-serif;color:#ffcc1e;">DHCP - MANUAL - AUTO - IP</a></h4>
+                                            <h4 class="panel-title"><i class="fa fa-fire" style="padding:3px;width:22px;color:#ffcc1e;font-size:13px;"></i><a role="button" data-toggle="collapse" aria-expanded="true" data-parent="#accordion-3" href="#accordion-3 .item-1" style="font-size:14px;margin:-4px;font-family:'News Cycle', sans-serif;color:#ffcc1e;">DHCP - MANUAL - AUTO - IP</a></h4>
                                         </div>
-                                        <div class="panel-collapse collapse item-1" role="tabpanel" id="accDHCPSet" style="background-color:transparent;">
+                                        <div class="panel-collapse collapse in item-1" role="tabpanel" id="accDHCPSet" style="background-color:transparent;">
                                             <div class="panel-body text-left">
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="checkbox"><label><input type="checkbox" id="setDHCPAUTO" checked="">Auto DHCP</label></div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6">
-                                                    <div class="row" style="color: #75a6d7;">
-                                                        <div class="col-md-12 col-sm-12"><label for="welcome_Luni">Luni &nbsp; &nbsp; &nbsp; &nbsp;</label>
-                                                            <div class="myCls01" align="center"><input type="text" class="form-control smartWelcome" style="border: none;display: inline-block !important;background-color: transparent;color: lime;height: 20px;font-size: 12px;" placeholder="N/A" align="center"></div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="row" style="color: #fcff52;font-size: 14px;">
+                                                            <div class="col-md-12">
+                                                                <div>
+                                                                    <table class="table table-condensed">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>IP</td>
+                                                                                <td>
+                                                                                    <div id="ip-group" class="form-inline ip-group" style="flex: auto;"><input class="input-sm form-control dhcp_setup" type="number]" min="0" max="255" step="1" placeholder="0" style="text-align: center;" input="" none="" margin:="" textfield="" firefox="" maxlength="3" value="0"><span style="font-weight: bold;">.</span><input class="input-sm form-control dhcp_setup" type="number" min="0" max="255" step="1" placeholder="0" style="text-align: center;" maxlength="3" value="0"><span style="font-weight: bold;">.</span><input class="input-sm form-control dhcp_setup" type="number" min="0" max="255" step="1" placeholder="0" style="text-align: center;" maxlength="3" value="0"><span style="font-weight: bold;">.</span><input class="input-sm form-control dhcp_setup" type="number" min="0" max="255" step="1" placeholder="0" style="text-align: center;" maxlength="3" value="0"></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Cell 3</td>
+                                                                                <td>Cell 4</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-12 col-sm-12"><label for="welcome_Marti">Marti &nbsp; &nbsp; &nbsp;</label><!-- https://weareoutman.github.io/clockpicker/ -->
-<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
-	<input readonly="true" placeholder='N/A' align ='center' style="border: none; display:inline-block !important;background-color:transparent; color:lime;height:20px;font-size:12px" id='welcome_Marti' type="text" class="form-control smartWelcome" value="">
-<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
-        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
-    </span>
--->
-</div> </div>
-                                                        <div class="col-md-12 col-sm-12"><label for="welcome_Miercuri">Miercuri&nbsp;</label><!-- https://weareoutman.github.io/clockpicker/ -->
-<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
-	<input readonly="true" placeholder='N/A' align ='center' style="border: none; display:inline-block !important;background-color:transparent; color:lime;height:20px;font-size:12px" id='welcome_Miercuri' type="text" class="form-control smartWelcome" value="">
-<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
-        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
-    </span>
--->
-</div> </div>
-                                                        <div class="col-md-12 col-sm-12"><label for="welcome_Joi">Joi &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label><!-- https://weareoutman.github.io/clockpicker/ -->
-<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
-	<input readonly="true" placeholder='N/A' align ='center' style="border: none; display:inline-block !important;background-color:transparent; color:lime;height:20px;font-size:12px" id='welcome_Joi' type="text" class="form-control smartWelcome" value="">
-<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
-        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
-    </span>
--->
-</div> </div>
-                                                        <div class="col-md-12 col-sm-12"><label for="welcome_Vineri">Vineri &nbsp; &nbsp;&nbsp;</label><!-- https://weareoutman.github.io/clockpicker/ -->
-<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
-	<input readonly="true" placeholder='N/A' align ='center' style="border: none; display:inline-block !important;background-color:transparent; color:lime;height:20px;font-size:12px" id='welcome_Vineri' type="text" class="form-control smartWelcome" value="">
-<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
-        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
-    </span>
--->
-</div> </div>
-                                                        <div class="col-md-12 col-sm-12"><label for="welcome_Sambata">Sambata</label><!-- https://weareoutman.github.io/clockpicker/ -->
-<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
-	<input readonly="true" placeholder='N/A' align ='center' style="border: none; display:inline-block !important;background-color:transparent; color:lime;height:20px;font-size:12px" id='welcome_Sambata' type="text" class="form-control smartWelcome" value="">
-<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
-        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
-    </span>
--->
-</div> </div>
-                                                        <div class="col-md-12 col-sm-12"><label for="welcome_Duminica">Duminica</label><!-- https://weareoutman.github.io/clockpicker/ -->
-<div  align='center' style="display:inline-block !important;background-color:transparent; width:80px;" class="clockpicker" data-placement="right" data-align="right" data-autoclose="true">    
-	<input readonly="true" placeholder='N/A' align ='center' style="border: none; display:inline-block !important;background-color:transparent; color:lime;height:20px;font-size:12px" id='welcome_Duminica' type="text" class="form-control smartWelcome" value="">
-<!--    <span style="background-color:transparent; color:white;" class="input-group-addon">
-        <span style="color:#ffcc1e;" class="glyphicon glyphicon-time"></span>
-    </span>
--->
-</div> </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-6"><i class="glyphicon glyphicon-globe" style="font-size: 70px;"></i>
-                                                    <p class="form-control-static" style="font-size: 12px;color: #ffffff;">Modul automat, seteaza o ora mai mare de ora 15, cand utilizatorul revine acasa dupa o perioada mai mare de 2h.</p><button class="btn btn-default btn-xs" data-bss-hover-animate="flash" id="save_dhcp_mode" style="background-color: rgb(255,204,30);font-family: Aldrich, sans-serif;font-size: 18px;color: rgb(24,55,122);" type="button">Aplica</button>
+                                                    <div class="col-md-6 col-sm-6"><i class="glyphicon glyphicon-globe" style="font-size: 70px;"></i>
+                                                        <p class="form-control-static" style="font-size: 12px;color: #ffffff;">Modul automat, seteaza o ora mai mare de ora 15, cand utilizatorul revine acasa dupa o perioada mai mare de 2h.</p><button class="btn btn-default btn-xs" data-bss-hover-animate="flash" id="save_dhcp_mode" style="background-color: rgb(255,204,30);font-family: Aldrich, sans-serif;font-size: 18px;color: rgb(24,55,122);" type="button">Aplica</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
