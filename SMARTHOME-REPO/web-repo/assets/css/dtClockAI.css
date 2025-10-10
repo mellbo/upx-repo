@@ -1,1 +1,116 @@
-.wheel-container{width:100px;height:200px;overflow:hidden;border-radius:12px;position:relative;display:inline-block;vertical-align:middle;background:rgba(255,255,255,.05);box-shadow:inset 0 0 5px rgba(0,0,0,.1)}.wheel-container::after,.wheel-container::before{content:'';position:absolute;left:0;width:100%;height:40px;pointer-events:none;z-index:10}.wheel-container::before{top:0;background:linear-gradient(to bottom,rgba(0,0,0,.5),transparent)}.wheel-container::after{bottom:0;background:linear-gradient(to top,rgba(0,0,0,.5),transparent)}.wheel-items{position:absolute;top:40%;left:0;width:100%;transform:translateY(-50%)}.wheel-item{height:40px;line-height:40px;text-align:center;font-size:1.5rem;color:rgba(255,255,255,.8);user-select:none;transition:all .1s}.wheel-item.selected{font-size:1.9rem;font-weight:600;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.6)}.wheel-separator{display:inline-block;font-size:2rem;line-height:200px;vertical-align:middle;color:#fff;padding:0 12px;text-shadow:0 1px 2px rgba(0,0,0,.5)}#H-wheel-container{width:100%;overflow:hidden;border-radius:12px;position:relative;vertical-align:middle;background:rgba(255,255,255,.05);box-shadow:inset 0 0 5px rgba(0,0,0,.1)}.Hwheel{display:flex;align-items:center;user-select:none;cursor:grab}.Hwheel-item{flex:0 0 auto;width:80px;text-align:center;opacity:1;font-size:22px;transition:transform .2s,opacity .2s;color:rgba(255,255,255,.8)}.Hwheel-item.active{font-weight:700;font-size:28px;opacity:1}.center-marker{position:absolute;left:50%;top:0;bottom:0;width:80px;height:2px;background:#0f0;transform:translateX(-50%);pointer-events:none}
+/* ==== Wheel Picker Mobil Curat === */
+
+.wheel-container {
+  width: 100px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 12px;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  background: rgba(255,255,255,0.05);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+.wheel-container::before, .wheel-container::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.wheel-container::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+}
+
+.wheel-container::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+}
+
+.wheel-items {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+}
+
+.wheel-item {
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 1.5rem;
+  color: rgba(255,255,255,0.8);
+  user-select: none;
+  transition: all 0.1s;
+}
+
+.wheel-item.selected {
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+
+.wheel-separator {
+  display: inline-block;
+  font-size: 2rem;
+  line-height: 200px;
+  vertical-align: middle;
+  color: #fff;
+  padding: 0 12px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* HORIZONTAL WHELL */
+
+#H-wheel-container {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  position: relative;
+  vertical-align: middle;
+  background: rgba(255,255,255,0.05);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+.Hwheel {
+  display: flex;
+  align-items: center;
+  user-select: none;
+  cursor: grab;
+}
+
+.Hwheel-item {
+  flex: 0 0 auto;
+  width: 80px;
+  text-align: center;
+  opacity: 1;
+  font-size: 22px;
+  transition: transform 0.2s, opacity 0.2s;
+  color: rgba(255,255,255,0.8);
+}
+
+.Hwheel-item.active {
+  font-weight: bold;
+  font-size: 28px;
+  opacity: 1;
+}
+
+.center-marker {
+  position: absolute;
+  left: 50%;
+  top: 0px;
+  bottom: 0;
+  width: 80px;
+  height: 2px;
+  background: lime;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
