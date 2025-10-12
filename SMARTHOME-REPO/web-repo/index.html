@@ -3,7 +3,16 @@
 
 <head>
     <meta charset="utf-8">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/promise-polyfill/8.3.0/polyfill.min.js"></script>
+<script>
+  (function() {
+    try {
+      new Function("let a=1; const b=2;");
+    } catch(e) {
+      alert("Your device is to old for this WebPage. Sorry!");
+      window.location.replace("/dashboard");
+    }
+  })();
+</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>SMARTHOME</title>
     <meta name="theme-color" content="#2a60aa">
