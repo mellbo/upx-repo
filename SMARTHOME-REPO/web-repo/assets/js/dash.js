@@ -266,7 +266,7 @@ function getWeatherIconFile(idx, forceNight=false) {
 	return mainLink + file; // o singură ieșire
 }
 
-function parseJsonWeatherObj(js) { // aici js este array-ul deja pars
+function parseJsonWeather(js) { // aici js este array-ul deja pars
 	let json_out = {};
 
 	function formatDelphiDate(dateStr) {
