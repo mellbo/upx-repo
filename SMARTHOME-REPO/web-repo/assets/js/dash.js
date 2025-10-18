@@ -266,20 +266,22 @@ function getWeatherIconFile(idx, forceNight=false) {
 	return mainLink + file; // o singură ieșire
 }
 
-// Funcție JS care primește JSON text și returnează structura completă ca obiect
 function parseJsonWeather(sJSON) {
 	let json_out = {}; // obiect final
 
-	// Funcție auxiliară pentru a formata datele ca Delphi
-	function formatDelphiDate(dt) {
-		const d = new Date(dt);
+	// funcție pentru a păstra format Delphi
+	function formatDelphiDate(dateStr) {
+		const d = new Date(dateStr);
 		const pad = (n) => (n < 10 ? '0' + n : n);
-		return d.getFullYear() + '-' +
-			   pad(d.getMonth() + 1) + '-' +
-			   pad(d.getDate()) + 'T' +
-			   pad(d.getHours()) + ':' +
-			   pad(d.getMinutes()) + ':' +
-			   pad(d.getSeconds()) + '+02:00';
+		// ajustăm ora pentru +02:00 (Delta fixă, poate fi modificată dacă e nevoie)
+		const offset = 2; 
+		const hours = d.getUTCHours() + offset;
+		return d.getUTCFullYear() + '-' +
+			   pad(d.getUTCMonth() + 1) + '-' +
+			   pad(d.getUTCDate()) + 'T' +
+			   pad(hours) + ':' +
+			   pad(d.getUTCMinutes()) + ':' +
+			   pad(d.getUTCSeconds()) + '+02:00';
 	}
 
 	try {
@@ -313,20 +315,20 @@ function parseJsonWeather(sJSON) {
 			dayData.nightTemp = dayObj.night.temperature;
 
 			// DAY Icon
-			dayData.iconDay = dayObj.day.icon;
-			const icon_day = dayData.iconDay; // variabilă păstrată ca în Delphi
+			dayData.iconDay = String(dayObj.day.icon); // convertim la string
+			const icon_day = dayData.iconDay; // păstrăm variabila
 
 			// NIGHT Icon
-			dayData.iconNight = dayObj.night.icon;
-			const icon_night = dayData.iconNight; // variabilă păstrată ca în Delphi
+			dayData.iconNight = String(dayObj.night.icon);
+			const icon_night = dayData.iconNight;
 
 			// DAY phrase
 			dayData.phraseDay = dayObj.day.phrase;
-			const icn_lbl_day = dayData.phraseDay; // variabilă păstrată
+			const icn_lbl_day = dayData.phraseDay;
 
 			// NIGHT phrase
 			dayData.phraseNight = dayObj.night.phrase;
-			const icn_lbl_night = dayData.phraseNight; // variabilă păstrată
+			const icn_lbl_night = dayData.phraseNight;
 
 			// NARRATIVE Day [must be pre-last line]
 			dayData.day = dayObj.day.narrative;
@@ -334,7 +336,7 @@ function parseJsonWeather(sJSON) {
 			// NARRATIVE Night [must be last line]
 			dayData.night = dayObj.night.narrative;
 
-			// Adaugăm ziua în obiectul final
+			// adaugăm obiectul zilei în json_out
 			json_out[`Day${i}`] = dayData;
 		}
 
@@ -343,8 +345,9 @@ function parseJsonWeather(sJSON) {
 		return null; // eroare parsare JSON
 	}
 
-	return json_out; // returnăm obiect JSON complet
+	return json_out; // return obiect complet
 }
+
 
 
 function loadWeather(){
