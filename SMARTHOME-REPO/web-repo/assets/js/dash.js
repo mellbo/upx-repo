@@ -266,14 +266,12 @@ function getWeatherIconFile(idx, forceNight=false) {
 	return mainLink + file; // o singură ieșire
 }
 
-function parseJsonWeather(sJSON) {
-	let json_out = {}; // obiect final
+function parseJsonWeatherObj(js) { // aici js este array-ul deja pars
+	let json_out = {};
 
-	// funcție pentru a păstra format Delphi
 	function formatDelphiDate(dateStr) {
 		const d = new Date(dateStr);
 		const pad = (n) => (n < 10 ? '0' + n : n);
-		// ajustăm ora pentru +02:00 (Delta fixă, poate fi modificată dacă e nevoie)
 		const offset = 2; 
 		const hours = d.getUTCHours() + offset;
 		return d.getUTCFullYear() + '-' +
@@ -285,68 +283,40 @@ function parseJsonWeather(sJSON) {
 	}
 
 	try {
-		const js = JSON.parse(sJSON); // parse JSON text
-
-		json_out.dayCount = js.length; // zi count
+		json_out.dayCount = js.length;
 
 		for (let i = 0; i < js.length; i++) {
 			const dayObj = js[i];
 			const dayData = {};
 
-			// validDate
 			dayData.validDate = formatDelphiDate(dayObj.validDate);
-
-			// sunrise
 			dayData.sunrise = formatDelphiDate(dayObj.sunrise);
-
-			// sunset
 			dayData.sunset = formatDelphiDate(dayObj.sunset);
-
-			// DAY Name
 			dayData.dayName = dayObj.day.dayPartName;
-
-			// NIGHT Name
 			dayData.nightName = dayObj.night.dayPartName;
-
-			// DAY Temp
 			dayData.dayTemp = dayObj.day.temperature;
-
-			// NIGHT Temp
 			dayData.nightTemp = dayObj.night.temperature;
-
-			// DAY Icon
-			dayData.iconDay = String(dayObj.day.icon); // convertim la string
-			const icon_day = dayData.iconDay; // păstrăm variabila
-
-			// NIGHT Icon
+			dayData.iconDay = String(dayObj.day.icon);
+			const icon_day = dayData.iconDay;
 			dayData.iconNight = String(dayObj.night.icon);
 			const icon_night = dayData.iconNight;
-
-			// DAY phrase
 			dayData.phraseDay = dayObj.day.phrase;
 			const icn_lbl_day = dayData.phraseDay;
-
-			// NIGHT phrase
 			dayData.phraseNight = dayObj.night.phrase;
 			const icn_lbl_night = dayData.phraseNight;
-
-			// NARRATIVE Day [must be pre-last line]
 			dayData.day = dayObj.day.narrative;
-
-			// NARRATIVE Night [must be last line]
 			dayData.night = dayObj.night.narrative;
 
-			// adaugăm obiectul zilei în json_out
 			json_out[`Day${i}`] = dayData;
 		}
-
 	} catch (err) {
 		console.error(err);
-		return null; // eroare parsare JSON
+		return null;
 	}
 
-	return json_out; // return obiect complet
+	return json_out;
 }
+
 
 
 
