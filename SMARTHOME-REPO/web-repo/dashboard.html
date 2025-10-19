@@ -14,10 +14,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Armata">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bad+Script">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/css/blueFeature.css">
     <link rel="stylesheet" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/css/DashBoard.css">
@@ -57,242 +55,6 @@
                     <div class="text-center" style="height: 22px;"></div>
                     <div class="swiper-container" style="width:auto;">
                         <div class="swiper-wrapper" style="width:100%;">
-                            <div class="swiper-slide" style="background-color:transparent;">
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12">
-                                        <p class="help-block lead text-left" style="font-size:65px;font-family:Anton, sans-serif;color:#ffffff;background-color:rgba(31,134,159,0.36);height:105px;margin:-50px 0px 10px;"><i class="fa fa-thermometer-3" style="font-size:50px;color:#f43f4f;margin:15px;height:auto;"></i>T E M P E R A T U R A</p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 49px;font-family: Aldrich, sans-serif;color: #51b5e0;">Dormitor 1</span>
-                                        <p class="help-block lead text-center" id="lbl_dormitor_temp" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">13.6<label>ºC</label></p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 49px;font-family: Aldrich, sans-serif;color: #51b5e0;">Dormitor 2</span>
-                                        <p class="help-block lead text-center" id="lbl_dormitor2_temp" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">13.6<label>ºC</label></p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size:51px;font-family:Aldrich, sans-serif;color:#51b5e0;">Living</span>
-                                        <p class="help-block lead" id="lbl_living_temp" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">13.2<label>ºC</label></p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size:51px;font-family:Aldrich, sans-serif;color:#51b5e0;">Exterior</span>
-                                        <p class="help-block lead" id="lbl_ext_temp" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">13.2<label>ºC</label></p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size:51px;font-family:Aldrich, sans-serif;color:#c9e8dd;">FTemp</span>
-                                        <p class="help-block lead" id="lbl_matrix_temp" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">13.2<label>ºC</label></p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size:51px;font-family:Aldrich, sans-serif;color:#e87511;">Termostat</span>
-                                        <div id="heaton_icon" style="width:0;height:0;"><i class="icon ion-ios-flame" style="font-size: 46px;color: #60dd49;"></i></div>
-                                        <p class="help-block lead" id="lbl_thermostatset_temp" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">13.2<label>ºC</label></p>
-                                        <div>
-                                            <div class="col-md-12 col-sm-12">
-                                                <p class="help-block lead text-center" id="btn_turbo" style="font-family: 'News Cycle', sans-serif;background-color: rgba(255,197,0,0.75);margin: -55px -29px 0px;color: rgba(0,0,0,0.48);width: 59px;font-size: 15px;height: 22px;"><i class="fas fa-thermometer-full" style="font-size: 15px;"></i>TURBO</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12" id="save">
-                                        <div class="text-center" id="replySave"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide" style="background-color:transparent;">
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12">
-                                        <p class="help-block lead text-left" style="font-size: 56px;font-family: Anton, sans-serif;color: #ffffff;background-color: rgba(31,134,159,0.36);height: 78px;margin: -6px 0px 10px;"><i class="fa fa-thermometer-3" style="font-size:50px;color:#f43f4f;margin:15px;height:auto;"></i>Comanda Calorifere&nbsp;</p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 38px;font-family: Aldrich, sans-serif;color: #51b5e0;">Living-01</span>
-                                        <div class="text-left" style="font-family: Armata, sans-serif;font-size: 15px;">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Adresa</td>
-                                                        <td style="color: #ffcc1e;">1-0x0A</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Baterie</td>
-                                                        <td id="CALOR1_VCC" style="color: rgb(58,255,25);">0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Comanda</td>
-                                                        <td id="CALOR1_SET_STATE">DESCHIS</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Status</td>
-                                                        <td id="CALOR1_CUR_STATE">DESCHIS</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 38px;font-family: Aldrich, sans-serif;color: #51b5e0;">Living - 02</span>
-                                        <div class="text-left" style="font-family: Armata, sans-serif;font-size: 15px;">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Adresa</td>
-                                                        <td style="color: #ffcc1e;">2-0x14</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Baterie</td>
-                                                        <td id="CALOR2_VCC" style="color: rgb(58,255,25);">0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Comanda</td>
-                                                        <td id="CALOR2_SET_STATE">DESCHIS</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Status</td>
-                                                        <td id="CALOR2_CUR_STATE">DESCHIS</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 38px;font-family: Aldrich, sans-serif;color: #51b5e0;">Living - 03</span>
-                                        <div class="text-left" style="font-family: Armata, sans-serif;font-size: 15px;">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Adresa</td>
-                                                        <td style="color: #ffcc1e;">3-0x1E</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Baterie</td>
-                                                        <td id="CALOR3_VCC" style="color: rgb(58,255,25);">0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Comanda</td>
-                                                        <td id="CALOR3_SET_STATE">DESCHIS</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Status</td>
-                                                        <td id="CALOR3_CUR_STATE">DESCHIS</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 38px;font-family: Aldrich, sans-serif;color: #51b5e0;">Hol Baie</span>
-                                        <div class="text-left" style="font-family: Armata, sans-serif;font-size: 15px;">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Adresa</td>
-                                                        <td style="color: #ffcc1e;">4-0x28</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Baterie</td>
-                                                        <td id="CALOR4_VCC" style="color: rgb(58,255,25);">0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Comanda</td>
-                                                        <td id="CALOR4_SET_STATE">DESCHIS</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Status</td>
-                                                        <td id="CALOR4_CUR_STATE">DESCHIS</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 38px;font-family: Aldrich, sans-serif;color: #51b5e0;">Dormitor 1</span>
-                                        <div class="text-left" style="font-family: Armata, sans-serif;font-size: 15px;">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Adresa</td>
-                                                        <td style="color: #ffcc1e;">5-0x3C</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Baterie</td>
-                                                        <td id="CALOR5_VCC" style="color: rgb(58,255,25);">0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Comanda</td>
-                                                        <td id="CALOR5_SET_STATE">DESCHIS</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Status</td>
-                                                        <td id="CALOR5_CUR_STATE">DESCHIS</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 38px;font-family: Aldrich, sans-serif;color: #51b5e0;">Dormitor 2</span>
-                                        <div class="text-left" style="font-family: Armata, sans-serif;font-size: 15px;">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Adresa</td>
-                                                        <td style="color: #ffcc1e;">6-0x32</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Baterie</td>
-                                                        <td id="CALOR6_VCC" style="color: rgb(58,255,25);">0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Comanda</td>
-                                                        <td id="CALOR6_SET_STATE">DESCHIS</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Status</td>
-                                                        <td id="CALOR6_CUR_STATE">DESCHIS</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide" style="background-color:transparent;">
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12">
-                                        <p class="help-block lead text-left" style="font-size: 65px;font-family: Anton, sans-serif;color: #ffffff;background-color: rgba(31,134,159,0.36);height: 105px;margin: -60px 0px 10px;"><i class="glyphicon glyphicon-leaf" style="font-size:70px;color:#00b27a;margin:15px;height:auto;"></i>C O M F O R T &nbsp; &nbsp; SYSTEM</p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size:41px;font-family:Aldrich, sans-serif;color:#51b5e0;">Umid. Exterior</span>
-                                        <p class="help-block lead text-center" id="lbl_umid_exterior" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">65<label>%</label></p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 41px;font-family: Aldrich, sans-serif;color: #51b5e0;">Umid. Interior</span>
-                                        <p class="help-block lead text-center" id="lbl_umid_interior" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">52<label>%</label></p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 41px;font-family: Aldrich, sans-serif;color: #51b5e0;">Jal. Raw</span>
-                                        <p class="help-block lead" id="lbl_jal_raw" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">657<label>lx</label></p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 46px;font-family: Aldrich, sans-serif;color: #51b5e0;">Jal. Mode</span>
-                                        <p class="help-block lead" id="lbl_jalmode" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">AUTO</p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 46px;font-family: Aldrich, sans-serif;color: #51b5e0;">LDR Exterior</span>
-                                        <p class="help-block lead" id="lbl_ldr_exterior" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">435<label>lx</label></p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 46px;font-family: Aldrich, sans-serif;color: #51b5e0;">LDR Interior</span>
-                                        <p class="help-block lead" id="lbl_ldr_interior" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">722<label>lx</label></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide" style="background-color:transparent;">
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12">
-                                        <p class="help-block lead text-left" style="font-size: 65px;font-family: Anton, sans-serif;color: #ffffff;background-color: rgba(31,134,159,0.36);height: 105px;margin: -125px 0px 10px;"><i class="fas fa-battery-three-quarters" style="font-size:70px;color:#51b5e0;margin:15px;height:auto;"></i>V O L T A G E &amp; M I S C&nbsp;</p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size:36px;font-family:Aldrich, sans-serif;color:#51b5e0;">Baterie Backup</span>
-                                        <p class="help-block lead text-center" id="lbl_battery" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">13.8<label>V</label></p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 36px;font-family: Aldrich, sans-serif;color: #51b5e0;">Retea 12V</span>
-                                        <p class="help-block lead text-center" id="lbl_12V" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">12.2<label>V</label></p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 36px;font-family: Aldrich, sans-serif;color: #51b5e0;">Main Supply</span>
-                                        <p class="help-block lead" id="lbl_mainsupply" style="font-size:65px;font-family:Armata, sans-serif;color:rgba(255,204,30,0.8);">15<label>V</label></p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4">
-                                        <p class="help-block" style="position: absolute;top: 32px;left: 35%;z-index: 9999;margin: 5px;font-size: 10px;">Reset daily at 12:00</p><span style="font-size: 35px;font-family: Aldrich, sans-serif;color: #51b5e0;">Total Heat Today</span>
-                                        <p class="help-block lead" id="totalHeatTime" style="font-size: 50px;font-family: Armata, sans-serif;color: rgba(255,204,30,0.8);">00:00:00</p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 35px;font-family: Aldrich, sans-serif;color: #51b5e0;">Last Heat Toggle</span>
-                                        <p class="help-block lead" id="lastHeatTime" style="margin-top: 14px;font-size: 38px;font-family: Armata, sans-serif;color: rgba(255,204,30,0.8);">730D, 03:14:07</p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4"><span style="font-size: 35px;font-family: Aldrich, sans-serif;color: #51b5e0;">Heating State</span>
-                                        <p class="help-block lead" id="heatingState" style="font-size: 50px;font-family: Armata, sans-serif;color: rgba(255,204,30,0.8);">Unknow</p>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="swiper-slide" style="background-color: transparent;">
                                 <div class="row" style="height: 100%;">
                                     <div class="col-md-12 col-sm-12" style="height: auto;">
@@ -360,6 +122,10 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-12"><button class="btn btn-success btn-xs pull-right" id="idReloadWheater" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-cloud-sun">
+                                                        <path d="M7 8a3.5 3.5 0 0 1 3.5 3.555.5.5 0 0 0 .624.492A1.503 1.503 0 0 1 13 13.5a1.5 1.5 0 0 1-1.5 1.5H3a2 2 0 1 1 .1-3.998.5.5 0 0 0 .51-.375A3.502 3.502 0 0 1 7 8m4.473 3a4.5 4.5 0 0 0-8.72-.99A3 3 0 0 0 3 16h8.5a2.5 2.5 0 0 0 0-5z"></path>
+                                                        <path d="M10.5 1.5a.5.5 0 0 0-1 0v1a.5.5 0 0 0 1 0zm3.743 1.964a.5.5 0 1 0-.707-.707l-.708.707a.5.5 0 0 0 .708.708l.707-.708zm-7.779-.707a.5.5 0 0 0-.707.707l.707.708a.5.5 0 1 0 .708-.708l-.708-.707zm1.734 3.374a2 2 0 1 1 3.296 2.198c.199.281.372.582.516.898a3 3 0 1 0-4.84-3.225c.352.011.696.055 1.028.129m4.484 4.074c.6.215 1.125.59 1.522 1.072a.5.5 0 0 0 .039-.742l-.707-.707a.5.5 0 0 0-.854.377M14.5 6.5a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z"></path>
+                                                    </svg></button></div>
                                         </div>
                                     </div>
                                 </div>
