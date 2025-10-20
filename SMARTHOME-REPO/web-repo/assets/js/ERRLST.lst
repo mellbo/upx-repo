@@ -1,6 +1,6 @@
 {
-  0:  [" <empty>", false],
-  1:  [" <empty>", false],
+  0:  ["⚠️ Calor RCV Timeout", true],
+  1:  ["ℹ️ Calor RCV Restore", true],
   2:  ["Bine ai venit, Andreea-Maria! [KEY110]", false],
   3:  ["Bine ai venit, Camelia! [KEY120]", false],
   4:  ["Bine ai venit, Gilbert! [KEY130]", false],
