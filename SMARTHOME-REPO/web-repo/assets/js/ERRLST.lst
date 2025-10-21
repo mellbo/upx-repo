@@ -13,7 +13,7 @@
   11:  "ℹ️🖧 Main gateway: restore communication",
   12:  "⚠️🪫 WARNING: Main Voltage is LOW. Check 15V Rail!",
   13:  "⚠️⚡ WARNING: Main Voltage exceded (HIGH). Check 15V Rail!",
-  14:  "⚠️🔌 WARNING: Main Voltage MISSING. No 230VAC ?",
+  14:  "⚠️🔌 WARNING: Main Voltage MISSING.<br>No 230VAC ?",
   15:  "ℹ️🔋 MainVoltage (15V) reapear as OK",
   16:  "ℹ️🔌 MainVoltage (15V) AC-Restore. OK",
   17:  "⚠️⚡ Voltage (RAIL12) too HIGH",
