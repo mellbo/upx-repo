@@ -21,5 +21,7 @@
   19:  "ℹ️🔋 Voltage (RAIL12): OK",
   20:  "⚠️⚡ Battery (12V) too HIGH",
   21:  "⚠️🪫 WARNING: Battery (12V) too LOW",
-  22:  "ℹ️🔋 Battery (12V): OK",  
+  22:  "ℹ️🔋 Battery (12V): OK", 
+  23:  "⚠️🪫 One of KEY have LOW BATTERY. Check the battery.",
+  24:  "ℹ️🔋 Baterie telecomenzi OK",
 }
