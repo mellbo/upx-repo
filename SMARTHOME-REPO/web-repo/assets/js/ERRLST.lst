@@ -16,4 +16,10 @@
   14:  "⚠️🔌 WARNING: Main Voltage MISSING. No 230VAC ?",
   15:  "ℹ️🔋 MainVoltage (15V) reapear as OK",
   16:  "ℹ️🔌 MainVoltage (15V) AC-Restore. OK",
+  17:  "⚠️⚡ Voltage (RAIL12) too HIGH",
+  18:  "⚠️🪫 Voltage (RAIL12) too LOW",
+  19:  "ℹ️🔋 Voltage (RAIL12): OK",
+  20:  "⚠️⚡ Battery (12V) too HIGH",
+  21:  "⚠️🪫 Battery (12V) too LOW",
+  22:  "ℹ️🔋 Battery (12V): OK",  
 }
