@@ -14,7 +14,7 @@
   12:  "⚠️🪫 WARNING: Main Voltage is LOW. Check 15V Rail!",
   13:  "⚠️⚡ WARNING: Main Voltage exceded (HIGH). Check 15V Rail!",
   14:  "⚠️🔌 WARNING: Main Voltage MISSING.<br>No 230VAC ?",
-  15:  "ℹ️🔋 MainVoltage (15V) reapear as OK",
+  15:  "ℹ️🔋 MainVoltage (15V) OK",
   16:  "ℹ️🔌 MainVoltage (15V) AC-Restore. OK",
   17:  "⚠️⚡ Voltage (RAIL12) too HIGH",
   18:  "⚠️🪫 Voltage (RAIL12) too LOW",
