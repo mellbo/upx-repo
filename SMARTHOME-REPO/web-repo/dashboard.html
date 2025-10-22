@@ -3,6 +3,16 @@
 
 <head>
     <meta charset="utf-8">
+<script>
+ var oldDevice = false;
+  (function() {
+    try {
+      new Function("let a=1; const b=2;");
+    } catch(e) {
+      oldDevice = true;
+    }
+  })();
+</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>DashBoard</title>
     <meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT">
