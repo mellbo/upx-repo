@@ -11,22 +11,29 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/css/blueFeature.css">
     <link rel="stylesheet" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/css/thermostat.css">
 <link rel="icon" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/favicon.ico">
 </head>
 
 <body style="background-color: #1f8ea2;height: auto;color: rgb(42,96,170);font-family: 'News Cycle', sans-serif;overflow-x: hidden;">
+    <div class="hidden" id="idPlsWait" style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.38);z-index: 9999;font-size: 5vw;">
+        <p class="text-center rubberBand animated infinite" style="position: fixed;top: 50%;color: white;min-width: 100%;">Loading...</p>
+    </div>
+    <div class="hidden" id="idNoConnexion" style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.59);z-index: 9999;font-size: 5vw;">
+        <p class="text-center" style="position: fixed;top: 50%;color: white;min-width: 100%;">Reboot Page..</p>
+    </div>
     <div class="features-blue">
         <nav class="navbar navbar-inverse navigation-clean" id="top" style="font-family:Aldrich, sans-serif;font-size:15px; background-color:transparent;">
-            <div class="container-fluid">
+            <div class="container-fluid"><span class="label label-info" id="idcMillis" style="position: absolute;top: 0;right: 0;z-index: 9999;margin: 5px;font-size: 10px;font-family: 'News Cycle', sans-serif;">00:00:00</span>
                 <div class="navbar-header"><a class="navbar-brand" style="font-size:24px;" href="#"> <i class="fa fa-microchip icon" style="font-size:22px;width:33px;color:rgb(255,0,0);"></i> SMART HOME by UPX</a><button data-toggle="collapse" class="navbar-toggle collapsed" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                 <div class="collapse navbar-collapse" id="navcol-1">
                     <ul class="nav navbar-nav navbar-right" style="font-size:20px;font-family:'News Cycle', sans-serif;">
-                        <li><a href="/">Interfata </a></li>
+                        <li><a href="/sumar"><strong><span style="background-color: rgba(255, 255, 255, 0);">Sumar</span></strong></a></li>
                         <li class="active"><a style="color:rgb(255,204,30);background-color:rgba(255,255,255,0.1);" href="#">Termostat</a></li>
-                        <li><a href="/settings">Setari sistem</a></li>
-                        <li><a href="/logs">Informatie</a></li>
+                        <li><a class="clsDevForOld" href="/settings">Setari sistem</a></li>
+                        <li><a class="clsDevForOld" href="/logs">Informatie</a></li>
                         <li><a id="LockID" href="/logout"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-lock-fill" style="margin-right: 5px;font-size: 20px;color: rgb(255,204,30);">
                                     <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path>
                                 </svg>Lock</a></li>
@@ -76,16 +83,16 @@
                                                                 <td id="TEMP_BUCATARIE">Load... </td>
                                                             </tr>
                                                             <tr>
-                                                                <td style="width:14px;">Exterior: </td>
+                                                                <td style="width: 14px;">Exterior: </td>
                                                                 <td id="TEMP_EXTERN">Load... </td>
                                                             </tr>
                                                             <tr>
-                                                                <td>PCB: </td>
-                                                                <td id="TEMP_GATEWAY">Load... </td>
+                                                                <td style="color: #feb17a;">MATRIX: </td>
+                                                                <td id="MATRIX_INDOOR">Load... </td>
                                                             </tr>
                                                             <tr>
-                                                                <td style="color:#ffcc1e;">Feel Temp: </td>
-                                                                <td id="TEMP_MATRIX">Load... </td>
+                                                                <td style="color: #ffcc1e;">TURBO FOR: </td>
+                                                                <td id="TURBO_HEAT_REM_TIME">00:00:00</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -108,32 +115,24 @@
                                                     <table class="table">
                                                         <tbody>
                                                             <tr>
-                                                                <td style="height:0;width:99px;">Dormitor: </td>
-                                                                <td id="TEMP_DORMITOR-1" style="height: 0px;">Load...<br></td>
+                                                                <td style="height:0;width:102px;color:#ffcc1e;"><strong>Termostat: </strong></td>
+                                                                <td id="THERMOSTAT" style="height:0px;">Load.. </td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Dormitor2: </td>
-                                                                <td id="TEMP_DORMITOR2-1">Load... </td>
+                                                                <td style="width:141px;">Incalzire : </td>
+                                                                <td id="CentralaOn">Load. </td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Living: </td>
-                                                                <td id="TEMP_HOL-1" style="font-size: 14px;">Load... <i class="icon ion-ios-flame hidden"></i></td>
-                                                            </tr>
-                                                            <tr class="hidden-sm hidden-md hidden-lg">
-                                                                <td>Bucatarie: </td>
-                                                                <td id="TEMP_BUCATARIE-1">Load... </td>
+                                                                <td style="width:141px;">Racire: </td>
+                                                                <td id="ClimaON">Load. </td>
                                                             </tr>
                                                             <tr>
-                                                                <td style="width:14px;">Exterior: </td>
-                                                                <td id="TEMP_EXTERN-1">Load... </td>
+                                                                <td style="width:165px;">Tip Calculare: </td>
+                                                                <td id="TEMP_INDOOR_CALCULATION_METHOD">Load. </td>
                                                             </tr>
                                                             <tr>
-                                                                <td>PCB: </td>
-                                                                <td id="TEMP_GATEWAY-1">Load... </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="color:#ffcc1e;">Feel Temp: </td>
-                                                                <td id="TEMP_MATRIX-1">Load... </td>
+                                                                <td style="width: 165px;color: rgb(51,255,0);">FORCED FOR:</td>
+                                                                <td id="TEMP_INDOOR_CALCULATION_METHOD-1">00:00:00</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -168,8 +167,26 @@
             </div>
         </div>
     </div>
+    <div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalInfoAutoClose" style="margin-top: 3%;font-size: 20px;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content modal-dialog">
+                    <div class="modal-header" style="background: #0e3548;border-top-style: none;"><button class="close" type="button" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title text-primary" style="color: rgb(217,217,217);"><i class="icon ion-information-circled" style="margin-right: 10px;color: rgb(255,230,4);"></i>UPX-SmartHome</h4>
+                    </div>
+                    <div class="modal-body text-center" style="background: linear-gradient(#175573, #17517a), #19334c;">
+                        <form>
+                            <div class="form-group"><span id="lblInfoAutoClose" style="color: rgb(255,230,4);">Msg</span></div>
+                        </form>
+                    </div>
+                    <div class="modal-footer" style="background: #19334c;border-top-style: solid;border-top-color: rgb(36,255,0);"><button class="btn btn-danger" id="btnCancelInfoAutoClose" type="button" data-dismiss="modal" style="margin-right: 15px;">Anuleaza</button><button class="btn btn-success" id="btnOkInfoAutoClose" type="button" style="font-weight: bold;">OK</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/js/bs-init.js"></script>
     <script src="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/js/termostat.js"></script>
 </body>
 
