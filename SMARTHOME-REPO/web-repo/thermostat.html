@@ -10,12 +10,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=News+Cycle:400,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/css/blueFeature.css">
+    <link rel="stylesheet" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/css/thermostat.css">
 <link rel="icon" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/favicon.ico">
 </head>
 
 <body style="background-color: #1f8ea2;height: auto;color: rgb(42,96,170);font-family: 'News Cycle', sans-serif;overflow-x: hidden;">
-    <div class="features-blue" style="height: 720px;">
+    <div class="features-blue">
         <nav class="navbar navbar-inverse navigation-clean" id="top" style="font-family:Aldrich, sans-serif;font-size:15px; background-color:transparent;">
             <div class="container-fluid">
                 <div class="navbar-header"><a class="navbar-brand" style="font-size:24px;" href="#"> <i class="fa fa-microchip icon" style="font-size:22px;width:33px;color:rgb(255,0,0);"></i> SMART HOME by UPX</a><button data-toggle="collapse" class="navbar-toggle collapsed" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
@@ -35,13 +37,116 @@
         <div style="height:2px;background-color:#ffcc1e;"></div>
         <div class="container-fluid features-blue" style="width: 100%;height: 100%;">
             <div>
+                <div style="height:20px;"></div>
+                <div id="replySave"></div>
                 <div class="row">
                     <div class="col-md-12" style="height: 548px;">
-                        <div style="height:20px;"></div>
-                        <div id="replySave"></div>
-                        <div style="height:15px;"></div>
+                        <div class="panel panel-info" style="background-color: transparent;min-height: 238px;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Panel Heading</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-sm-6" style="margin-top: 20px;">
+                                    <div class="row">
+                                        <div class="col-xs-5">
+                                            <fieldset class="fieldset-ledBtn">
+                                                <div class="legend"><span>boost heating</span></div>
+                                                <div class="checkboxGroup"><label class="chkBoxHeating"><input type="checkbox"><div></div><span class="indicator"></span></label></div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xs-7">
+                                            <div style="margin:0;padding:0;">
+                                                <div class="table-responsive" style="width:90%;border:none;">
+                                                    <table class="table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="height:0;width:99px;">Dormitor: </td>
+                                                                <td id="TEMP_DORMITOR" style="height: 0px;">Load...<br></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Dormitor2: </td>
+                                                                <td id="TEMP_DORMITOR2">Load... </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Living: </td>
+                                                                <td id="TEMP_HOL" style="font-size: 14px;">Load... <i class="icon ion-ios-flame hidden"></i></td>
+                                                            </tr>
+                                                            <tr class="hidden-sm hidden-md hidden-lg">
+                                                                <td>Bucatarie: </td>
+                                                                <td id="TEMP_BUCATARIE">Load... </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width:14px;">Exterior: </td>
+                                                                <td id="TEMP_EXTERN">Load... </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>PCB: </td>
+                                                                <td id="TEMP_GATEWAY">Load... </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="color:#ffcc1e;">Feel Temp: </td>
+                                                                <td id="TEMP_MATRIX">Load... </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" style="margin-top: 20px;">
+                                    <div class="row">
+                                        <div class="col-xs-5">
+                                            <fieldset class="fieldset-ledBtn">
+                                                <div class="legend"><span style="background: #6fc3ff;">Racire 1H</span></div>
+                                                <div class="checkboxGroup"><label class="chkBoxClima"><input type="checkbox"><div></div><span class="indicator"></span></label></div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xs-7">
+                                            <div style="margin:0;padding:0;">
+                                                <div class="table-responsive" style="width:90%;border:none;">
+                                                    <table class="table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="height:0;width:99px;">Dormitor: </td>
+                                                                <td id="TEMP_DORMITOR-1" style="height: 0px;">Load...<br></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Dormitor2: </td>
+                                                                <td id="TEMP_DORMITOR2-1">Load... </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Living: </td>
+                                                                <td id="TEMP_HOL-1" style="font-size: 14px;">Load... <i class="icon ion-ios-flame hidden"></i></td>
+                                                            </tr>
+                                                            <tr class="hidden-sm hidden-md hidden-lg">
+                                                                <td>Bucatarie: </td>
+                                                                <td id="TEMP_BUCATARIE-1">Load... </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width:14px;">Exterior: </td>
+                                                                <td id="TEMP_EXTERN-1">Load... </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>PCB: </td>
+                                                                <td id="TEMP_GATEWAY-1">Load... </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="color:#ffcc1e;">Feel Temp: </td>
+                                                                <td id="TEMP_MATRIX-1">Load... </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div style="height:15px;"></div>
             </div>
         </div>
     </div>
