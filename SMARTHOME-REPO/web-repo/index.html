@@ -71,12 +71,12 @@
                     <div class="col-md-4 col-sm-6 col-xs-12" data-aos="zoom-in-down" data-aos-once="true" style="padding:0px 5px;">
                         <h3 class="name" style="color:rgb(255,204,30);font-size:18px;margin:2px;font-family:Aldrich, sans-serif;"><i class="fa fa-thermometer-empty icon" data-bss-hover-animate="swing" style="font-size:21px;padding:6px;"></i>Temperatura </h3>
                         <div style="margin:0;padding:0;">
-                            <div class="table-responsive" style="width:90%;border:none;">
+                            <div class="table-responsive myTable" style="width:90%;border:none;">
                                 <table class="table">
                                     <tbody>
                                         <tr>
-                                            <td style="height:0;width:99px;">Dormitor: </td>
-                                            <td id="TEMP_DORMITOR" style="height: 0px;">Load...<br></td>
+                                            <td style="height: 0;width: 99px;">Dormitor: </td>
+                                            <td id="TEMP_DORMITOR">Load...<br></td>
                                         </tr>
                                         <tr>
                                             <td>Dormitor2: </td>
@@ -91,7 +91,7 @@
                                             <td id="TEMP_BUCATARIE">Load... </td>
                                         </tr>
                                         <tr>
-                                            <td style="width:14px;">Exterior: </td>
+                                            <td>Exterior: </td>
                                             <td id="TEMP_EXTERN">Load... </td>
                                         </tr>
                                         <tr>
@@ -110,12 +110,12 @@
                     <div class="col-md-4 col-sm-6 col-xs-12" data-aos="zoom-in-down" data-aos-once="true">
                         <h3 class="name" style="color:rgb(255,204,30);font-size:18px;font-family:Aldrich, sans-serif;margin:2px;"><i class="fa fa-plug icon" data-bss-hover-animate="jello" style="font-size:21px;padding:6px;"></i>Tensiune </h3>
                         <div style="margin:0;padding:0;">
-                            <div class="table-responsive" style="width:90%;border:none;">
+                            <div class="table-responsive myTable" style="width:90%;border:none;">
                                 <table class="table">
                                     <tbody style="height:183px;">
                                         <tr>
-                                            <td style="height:0;width:115px;">Acumulator: </td>
-                                            <td id="VOLTAGE_BATTERY" style="height:0px;">Load... </td>
+                                            <td>Acumulator: </td>
+                                            <td id="VOLTAGE_BATTERY">Load... </td>
                                         </tr>
                                         <tr>
                                             <td>Retea 12V:</td>
@@ -134,7 +134,7 @@
                                             <td id="KEY120BATTERY" style="font-size: 10px;">Load... </td>
                                         </tr>
                                         <tr>
-                                            <td style="width:63px;font-size:10px;">Vcc KEY130:</td>
+                                            <td style="font-size: 10px;">Vcc KEY130:</td>
                                             <td id="KEY130BATTERY" style="font-size: 10px;">Load... </td>
                                         </tr>
                                         <tr>
@@ -173,15 +173,15 @@
                     <div class="col-md-4 col-sm-6 col-xs-12" data-aos="zoom-in-down" data-aos-once="true">
                         <h3 class="name" style="color:rgb(255,204,30);font-size:18px;margin:9px;font-family:Aldrich, sans-serif;"><i class="glyphicon glyphicon-oil icon" data-bss-hover-animate="flash" style="font-size:21px;padding:6px;"></i>Jaluzele </h3>
                         <div style="margin:0;padding:0;">
-                            <div class="table-responsive" style="width:90%;border:none;">
+                            <div class="table-responsive myTable" style="width:90%;border:none;">
                                 <table class="table">
                                     <tbody>
                                         <tr>
-                                            <td style="height:0;width:99px;">Auto Mode:</td>
-                                            <td id="jalAutoModeRun" style="height:0px;">Load... </td>
+                                            <td>Auto Mode:</td>
+                                            <td id="jalAutoModeRun">Load... </td>
                                         </tr>
                                         <tr>
-                                            <td style="width:118px;">Prag Noapte: </td>
+                                            <td>Prag Noapte: </td>
                                             <td id="LowLightPoint">Load... </td>
                                         </tr>
                                         <tr>
@@ -193,7 +193,7 @@
                                             <td id="jalModeNow">Load... </td>
                                         </tr>
                                         <tr>
-                                            <td style="width:144px;">Lumina Interior: </td>
+                                            <td>Lumina Interior: </td>
                                             <td id="dormitorLDR">Load... </td>
                                         </tr>
                                         <tr>
@@ -208,23 +208,23 @@
                     <div class="col-md-4 col-sm-6 col-xs-12" data-aos="zoom-in-down" data-aos-once="true">
                         <h3 class="name" style="color:rgb(255,204,30);font-size:18px;margin:2px;font-family:Aldrich, sans-serif;"><i class="fa fa-fire icon" data-bss-hover-animate="rubberBand" style="font-size:21px;padding:6px;"></i>Parametrii Incalzire</h3>
                         <div style="margin:0;padding:0;">
-                            <div class="table-responsive" style="width:90%;border:none;">
+                            <div class="table-responsive myTable" style="width:90%;border:none;">
                                 <table class="table">
-                                    <tbody>
+                                    <tbody class="myTable">
                                         <tr>
-                                            <td style="height:0;width:102px;color:#ffcc1e;"><strong>Termostat: </strong></td>
-                                            <td id="THERMOSTAT" style="height:0px;">Load.. </td>
+                                            <td style="color: #ffcc1e;"><strong>Termostat: </strong></td>
+                                            <td id="THERMOSTAT">Load.. </td>
                                         </tr>
                                         <tr>
-                                            <td style="width:141px;">Incalzire : </td>
+                                            <td>Incalzire : </td>
                                             <td id="CentralaOn">Load. </td>
                                         </tr>
                                         <tr>
-                                            <td style="width:141px;">Racire: </td>
+                                            <td>Racire: </td>
                                             <td id="ClimaON">Load. </td>
                                         </tr>
                                         <tr>
-                                            <td style="width:165px;">Tip Calculare: </td>
+                                            <td>Tip Calculare: </td>
                                             <td id="TEMP_INDOOR_CALCULATION_METHOD">Load. </td>
                                         </tr>
                                         <tr>
@@ -247,23 +247,23 @@
                     <div class="col-md-4 col-sm-6 col-xs-12" data-aos="zoom-in-down" data-aos-once="true">
                         <h3 class="name" style="font-size:18px;margin:2px;font-family:Aldrich, sans-serif;color:rgb(255,204,30);"><i class="fa fa-wrench icon" data-bss-hover-animate="wobble" style="font-size:21px;padding:6px;"></i>Setari curente</h3>
                         <div style="margin:0;padding:0;">
-                            <div class="table-responsive" style="width:90%;border:none;">
+                            <div class="table-responsive myTable" style="width:90%;border:none;">
                                 <table class="table">
                                     <tbody>
                                         <tr>
-                                            <td style="height:0;width:102px;">ILUMINAT AUTOMAT: </td>
-                                            <td id="AlowLightOFF" style="height:0px;">Load. </td>
+                                            <td>ILUMINAT AUTOMAT: </td>
+                                            <td id="AlowLightOFF">Load. </td>
                                         </tr>
                                         <tr>
-                                            <td style="width:141px;">JAL AUTO RAW</td>
+                                            <td>JAL AUTO RAW</td>
                                             <td id="jalAutoModeRunDSP">Load. </td>
                                         </tr>
                                         <tr>
-                                            <td style="width:165px;">KEY 110 ACTIV: </td>
+                                            <td>KEY 110 ACTIV: </td>
                                             <td id="KEY110ENABLE">Load. </td>
                                         </tr>
                                         <tr>
-                                            <td style="color:rgb(255,255,255);">KEY 120 ACTIV:</td>
+                                            <td>KEY 120 ACTIV:</td>
                                             <td id="KEY120ENABLE">Load. </td>
                                         </tr>
                                         <tr>
