@@ -1,1 +1,681 @@
-var websocket,DEBUG=1,PAGENAME="",gateway=window.location.port?`ws://${window.location.hostname}:${window.location.port}/ws`:`ws://${window.location.hostname}/ws`,websck_is_connected=!1,millis_esp=0,WSCONNECTED=0,RSSI=0,isLOCAL=0,ERROR_INSTANCE=(WSCONNECTED=0,0),EN_SOUND=!1,zCtrlWeatherID=-1,LAST_ERRID=-1,ERRLST_EXTERMAL=null,GET_DATA_SUMAR=5;function onOpenWS(e){websck_is_connected=1,info_reboot_web(!1),setTimeout(pool_info_page,250),setTimeout(function(){checkMillis()},8e3),DEBUG&&console.log("Connection opened")}function onCloseWS(e){websck_is_connected=0,DEBUG&&console.log("Connection closed"),ERROR_INSTANCE||setTimeout(initWebSocket,2e3)}function initWebSocket(){DEBUG&&console.log("Trying to open a WebSocket connection..."),(websocket=new WebSocket(gateway)).onopen=onOpenWS,websocket.onclose=onCloseWS,websocket.onmessage=onMessageWS}function onMessageWS(e){var t=JSON.parse(e.data);if(DEBUG&&console.log(t),1==t.hasOwnProperty("ERROR_INSTANCE"))return ERROR_INSTANCE=1,websocket.close(),t=null,alert("You have to many page opened. Keep only one in your in browser or slow down action!"),void location.replace("/protection");1==t.hasOwnProperty("cMs")&&(millis_esp=parseInt(t.cMs,10)),1==t.hasOwnProperty("Local")&&(isLOCAL=t.Local),1==t.hasOwnProperty("SIGNALPWR")&&(RSSI=t.SIGNALPWR),1==t.hasOwnProperty("wsCnt")&&(WSCONNECTED=t.wsCnt);var a=document.getElementById("idcMillis");if(a&&(a.innerHTML=millis_esp+" - 📶 "+RSSI+"% 🔴 LIVE ("+WSCONNECTED+")"),"dashboard"==PAGENAME&&(1==t.hasOwnProperty("live_data")&&parseDashParamIndex(t),null!==ERRLST_EXTERMAL&&1==t.hasOwnProperty("ERRLST_IDX"))){var o=parseInt(t.ERRLST_IDX,10);if(LAST_ERRID!=o)LAST_ERRID=o,showInfoAutoClose(10,!0,ERRLST_EXTERMAL[o],!1,null,null)}t=null}function pool_info_page(){if(!ERROR_INSTANCE&&websck_is_connected){var e={REQUEST_INFO:GET_DATA_SUMAR},t=JSON.stringify(e);websck_is_connected&&websocket.send(t),t=null,e=null,websck_is_connected&&setTimeout(function(){pool_info_page()},2e3)}}function checkMillis(){if(!ERROR_INSTANCE){var e=millis_esp;void 0===checkMillis.lastMillis&&(checkMillis.lastMillis=0),e===checkMillis.lastMillis?(info_reboot_web(!0),setTimeout(function(){window.location.reload(!0)},3e3)):(checkMillis.lastMillis=e,setTimeout(checkMillis,5e3))}}function info_reboot_web(e){switch(e){case!0:$("#idNoConnexion").removeClass("hidden"),DEBUG&&console.log("Rebooting WebPage");break;case!1:$("#idNoConnexion").addClass("hidden")}}$(document).ready(function(){initWebSocket(),""==(PAGENAME=(PAGENAME=window.location.pathname).split("/").pop())&&(PAGENAME="index"),document.addEventListener("visibilitychange",onVisibilityChange),window.addEventListener("beforeunload",function(){document.removeEventListener("visibilitychange",onVisibilityChange)}),checkDevice(),$("#idPlsWait").removeClass("hidden"),setTimeout(function(){null==ERRLST_EXTERMAL&&LoadERRLST_EXTERMAL()},2e3)});var confirmTimerId=null;function showInfoAutoClose(e,t,a,o,n){confirmTimerId&&(clearInterval(confirmTimerId),confirmTimerId=null);var l=document.getElementById("btnOkInfoAutoClose"),i=document.getElementById("btnCancelInfoAutoClose");if(document.getElementById("lblInfoAutoClose").innerHTML=a,autoFitText(),null===n?i.classList.add("hidden"):i.classList.remove("hidden"),$("#modalInfoAutoClose").modal("show"),e>0){var r=l.textContent.replace(/\s*\[\d+\]$/,"");s(),confirmTimerId=setInterval(function(){--e>0?s():(clearInterval(confirmTimerId),confirmTimerId=null,m())},1e3)}function s(){var t=e<10?"0"+e:e;l.textContent=r+" ["+t+"]"}function c(){l.removeEventListener("click",d),i.removeEventListener("click",m),confirmTimerId&&(clearInterval(confirmTimerId),confirmTimerId=null)}function d(){c(),$("#modalInfoAutoClose").modal("hide"),$(".modal-backdrop").css("display","none"),$("body").removeClass("modal-open"),o&&o()}function m(){c(),$("#modalInfoAutoClose").modal("hide"),$(".modal-backdrop").css("display","none"),$("body").removeClass("modal-open"),n&&n()}EN_SOUND&&t&&myfavInfo.play(),l.addEventListener("click",d),i.addEventListener("click",m)}function autoFitText(){var e=document.getElementById("lblInfoAutoClose"),t=50;for(e.style.fontSize=t+"px";e.scrollWidth>e.offsetWidth&&t>20;)t--,e.style.fontSize=t+"px"}function getWeatherIconFile(e,t){void 0===t&&(t=!1);var a=Number(e),o=t?"_n":"",n=[{min:3,max:4,file:"furtuna"},{min:5,max:10,file:"ninsoare_ploaie"},{min:11,max:14,file:"adverse"},{min:16,max:16,file:"ninsoare"},{min:20,max:20,file:"ceata"},{min:26,max:28,file:"innorat"},{min:29,max:30,file:"insorit"},{min:31,max:34,file:"senin"},{min:37,max:38,file:"vanturi"},{min:39,max:45,file:"ploaie"},{min:46,max:47,file:"wic_thunder"}],l="wic_unknow.png";if(0===a)l="wic_unknow.png";else for(var i=0;i<n.length;i++){var r=n[i];if(a>=r.min&&a<=r.max){l=r.file+o+".png";break}}return"https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/img/weather-icon/"+l}function parseJsonWeather(e){var t={};function a(e){var t=new Date(e);function a(e){return e<10?"0"+e:e}return a(t.getDate())+"."+a(t.getMonth()+1)+"."+t.getFullYear()+" "+a(t.getHours())+":"+a(t.getMinutes())+":"+a(t.getSeconds())}try{t.dayCount=e.length;for(var o=0;o<e.length;o++){var n=e[o],l={};l.validDate=a(n.validDate),l.sunrise=n.sunrise,l.sunset=n.sunset,l.dayName=n.day.dayPartName,l.nightName=n.night.dayPartName,l.dayTemp=n.day.temperature,l.nightTemp=n.night.temperature,l.iconDay=String(n.day.icon);l.iconDay;l.iconNight=String(n.night.icon);l.iconNight;l.phraseDay=n.day.phrase;l.phraseDay;l.phraseNight=n.night.phrase;l.phraseNight;l.day=n.day.narrative,l.night=n.night.narrative,t["Day"+o]=l}}catch(e){return DEBUG&&console.error(e),null}return t}function loadWeather(){var e,t=new Date;$.ajax({url:"http://upx83.go.ro/upx-center/wheather/upx-weather.json",method:"GET",dataType:"json",timeout:5e3,success:function(a){if(null===(e=parseJsonWeather(a)))return void(DEBUG&&console.error("Eroare la parsarea JSON-ului"));const o=new Date(e.Day0.sunrise),n=new Date(e.Day0.sunset);1==(t>o&&t<n)?($("#weatherTodayDate").html('<i class="fas fa-sun" id="weatherTodayDateIcon" style="font-size: 17px; margin: 11px;"></i>'+e.Day0.dayName),$("#weatherTodayDayNarative").html(e.Day0.day),$("#weatherTodayIcon").attr("src",getWeatherIconFile(e.Day0.iconDay,!1))):($("#weatherTodayDate").html('<i class="fas fa-moon" id="weatherTodayDateIcon" style="font-size: 17px; margin: 11px;"></i>'+e.Day0.nightName),$("#weatherTodayDayNarative").html(e.Day0.night),$("#weatherTodayIcon").attr("src",getWeatherIconFile(e.Day0.iconNight,!0))),$("#weatherTodayTempDay").html(e.Day0.dayTemp),$("#weatherTodayTempNight").html(e.Day0.nightTemp),$("#weatherday1std").html(e.Day1.dayName),$("#weatherday2std").html(e.Day2.dayName),$("#weatherday3std").html(e.Day3.dayName),$("#weatherday4std").html(e.Day4.dayName),$("#weatherDate1std").html(e.Day1.validDate),$("#weatherDate2std").html(e.Day2.validDate),$("#weatherDate3std").html(e.Day3.validDate),$("#weatherDate4std").html(e.Day4.validDate),$("#narrative1Std").html(e.Day1.phraseDay),$("#narrative2Std").html(e.Day2.phraseDay),$("#narrative3Std").html(e.Day3.phraseDay),$("#narrative4Std").html(e.Day4.phraseDay),$("#temp1Std").html(e.Day1.dayTemp+"º"),$("#temp2Std").html(e.Day2.dayTemp+"º"),$("#temp3Std").html(e.Day3.dayTemp+"º"),$("#temp4Std").html(e.Day4.dayTemp+"º"),$("#icon1Std").attr("src",getWeatherIconFile(e.Day1.iconDay)),$("#icon2Std").attr("src",getWeatherIconFile(e.Day2.iconDay)),$("#icon3Std").attr("src",getWeatherIconFile(e.Day3.iconDay)),$("#icon4Std").attr("src",getWeatherIconFile(e.Day4.iconDay)),DEBUG&&console.log("Load weather.")},error:function(e,t,a){DEBUG&&console.error("Eroare la loadWeather:",t,a)}})}function parseDashParamIndex(e){if(null!=e){var t=e.live_data,a="";$("#lbl_dormitor_temp").html(t.TEMP_DORMITOR+"<label>ºC</label>"),$("#lbl_dormitor2_temp").html(t.TEMP_DORMITOR2+"<label>ºC</label>"),$("#lbl_living_temp").html(t.TEMP_HOL+"<label>ºC</label>"),$("#lbl_ext_temp").html(t.TEMP_EXTERN+"<label>ºC</label>"),$("#lbl_matrix_temp").html(t.MATRIX_INDOOR+"<label>ºC</label>"),$("#lbl_thermostatset_temp").html(t.THERMOSTAT+"<label>ºC</label>"),0==t.CentralaOn?$("#heaton_icon").addClass("invisible"):$("#heaton_icon").removeClass("invisible"),a=checkValueForBlink(t.CALOR1_VCC,2100,3300),$("#CALOR1_VCC").html('<div class="'+a+'">'+t.CALOR1_VCC+"mV</div>"),a=checkValueForBlink(t.CALOR2_VCC,2100,3300),$("#CALOR2_VCC").html('<div class="'+a+'">'+t.CALOR2_VCC+"mV</div>"),a=checkValueForBlink(t.CALOR3_VCC,2100,3300),$("#CALOR3_VCC").html('<div class="'+a+'">'+t.CALOR3_VCC+"mV</div>"),a=checkValueForBlink(t.CALOR4_VCC,2100,3300),$("#CALOR4_VCC").html('<div class="'+a+'">'+t.CALOR4_VCC+"mV</div>"),a=checkValueForBlink(t.CALOR5_VCC,2100,3300),$("#CALOR5_VCC").html('<div class="'+a+'">'+t.CALOR5_VCC+"mV</div>"),a=checkValueForBlink(t.CALOR6_VCC,2100,3300),$("#CALOR6_VCC").html('<div class="'+a+'">'+t.CALOR6_VCC+"mV</div>"),$("#CALOR1_CUR_STATE").html(decodeCalorMode(t.CALOR1_CUR_STATE)),$("#CALOR2_CUR_STATE").html(decodeCalorMode(t.CALOR2_CUR_STATE)),$("#CALOR3_CUR_STATE").html(decodeCalorMode(t.CALOR3_CUR_STATE)),$("#CALOR4_CUR_STATE").html(decodeCalorMode(t.CALOR4_CUR_STATE)),$("#CALOR5_CUR_STATE").html(decodeCalorMode(t.CALOR5_CUR_STATE)),$("#CALOR6_CUR_STATE").html(decodeCalorMode(t.CALOR6_CUR_STATE)),$("#CALOR1_SET_STATE").html(decodeCalorMode(t.CALOR1_SET_STATE)),$("#CALOR2_SET_STATE").html(decodeCalorMode(t.CALOR2_SET_STATE)),$("#CALOR3_SET_STATE").html(decodeCalorMode(t.CALOR3_SET_STATE)),$("#CALOR4_SET_STATE").html(decodeCalorMode(t.CALOR4_SET_STATE)),$("#CALOR5_SET_STATE").html(decodeCalorMode(t.CALOR5_SET_STATE)),$("#CALOR6_SET_STATE").html(decodeCalorMode(t.CALOR6_SET_STATE)),$("#lbl_umid_exterior").html(t.HUMIDITY_EXT+"<label>%</label>"),$("#lbl_umid_interior").html(t.HOL_HUMIDITY+"<label>%</label>"),$("#lbl_jal_raw").html(t.jalAutoModeRun+"<label>lx</label>"),$("#lbl_jalmode").html(decodeJalModeNow(t.jalModeNow)),$("#lbl_ldr_exterior").html(t.outdoorLDR+"<label>LX</label>"),$("#lbl_ldr_interior").html(t.dormitorLDR+"<label>LX</label>"),$("#lbl_battery").html(t.VOLTAGE_BATTERY+"<label>V</label>"),$("#lbl_12V").html(t.VOLTAGE_RAIL12+"<label>V</label>"),$("#lbl_mainsupply").html(t.VOLTAGE_MAIN+"<label>V</label>"),$("#totalHeatTime").html(secToDateTimeStr(t.totalHeatTime)),$("#lastHeatTime").html(t.tmLstHeatChg),$("#heatingState").html(t.CentralaOn?"ON":"OFF"),$("#idPlsWait").addClass("hidden");var o=parseInt(t.zCtrlWeatherID,10);o!=zCtrlWeatherID&&(zCtrlWeatherID=o,loadWeather())}}function decodeJalModeNow(e){switch(e){case 0:return"MANUAL";case 1:return"AUTO";case 2:return"USER LDR";default:return e}}function decodeCalorMode(e){switch(e){case 0:return"<div>NEDEFINIT</div>";case 1:return'<div class="green">DESCHIS</div>';case 2:return'<div class = "red">INCHIS</div>'}}function checkValueForBlink(e,t,a){var o=parseFloat(e);return o<t||o>a?"blink":""}function temp_resimtita(e,t,a){return parseFloat(e+t/100*.33*6.105*Math.exp(17.27*e/(237.7+e))-.7*a-4).toFixed(2)}function onVisibilityChange(){ERROR_INSTANCE=1,websocket.close(),location.replace("/protection")}function secToDateTimeStr(e){if("number"!=typeof e||isNaN(e))return"Invalid";var t=Math.floor(e/86400),a=e%86400,o=Math.floor(a/3600);a%=3600;var n=Math.floor(a/60),l=a%60;function i(e){return e<10?"0"+e:e}var r="";return t>0&&(r+=t+"D "),r+=i(o)+":"+i(n)+":"+i(l)}function forceToEnableSND(){EN_SOUND||(DEBUG&&console.log("Try to enable SND..."),showInfoAutoClose(30,!1,"Activati sunetul in sistem pentru Alerte",function(){sndBtnClick.play(),sndBtnClick.pause(),myfavInfo.play(),myfavInfo.pause(),EN_SOUND=!0,DEBUG&&console.log("Enable SND in SYSTEM")},null),setTimeout(function(){forceToEnableSND()},6e4))}function loadPageNonBlocking(e,t){var a=new XMLHttpRequest;a.open("GET",e,!0),a.onreadystatechange=function(){if(4===a.readyState&&200===a.status){var e=JSON.parse(a.responseText);document.getElementById("idReloadWheater").innerHTML="[<b>"+e[0]+"</b>]: "+e[1],DEBUG&&console.log(e),loadWeather()}},a.send(),setTimeout(function(){a.abort()},t)}function LoadERRLST_EXTERMAL(){try{var e=new XMLHttpRequest;if(e.open("GET","https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/js/ERRLST.lst",!1),e.send(null),200!==e.status)return void(DEBUG&&console.log("ERRLST_EXTERMAL: can`t load"));var t=e.responseText;ERRLST_EXTERMAL=new Function("return "+t)(),DEBUG&&console.log("ERRLST_EXTERMAL Loaded OK")}catch(e){return void(DEBUG&&console.log("ERRLST_EXTERMAL Err: ",e.message))}}function checkDevice(){!1!==window.oldDevice&&$(".clsDevForOld").addClass("clsDevOld disabled").find("a").on("click",function(e){e.preventDefault()})}$("#idReloadWheater").on("click",function(e){loadPageNonBlocking("http://upx83.go.ro/upx-center/wheather/vremea.php",5e3)}),setTimeout(function(){var e=document.createElement("script");e.src="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/js/sound_library.js",document.body.appendChild(e),e.onload=function(){DEBUG&&console.log("sound_library OK"),forceToEnableSND()}},1e3);
+var DEBUG = 1;
+var PAGENAME = '';
+var gateway = window.location.port
+  ? `ws://${window.location.hostname}:${window.location.port}/ws`
+  : `ws://${window.location.hostname}/ws`;
+var websocket;
+var websck_is_connected = false;
+var millis_esp = 0;
+var WSCONNECTED = 0;
+var RSSI = 0;
+var isLOCAL = 0;
+var WSCONNECTED = 0;
+var ERROR_INSTANCE = 0;
+var EN_SOUND = false;
+var zCtrlWeatherID = -1;
+var LAST_ERRID = -1;
+var ERRLST_EXTERMAL = null;
+/*
+const LIVE_DATA_TYPE = 1; // index.html - live_data
+const GET_DATA_TYPE  = 2; // settings.html - SYSTEM
+const GET_DATA_QUICK = 3; // setings.html - qck_set_fdbck
+const GET_DATA_LOGS  = 4; // logs.html
+const ONLY_PING = 254;
+    //ERROR_INSTANCE = 255 but not use from script->esp
+*/
+var GET_DATA_SUMAR = 5; // dashboard.html
+
+/*-----------------------------------------------------------------------------------*/
+$(document).ready(function() {
+  initWebSocket(); //ESP WebSocket
+    PAGENAME = window.location.pathname;
+    PAGENAME = PAGENAME.split("/").pop();
+    if (PAGENAME == '') PAGENAME = 'index';
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    window.addEventListener("beforeunload", function() {
+        document.removeEventListener("visibilitychange", onVisibilityChange);
+    });
+    checkDevice();
+    $('#idPlsWait').removeClass('hidden'); //show Loading
+
+    setTimeout(function() {
+      if (ERRLST_EXTERMAL == null) LoadERRLST_EXTERMAL();
+    }, 2000); // delay 2000 ms
+});
+/*-----------------------------------------------------------------------------------*/
+/* COMMON FUCNTION HERE */
+/*ESP WebSocket*/
+/*------------------------------------------------------------------------------------*/
+function onOpenWS(event) {
+  websck_is_connected = 1;
+  info_reboot_web(false);
+  setTimeout(pool_info_page, 250);  //pool_info_page(); //pool now
+  setTimeout(function() {
+    checkMillis();
+  }, 8000);
+  if (DEBUG) console.log('Connection opened');
+}
+/*-----------------------------------------------------------------------------------*/
+function onCloseWS(event) {
+  websck_is_connected = 0;
+  if (DEBUG) console.log('Connection closed');
+  if (!ERROR_INSTANCE) setTimeout(initWebSocket, 2000); //retry websocket
+}
+/*-----------------------------------------------------------------------------------*/
+function initWebSocket() {
+  if (DEBUG) console.log('Trying to open a WebSocket connection...');
+  websocket = new WebSocket(gateway);
+  websocket.onopen    = onOpenWS;
+  websocket.onclose   = onCloseWS;
+  websocket.onmessage = onMessageWS;
+}
+/*-----------------------------------------------------------------------------------*/
+/*update fields*/
+function onMessageWS(event) {
+  var jsonObject = JSON.parse(event.data);
+    if (DEBUG) console.log(jsonObject);
+  //quick banned from server
+  if (jsonObject.hasOwnProperty("ERROR_INSTANCE") == true) {
+    ERROR_INSTANCE = 1;
+    websocket.close();
+    jsonObject = null;
+    alert("You have to many page opened. Keep only one in your in browser or slow down action!");
+    location.replace("/protection");
+    return;
+  }
+
+  if (jsonObject.hasOwnProperty("cMs") == true)
+      millis_esp = parseInt(jsonObject['cMs'], 10);
+  if (jsonObject.hasOwnProperty("Local") == true)
+      isLOCAL = jsonObject["Local"];
+  if (jsonObject.hasOwnProperty("SIGNALPWR") == true)
+      RSSI = jsonObject["SIGNALPWR"];
+  if (jsonObject.hasOwnProperty("wsCnt") == true)
+      WSCONNECTED = jsonObject["wsCnt"];
+
+  var el = document.getElementById("idcMillis");
+  if (el) el.innerHTML = millis_esp + ' - \u{1F4F6} ' + RSSI + '%' + ' \u{1F534} LIVE (' + WSCONNECTED + ')';
+
+  if (PAGENAME == 'dashboard') {
+    if (jsonObject.hasOwnProperty("live_data") == true)
+        parseDashParamIndex(jsonObject);
+    
+    if (ERRLST_EXTERMAL !==null) {
+      if (jsonObject.hasOwnProperty("ERRLST_IDX") == true) {
+        var ERRLST_IDX = parseInt(jsonObject["ERRLST_IDX"], 10);
+        if (LAST_ERRID != ERRLST_IDX) {
+          LAST_ERRID = ERRLST_IDX;
+          // convert ERRLST_IDX to message here then
+          var errMSGCnv = ERRLST_EXTERMAL[ERRLST_IDX];
+          showInfoAutoClose(10, true, errMSGCnv, false, null, null);
+        }
+      }
+    }  
+  }
+
+	jsonObject = null;
+}
+/*-----------------------------------------------------------------------------------*/
+function pool_info_page() {
+  if ((ERROR_INSTANCE) || (!websck_is_connected)) return;
+  var data = {
+    "REQUEST_INFO": GET_DATA_SUMAR
+  };
+
+  var _js = JSON.stringify(data);
+  if (websck_is_connected) websocket.send(_js);
+  _js	= null;
+  data = null;
+
+  // rearm pool
+  if (websck_is_connected) {
+    setTimeout(function(){
+      pool_info_page();
+      }, 2000);
+  }
+}
+/*-----------------------------------------------------------------------------------*/
+function checkMillis() {
+  if (ERROR_INSTANCE) {
+    return;
+  }
+
+  var currentMillis = millis_esp;
+  if (typeof checkMillis.lastMillis === 'undefined') {
+    checkMillis.lastMillis = 0;
+  }
+  if (currentMillis === checkMillis.lastMillis) {
+    info_reboot_web(true);
+    setTimeout(function() {
+      window.location.reload(true);
+    }, 3000);
+  } else {
+    checkMillis.lastMillis = currentMillis;
+    setTimeout(checkMillis, 5000); // rearming checkMillis()
+  }
+}
+/*-----------------------------------------------------------------------------------*/
+function info_reboot_web(lvState){
+  switch (lvState){
+    case true:
+      $('#idNoConnexion').removeClass('hidden');
+      if (DEBUG) console.log('Rebooting WebPage');
+    break;
+    case false:
+      $('#idNoConnexion').addClass('hidden');
+    break;
+  }
+}
+/*-----------------------------------------------------------------------------------*/
+// showInfoAutoClose * showInfoAutoClose * showInfoAutoClose
+/*-----------------------------------------------------------------------------------*/
+var confirmTimerId = null;
+function showInfoAutoClose(autoCloseSec, ALERTON, msg, callbackOk, callbackCancel) {
+    if (confirmTimerId) {
+        clearInterval(confirmTimerId);
+        confirmTimerId = null;
+    }
+
+    var btnOk = document.getElementById("btnOkInfoAutoClose");
+    var btnCancel = document.getElementById("btnCancelInfoAutoClose");
+    var modalMsg = document.getElementById("lblInfoAutoClose");
+    modalMsg.innerHTML = msg;
+    autoFitText();
+
+    if (callbackCancel === null) {
+        btnCancel.classList.add('hidden');
+    } else {
+        btnCancel.classList.remove('hidden');
+    }
+
+    $('#modalInfoAutoClose').modal('show');
+
+    if (autoCloseSec > 0) {
+        var originalText = btnOk.textContent.replace(/\s*\[\d+\]$/, '');
+        updateBtn();
+        confirmTimerId = setInterval(function() {
+            autoCloseSec--;
+            if (autoCloseSec > 0) {
+                updateBtn();
+            } else {
+                clearInterval(confirmTimerId);
+                confirmTimerId = null;
+                cancelHandler();
+                //okHandler();
+            }
+        }, 1000);
+    }
+
+    if ((EN_SOUND) && (ALERTON)) myfavInfo.play();
+
+    function updateBtn() {
+        var secTxt = (autoCloseSec < 10 ? "0" + autoCloseSec : autoCloseSec);
+        btnOk.textContent = originalText + " [" + secTxt + "]";
+    }
+
+    function cleanup() {
+        btnOk.removeEventListener("click", okHandler);
+        btnCancel.removeEventListener("click", cancelHandler);
+        if (confirmTimerId) {
+            clearInterval(confirmTimerId);
+            confirmTimerId = null;
+        }
+    }
+
+    function okHandler() {
+        cleanup();
+        $('#modalInfoAutoClose').modal('hide');
+        $('.modal-backdrop').css('display', 'none');
+        $('body').removeClass('modal-open'); 
+        if (callbackOk) callbackOk();
+    }
+
+    function cancelHandler() {
+        cleanup();
+        $('#modalInfoAutoClose').modal('hide');
+        $('.modal-backdrop').css('display', 'none');
+        $('body').removeClass('modal-open');        
+        if (callbackCancel) callbackCancel();
+    }
+
+    btnOk.addEventListener("click", okHandler);
+    btnCancel.addEventListener("click", cancelHandler);
+}
+/*-----------------------------------------------------------------------------------*/
+function autoFitText() {
+  var minSize = 20;
+  var maxSize = 50;
+  var el = document.getElementById("lblInfoAutoClose");
+  var size = maxSize;
+  el.style.fontSize = size + "px";
+  while ((el.scrollWidth > el.offsetWidth) && (size > minSize)) {
+    size--;
+    el.style.fontSize = size + "px";
+  }
+}
+/*-----------------------------------------------------------------------------------*/
+//-->> Wheather BEGIN
+/*-----------------------------------------------------------------------------------*/
+function getWeatherIconFile(idx, forceNight) {
+    if (forceNight === undefined) forceNight = false;
+
+    var mainLink = "https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/img/weather-icon/";
+    var numericIdx = Number(idx);
+    var prfxnight = forceNight ? "_n" : "";
+
+    var ranges = [
+        {min: 3, max: 4, file: 'furtuna'},
+        {min: 5, max: 10, file: 'ninsoare_ploaie'},
+        {min: 11, max: 14, file: 'adverse'},
+        {min: 16, max: 16, file: 'ninsoare'},
+        {min: 20, max: 20, file: 'ceata'},
+        {min: 26, max: 28, file: 'innorat'},
+        {min: 29, max: 30, file: 'insorit'},
+        {min: 31, max: 34, file: 'senin'},
+        {min: 37, max: 38, file: 'vanturi'},
+        {min: 39, max: 45, file: 'ploaie'},
+        {min: 46, max: 47, file: 'wic_thunder'}
+    ];
+
+    var file = 'wic_unknow.png';
+
+    if (numericIdx === 0) {
+        file = 'wic_unknow.png';
+    } else {
+        for (var i = 0; i < ranges.length; i++) {
+            var r = ranges[i];
+            if (numericIdx >= r.min && numericIdx <= r.max) {
+                file = r.file + prfxnight + '.png';
+                break;
+            }
+        }
+    }
+
+    return mainLink + file;
+}
+
+function parseJsonWeather(js) {
+    var json_out = {};
+    function formatISOtoNormal(isoStr) {
+        var d = new Date(isoStr);
+        function pad(n) { return (n < 10 ? '0' + n : n); }
+
+        var day = pad(d.getDate());
+        var month = pad(d.getMonth() + 1);
+        var year = d.getFullYear();
+        var hours = pad(d.getHours());
+        var minutes = pad(d.getMinutes());
+        var seconds = pad(d.getSeconds());
+
+        return day + '.' + month + '.' + year + ' ' + hours + ':' + minutes + ':' + seconds;
+    }
+    /*
+    function formatDelphiDate(dateStr) {
+        var d = new Date(dateStr);
+        function pad(n) { return (n < 10 ? '0' + n : n); }
+        var offset = 2;
+        var hours = d.getUTCHours() + offset;
+        return d.getUTCFullYear() + '-' +
+               pad(d.getUTCMonth() + 1) + '-' +
+               pad(d.getUTCDate()) + 'T' +
+               pad(hours) + ':' +
+               pad(d.getUTCMinutes()) + ':' +
+               pad(d.getUTCSeconds()) + '+02:00';
+    }
+    */
+    try {
+        json_out.dayCount = js.length;
+
+        for (var i = 0; i < js.length; i++) {
+            var dayObj = js[i];
+            var dayData = {};
+
+            dayData.validDate = formatISOtoNormal(dayObj.validDate);
+            dayData.sunrise = dayObj.sunrise;
+            dayData.sunset = dayObj.sunset;
+            dayData.dayName = dayObj.day.dayPartName;
+            dayData.nightName = dayObj.night.dayPartName;
+            dayData.dayTemp = dayObj.day.temperature;
+            dayData.nightTemp = dayObj.night.temperature;
+            dayData.iconDay = String(dayObj.day.icon);
+            var icon_day = dayData.iconDay;
+            dayData.iconNight = String(dayObj.night.icon);
+            var icon_night = dayData.iconNight;
+            dayData.phraseDay = dayObj.day.phrase;
+            var icn_lbl_day = dayData.phraseDay;
+            dayData.phraseNight = dayObj.night.phrase;
+            var icn_lbl_night = dayData.phraseNight;
+            dayData.day = dayObj.day.narrative;
+            dayData.night = dayObj.night.narrative;
+
+            json_out["Day" + i] = dayData;
+        }
+    } catch (err) {
+        if (DEBUG) console.error(err);
+        return null;
+    }
+
+    return json_out;
+}
+//-->
+function loadWeather() {
+    var hours = new Date();
+    var jsonWeather;
+
+    $.ajax({
+        url: "http://upx83.go.ro/upx-center/wheather/upx-weather.json",
+        method: "GET",
+        dataType: "json",
+        timeout: 5000, // 5 secunde timeout
+        success: function(response) {
+            jsonWeather = parseJsonWeather(response);
+            if (jsonWeather === null) {
+                if (DEBUG) console.error("Eroare la parsarea JSON-ului");
+                return;
+            }
+            //-->
+            /*Weather page*/
+            const sunrise = new Date(jsonWeather.Day0['sunrise']);
+            const sunset = new Date(jsonWeather.Day0['sunset']);
+            const isDayTime = ((hours > sunrise) && (hours < sunset));
+
+            if (isDayTime == true) {
+              $("#weatherTodayDate").html('<i class="fas fa-sun" id="weatherTodayDateIcon" style="font-size: 17px; margin: 11px;"></i>'+jsonWeather.Day0['dayName']);
+              $("#weatherTodayDayNarative").html(jsonWeather.Day0['day']);
+              $("#weatherTodayIcon").attr('src', getWeatherIconFile(jsonWeather.Day0['iconDay'], false));
+            } else {
+              $("#weatherTodayDate").html('<i class="fas fa-moon" id="weatherTodayDateIcon" style="font-size: 17px; margin: 11px;"></i>'+jsonWeather.Day0['nightName']);
+              $("#weatherTodayDayNarative").html(jsonWeather.Day0['night']);
+              $("#weatherTodayIcon").attr('src', getWeatherIconFile(jsonWeather.Day0['iconNight'], true));
+            }
+
+            $("#weatherTodayTempDay").html(jsonWeather.Day0['dayTemp']);
+            $("#weatherTodayTempNight").html(jsonWeather.Day0['nightTemp']);
+
+            $("#weatherday1std").html(jsonWeather.Day1['dayName']);
+            $("#weatherday2std").html(jsonWeather.Day2['dayName']);
+            $("#weatherday3std").html(jsonWeather.Day3['dayName']);
+            $("#weatherday4std").html(jsonWeather.Day4['dayName']);
+
+            $("#weatherDate1std").html(jsonWeather.Day1['validDate']);
+            $("#weatherDate2std").html(jsonWeather.Day2['validDate']);
+            $("#weatherDate3std").html(jsonWeather.Day3['validDate']);
+            $("#weatherDate4std").html(jsonWeather.Day4['validDate']);
+
+            $("#narrative1Std").html(jsonWeather.Day1['phraseDay']);
+            $("#narrative2Std").html(jsonWeather.Day2['phraseDay']);
+            $("#narrative3Std").html(jsonWeather.Day3['phraseDay']);
+            $("#narrative4Std").html(jsonWeather.Day4['phraseDay']);
+
+            $("#temp1Std").html(jsonWeather.Day1['dayTemp']+'º');
+            $("#temp2Std").html(jsonWeather.Day2['dayTemp']+'º');
+            $("#temp3Std").html(jsonWeather.Day3['dayTemp']+'º');
+            $("#temp4Std").html(jsonWeather.Day4['dayTemp']+'º');
+
+
+            $("#icon1Std").attr('src', getWeatherIconFile(jsonWeather.Day1['iconDay']));
+            $("#icon2Std").attr('src', getWeatherIconFile(jsonWeather.Day2['iconDay']));
+            $("#icon3Std").attr('src', getWeatherIconFile(jsonWeather.Day3['iconDay']));
+            $("#icon4Std").attr('src', getWeatherIconFile(jsonWeather.Day4['iconDay']));
+            //->
+            if (DEBUG) console.log("Load weather.");
+        },
+        error: function(xhr, status, err) {
+            if (DEBUG) console.error("Eroare la loadWeather:", status, err);
+        }
+    });
+}
+/*-----------------------------------------------------------------------------------*/
+//-->> Wheather END
+/*-----------------------------------------------------------------------------------*/
+function parseDashParamIndex(_jsonData) {
+  if (_jsonData == null) return;
+  var DaSauNu = "";
+  var live_data = _jsonData["live_data"];
+  var blinkClass = "";
+
+  /*page1*/
+  $("#lbl_dormitor_temp").html(live_data["TEMP_DORMITOR"]+'<label>ºC</label>');
+  $("#lbl_dormitor2_temp").html(live_data["TEMP_DORMITOR2"]+'<label>ºC</label>');
+  $("#lbl_living_temp").html(live_data["TEMP_HOL"]+'<label>ºC</label>');
+  $("#lbl_ext_temp").html(live_data["TEMP_EXTERN"]+'<label>ºC</label>');
+  $("#lbl_matrix_temp").html(live_data["MATRIX_INDOOR"]+'<label>ºC</label>');
+  //$("#lbl_matrix_temp").html(temp_resimtita(parseFloat(live_data["MATRIX_INDOOR"]), parseFloat(live_data["HOL_HUMIDITY"]), 0.2)+'<label>ºC</label>');
+  $("#lbl_thermostatset_temp").html(live_data["THERMOSTAT"]+'<label>ºC</label>');
+
+  //indicator heating
+  if (live_data["CentralaOn"] == false) {
+    $("#heaton_icon").addClass("invisible");
+  } else {
+    $("#heaton_icon").removeClass("invisible");
+  }
+
+  /*page 2*/
+  blinkClass = checkValueForBlink(live_data["CALOR1_VCC"],2100,3300);
+  $("#CALOR1_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR1_VCC"]+'mV</div>');
+  blinkClass = checkValueForBlink(live_data["CALOR2_VCC"],2100,3300);
+  $("#CALOR2_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR2_VCC"]+'mV</div>');
+  blinkClass = checkValueForBlink(live_data["CALOR3_VCC"],2100,3300);
+  $("#CALOR3_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR3_VCC"]+'mV</div>');
+  blinkClass = checkValueForBlink(live_data["CALOR4_VCC"],2100,3300);
+  $("#CALOR4_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR4_VCC"]+'mV</div>');
+  blinkClass = checkValueForBlink(live_data["CALOR5_VCC"],2100,3300);
+  $("#CALOR5_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR5_VCC"]+'mV</div>');
+  blinkClass = checkValueForBlink(live_data["CALOR6_VCC"],2100,3300);
+  $("#CALOR6_VCC").html('<div class="'+blinkClass+'">'+live_data["CALOR6_VCC"]+'mV</div>');
+
+  $("#CALOR1_CUR_STATE").html(decodeCalorMode(live_data["CALOR1_CUR_STATE"]));
+  $("#CALOR2_CUR_STATE").html(decodeCalorMode(live_data["CALOR2_CUR_STATE"]));
+  $("#CALOR3_CUR_STATE").html(decodeCalorMode(live_data["CALOR3_CUR_STATE"]));
+  $("#CALOR4_CUR_STATE").html(decodeCalorMode(live_data["CALOR4_CUR_STATE"]));
+  $("#CALOR5_CUR_STATE").html(decodeCalorMode(live_data["CALOR5_CUR_STATE"]));
+  $("#CALOR6_CUR_STATE").html(decodeCalorMode(live_data["CALOR6_CUR_STATE"]));
+
+  $("#CALOR1_SET_STATE").html(decodeCalorMode(live_data["CALOR1_SET_STATE"]));
+  $("#CALOR2_SET_STATE").html(decodeCalorMode(live_data["CALOR2_SET_STATE"]));
+  $("#CALOR3_SET_STATE").html(decodeCalorMode(live_data["CALOR3_SET_STATE"]));
+  $("#CALOR4_SET_STATE").html(decodeCalorMode(live_data["CALOR4_SET_STATE"]));
+  $("#CALOR5_SET_STATE").html(decodeCalorMode(live_data["CALOR5_SET_STATE"]));
+  $("#CALOR6_SET_STATE").html(decodeCalorMode(live_data["CALOR6_SET_STATE"]));
+
+  /*page3*/
+  $("#lbl_umid_exterior").html(live_data["HUMIDITY_EXT"]+'<label>%</label>');
+  $("#lbl_umid_interior").html(live_data["HOL_HUMIDITY"]+'<label>%</label>');
+  $("#lbl_jal_raw").html(live_data["jalAutoModeRun"]+'<label>lx</label>');
+  $("#lbl_jalmode").html(decodeJalModeNow(live_data["jalModeNow"]));
+  $("#lbl_ldr_exterior").html(live_data["outdoorLDR"]+'<label>LX</label>');
+  $("#lbl_ldr_interior").html(live_data["dormitorLDR"]+'<label>LX</label>');
+
+  /*page4*/
+  $("#lbl_battery").html(live_data["VOLTAGE_BATTERY"]+'<label>V</label>');
+  $("#lbl_12V").html(live_data["VOLTAGE_RAIL12"]+'<label>V</label>');
+  $("#lbl_mainsupply").html(live_data["VOLTAGE_MAIN"]+'<label>V</label>');
+  $("#totalHeatTime").html(secToDateTimeStr(live_data["totalHeatTime"]));
+  $("#lastHeatTime").html(live_data["tmLstHeatChg"]);
+  $("#heatingState").html((live_data["CentralaOn"]?"ON":"OFF"));
+  $('#idPlsWait').addClass('hidden'); // hide Loading
+
+  var newzCtrlWeatherID = parseInt(live_data["zCtrlWeatherID"], 10);
+  if (newzCtrlWeatherID != zCtrlWeatherID) {
+    zCtrlWeatherID = newzCtrlWeatherID;
+    loadWeather();
+  }
+}
+/*-----------------------------------------------------------------------------------*/
+function decodeJalModeNow(mode) {
+    switch(mode){
+        case 0:
+            return 'MANUAL';
+        break;
+
+        case 1:
+            return 'AUTO';
+        break;
+
+        case 2:
+            return 'USER LDR';
+        break;
+
+        default:
+            return mode;
+        break;
+
+    }
+}
+/*-----------------------------------------------------------------------------------*/
+function decodeCalorMode(mode){
+	switch(mode){
+		case 0:
+			return '<div>NEDEFINIT</div>';
+		break;
+
+		case 1:
+			return '<div class="green">DESCHIS</div>';
+		break;
+
+		case 2:
+			return '<div class = "red">INCHIS</div>';
+		break;
+	}
+}
+/*-----------------------------------------------------------------------------------*/
+$("#idReloadWheater").on("click",function(e){
+  loadPageNonBlocking("http://upx83.go.ro/upx-center/wheather/vremea.php", 5000);
+});
+/*-----------------------------------------------------------------------------------*/
+function checkValueForBlink(value,minVal,MaxVal) {
+    var fVal = parseFloat(value);
+    if ((fVal < minVal) || (fVal > MaxVal)) {
+        return 'blink';
+    } else {
+        return '';
+    }
+}
+/*-----------------------------------------------------------------------------------*/
+function temp_resimtita(temp,hum,wspeed) {
+	var calc_temp = "N/A";
+	calc_temp = parseFloat((temp + 0.33*(hum/100.0)*6.105*Math.exp(17.27*temp/(237.7+temp))- 0.70*wspeed - 4.00)).toFixed(2);
+	return calc_temp;
+}
+/*-----------------------------------------------------------------------------------*/
+function onVisibilityChange() {
+  ERROR_INSTANCE = 1;
+  websocket.close();
+  location.replace("/protection");
+}
+/*-----------------------------------------------------------------------------------*/
+function secToDateTimeStr(seconds) {
+	if (typeof seconds !== "number" || isNaN(seconds)) {
+		return "Invalid";
+	}
+	var days = Math.floor(seconds / 86400);
+	var remainder = seconds % 86400;
+	var hours = Math.floor(remainder / 3600);
+	remainder = remainder % 3600;
+	var minutes = Math.floor(remainder / 60);
+	var secs = remainder % 60;
+
+	function pad(num) {
+		if (num < 10) {
+			return "0" + num;
+		} else {
+			return num;
+		}
+	}
+
+	var result = "";
+	if (days > 0) {
+		result += days + "D ";
+	}
+
+	result += pad(hours) + ":" + pad(minutes) + ":" + pad(secs);
+
+	return result;
+}
+/*-----------------------------------------------------------------------------------*/
+function forceToEnableSND () {
+  if (EN_SOUND) return;
+  if (DEBUG) console.log("Try to enable SND...");
+  showInfoAutoClose(30, false, "Activati sunetul in sistem pentru Alerte",
+    function() {
+      /*OK BTN*/
+      sndBtnClick.play();
+      sndBtnClick.pause();
+      myfavInfo.play();
+      myfavInfo.pause();
+      EN_SOUND = true;
+      if (DEBUG) console.log("Enable SND in SYSTEM");
+    }, null
+  );
+
+  setTimeout(function() {
+    forceToEnableSND();
+  }, 60000);
+}
+/*-----------------------------------------------------------------------------------*/
+function loadPageNonBlocking(url, timeoutMs) {
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", url, true); // true = async
+	xhr.onreadystatechange = function() {
+		if ((xhr.readyState === 4) && (xhr.status === 200)) {
+			//do something with answer
+      var arr = JSON.parse(xhr.responseText);
+      document.getElementById("idReloadWheater").innerHTML = '[<b>' + arr[0] +'</b>]: ' + arr[1];
+      if (DEBUG) console.log(arr);
+      loadWeather();
+		}
+	};
+	xhr.send();
+
+	// inchide "pagina" / conexiunea dupa timeout
+	setTimeout(function() {
+		xhr.abort(); // opreste conexiunea daca nu s-a terminat
+	}, timeoutMs);
+}
+
+/*-----------------------------------------------------------------------------------*/
+function LoadERRLST_EXTERMAL() {
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/js/ERRLST.lst", false);
+    xhr.send(null);
+    if (xhr.status === 200) {
+      var text = xhr.responseText;
+      ERRLST_EXTERMAL = (new Function("return " + text))();
+      if (DEBUG) console.log("ERRLST_EXTERMAL Loaded OK");
+    } else {
+      if (DEBUG) console.log("ERRLST_EXTERMAL: can`t load");
+      return;
+    }
+  } catch (e) {
+    if (DEBUG) console.log("ERRLST_EXTERMAL Err: ", e.message);
+    return;
+  }
+}
+/*-----------------------------------------------------------------------------------*/
+function checkDevice() {
+  if (window.oldDevice  === false) return;
+  $(".clsDevForOld").addClass("clsDevOld disabled").find("a").on("click", function(e) {
+    e.preventDefault(); 
+  });
+}
+/*-----------------------------------------------------------------------------------*/
+/*
+  o use with: info.play();
+  Encodere online:
+    o https://base64.guru/converter/encode/audio
+    o https://base64.online/encoders/encode-audio-to-base64
+    o https://codebeautify.org/audio-to-base64-converter
+*/
+  // LOAD SOUND BASE
+  setTimeout(function() {
+      var snd = document.createElement("script");
+      snd.src = "https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/js/sound_library.js";
+      document.body.appendChild(snd);
+      snd.onload = function() {
+        if (DEBUG) console.log("sound_library OK");
+        forceToEnableSND();
+      };
+  }, 1000); // delay 2000 ms
+/*------------------------------------------------------------------------------------*/
