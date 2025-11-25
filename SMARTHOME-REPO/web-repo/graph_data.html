@@ -4,16 +4,29 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>live_camera</title>
+    <title>liveGraph</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thomaspark/bootswatch@v3.4.1/journal/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=News+Cycle:400,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/css/blueFeature.css">
 <link rel="icon" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/favicon.ico">
 </head>
 
 <body style="color:rgb(42,96,170);font-family:'News Cycle', sans-serif;">
+    <div class="hidden" id="idNoConnexion" style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.59);z-index: 9999;font-size: 5vw;">
+        <p class="text-center" style="position: fixed;top: 50%;color: white;min-width: 100%;">Reboot Page..</p>
+    </div>
+    <div class="hidden" id="idPlsWait" style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.38);z-index: 9999;font-size: 5vw;">
+        <p class="text-center rubberBand animated infinite" style="position: fixed;top: 50%;color: white;min-width: 100%;">Loading...</p>
+    </div>
+    <div style="background-color:transparent;">
+        <div class="visible-xs-block xyzzy" data-size="xs"></div>
+        <div class="visible-sm-block xyzzy" data-size="sm"></div>
+        <div class="visible-md-block xyzzy" data-size="md"></div>
+        <div class="visible-lg-block xyzzy" data-size="lg"></div>
+    </div>
     <div class="features-blue" style="height:720px;">
         <nav class="navbar navbar-inverse navigation-clean" id="top" style="font-family:Aldrich, sans-serif;font-size:15px; background-color:transparent;">
             <div class="container-fluid">
@@ -24,7 +37,7 @@
                         <li><a style="font-size: 20px;" href="/thermostat"><strong>Termostat</strong><br></a></li>
                         <li><a href="/settings">Setari sistem</a></li>
                         <li><a href="/logs">Informatie</a></li>
-                        <li class="active"><a id="LockID" style="color: rgb(255,204,30);background-color: rgba(255,255,255,0.1);" href="#"><strong>LiveCamera</strong><br></a></li>
+                        <li class="active"><a id="LockID" style="color: rgb(255,204,30);background-color: rgba(255,255,255,0.1);" href="#"><strong><span style="background-color: rgba(255, 255, 255, 0);">LiveGraph</span></strong></a></li>
                     </ul>
                 </div>
             </div>
@@ -32,13 +45,13 @@
         <div style="height:2px;background-color:#ffcc1e;"></div>
         <div class="container features-blue" style="margin: 0;padding: 0;background-color: rgb(29,125,154);height: 110%;width: auto;">
             <div class="text-center" style="align-content: center;">
-                <p style="font-family: Aldrich, sans-serif;font-size: 42px;padding: 3px;"><strong>Casa de cultura - Hunedoara</strong></p>
-                <p style="font-family: Aldrich, sans-serif;font-size: 42px;padding: 3px;color: rgb(255,204,30);"><strong>LIVE - STREAM</strong></p>
+                <p style="font-family: Aldrich, sans-serif;font-size: 24px;padding: 3px;color: rgb(255,204,30);"><strong>LIVE - Graph</strong></p>
             </div>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/js/bs-init.js"></script>
     <script src="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/js/graphData.js"></script>
 </body>
 
