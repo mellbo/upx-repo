@@ -14,7 +14,7 @@
 <link rel="icon" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/favicon.ico">
 </head>
 
-<body style="color:rgb(42,96,170);font-family:'News Cycle', sans-serif;">
+<body style="color: rgb(42,96,170);font-family: 'News Cycle', sans-serif;overflow-x: hidden;">
     <div class="hidden" id="idNoConnexion" style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.59);z-index: 9999;font-size: 5vw;">
         <p class="text-center" style="position: fixed;top: 50%;color: white;min-width: 100%;">Reboot Page..</p>
     </div>
@@ -27,7 +27,7 @@
         <div class="visible-md-block xyzzy" data-size="md"></div>
         <div class="visible-lg-block xyzzy" data-size="lg"></div>
     </div>
-    <div class="features-blue" style="height:720px;">
+    <div class="features-blue" style="height: 720px;">
         <nav class="navbar navbar-inverse navigation-clean" id="top" style="font-family:Aldrich, sans-serif;font-size:15px; background-color:transparent;">
             <div class="container-fluid">
                 <div class="navbar-header"><a class="navbar-brand" style="font-size:24px;" href="#"> <i class="fa fa-microchip icon" style="font-size:22px;width:33px;color:rgb(255,0,0);"></i> SMART HOME by UPX</a><button data-toggle="collapse" class="navbar-toggle collapsed" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
@@ -43,11 +43,12 @@
             </div>
         </nav>
         <div style="height:2px;background-color:#ffcc1e;"></div>
-        <div class="container features-blue" style="margin: 0;padding: 0;background-color: rgb(29,125,154);height: 110%;width: auto;">
+        <div class="container features-blue" style="margin: 0;padding: 0;background-color: rgb(29,125,154);/*height: 100%;*/width: 100%;">
             <div class="text-center" style="align-content: center;">
                 <p style="font-family: Aldrich, sans-serif;font-size: 24px;padding: 3px;color: rgb(255,204,30);"><strong>LIVE - Graph</strong></p>
                 <div class="row">
-                    <div class="col-md-12" style="margin-left: 10px;margin-right: 10px;">
+                    <div class="col-sm-12">
+                        <div><canvas data-bss-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;bold&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}}],&quot;yAxes&quot;:[{&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}}]}}}"></canvas></div>
                         <div id="idGraphTemperature"><canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Ian&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;Iun&quot;,&quot;Iul&quot;,&quot;Aug&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Noi&quot;,&quot;Dec&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;&quot;,&quot;borderColor&quot;:&quot;#8edf4e&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;],&quot;fill&quot;:false,&quot;borderWidth&quot;:&quot;1&quot;}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:true,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontColor&quot;:&quot;#ffffff&quot;},&quot;position&quot;:&quot;bottom&quot;},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;bold&quot;,&quot;fontColor&quot;:&quot;#ffcc1e&quot;,&quot;display&quot;:true,&quot;text&quot;:&quot;Title&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;borderDash&quot;:[&quot;1&quot;],&quot;zeroLineBorderDash&quot;:[&quot;1&quot;],&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#ffcc1e&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:false,&quot;padding&quot;:5}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;borderDash&quot;:[&quot;1&quot;],&quot;zeroLineBorderDash&quot;:[&quot;1&quot;],&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#ffcc1e&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:false,&quot;padding&quot;:5}}]}}}"></canvas></div>
                     </div>
                 </div>
