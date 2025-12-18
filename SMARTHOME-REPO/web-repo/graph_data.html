@@ -14,7 +14,7 @@
 <link rel="icon" href="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/favicon.ico">
 </head>
 
-<body style="color: rgb(42,96,170);font-family: 'News Cycle', sans-serif;overflow-x: hidden;">
+<body style="background-color: #1f8ea2;height: auto;color: rgb(42,96,170);font-family: 'News Cycle', sans-serif;overflow-x: hidden;">
     <div class="hidden" id="idNoConnexion" style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0,0,0,0.59);z-index: 9999;font-size: 5vw;">
         <p class="text-center" style="position: fixed;top: 50%;color: white;min-width: 100%;">Reboot Page..</p>
     </div>
@@ -48,7 +48,14 @@
                 <p style="font-family: Aldrich, sans-serif;font-size: 24px;padding: 3px;color: rgb(255,204,30);"><strong>LIVE - Graph</strong></p>
                 <div class="row">
                     <div class="col-sm-12">
-                        <div id="idGraphTemperature"><canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[],&quot;datasets&quot;:[]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:true,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;},&quot;position&quot;:&quot;top&quot;},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;display&quot;:false,&quot;text&quot;:&quot;&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:false}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:false}}]}}}"></canvas></div>
+                        <div class="text-left"><select style="background-color: #18387a;font-size: 13px;">
+                                <optgroup label="Selecteaza ziua">
+                                    <option value="11" selected="">06.12.2025</option>
+                                    <option value="13">07.12.2025</option>
+                                    <option value="14">08.12.2025</option>
+                                </optgroup>
+                            </select></div>
+                        <div id="idGraphTemperature"><canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[],&quot;datasets&quot;:[]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:true,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;},&quot;position&quot;:&quot;top&quot;},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontColor&quot;:&quot;#ffc700&quot;,&quot;display&quot;:true,&quot;text&quot;:&quot;test&quot;,&quot;fontSize&quot;:18},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:false}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:false}}]}}}"></canvas></div>
                     </div>
                 </div>
             </div>
