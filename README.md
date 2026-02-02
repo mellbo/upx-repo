@@ -11,5 +11,5 @@ You can use but I can`t promisse anything :)
 
 ## Authors
 
-- [@upx](upx.ro)
+- [@upx](upx.ro) - Romania
 
