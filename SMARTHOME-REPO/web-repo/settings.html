@@ -51,14 +51,14 @@
     <div style="background-color:transparent;">
         <nav class="navbar navbar-inverse navigation-clean" style="font-family:Aldrich, sans-serif;font-size:15px;">
             <div class="container-fluid"><span class="label label-info pull-right" id="idcMillis" style="position: absolute;top: 0;right: 0;z-index: 9999;margin: 5px;font-size: 10px;font-family: 'News Cycle', sans-serif;">00:00:00</span>
-                <div class="navbar-header"><a class="navbar-brand" style="font-size:24px;" href="#"> <i class="fa fa-microchip icon" style="font-size:22px;width:33px;color:rgb(255,0,0);"></i> SMART HOME by UPX</a><button data-toggle="collapse" class="navbar-toggle collapsed" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
+                <div class="navbar-header"><a class="navbar-brand" style="font-size:24px;" href="#"> <i class="fa fa-microchip icon" style="font-size:22px;width:33px;color:rgb(255,0,0);"></i> SMART HOME by UPX</a><button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                 <div class="collapse navbar-collapse" id="navcol-1">
                     <ul class="nav navbar-nav navbar-right" style="font-size:20px;font-family:'News Cycle', sans-serif;">
                         <li><a href="/">Interfata </a></li>
                         <li><a href="/thermostat">Turbo</a></li>
                         <li class="active"><a style="background-color:rgba(255,255,255,0.1);color:rgb(255,204,30);" href="#">Setari sistem</a></li>
                         <li><a href="/logs">Informatie</a></li>
-                        <li><a id="LockID" href="/logout"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-lock-fill" style="margin-right: 5px;font-size: 20px;color: rgb(255,204,30);">
+                        <li><a id="LockID" href="/logout"><svg class="bi bi-lock-fill" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 5px;font-size: 20px;color: rgb(255,204,30);">
                                     <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path>
                                 </svg>Lock</a></li>
                     </ul>
@@ -304,7 +304,7 @@
                             <div class="col-md-6 col-sm-6">
                                 <p style="margin-left: 10px;color: rgb(235,255,0);text-shadow: 1px 0px 3px rgb(0,0,0);">Forteaza deschidere usa principala</p>
                             </div>
-                            <div class="col-md-6 col-sm-6 text-center"><button class="btn btn-success btn-sm" id="set_forceMainDoorOpen" type="button" style="margin-top: -8px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-door-open-fill" style="margin-right: 2px;">
+                            <div class="col-md-6 col-sm-6 text-center"><button class="btn btn-success btn-sm" id="set_forceMainDoorOpen" type="button" style="margin-top: -8px;"><svg class="bi bi-door-open-fill" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 2px;">
                                         <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15zM11 2h.5a.5.5 0 0 1 .5.5V15h-1zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"></path>
                                     </svg>OPEN DOOR</button></div>
                             <hr style="background-color:transparent;width:98%;height:1px;margin:6px;padding:5px;">
@@ -496,7 +496,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-thermometer-sun" style="font-size: 70px;">
+                                                <div class="col-md-6 col-sm-6"><svg class="bi bi-thermometer-sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 70px;">
                                                         <path d="M5 12.5a1.5 1.5 0 1 1-2-1.415V2.5a.5.5 0 0 1 1 0v8.585A1.5 1.5 0 0 1 5 12.5"></path>
                                                         <path d="M1 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM3.5 1A1.5 1.5 0 0 0 2 2.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0L5 10.486V2.5A1.5 1.5 0 0 0 3.5 1m5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5m4.243 1.757a.5.5 0 0 1 0 .707l-.707.708a.5.5 0 1 1-.708-.708l.708-.707a.5.5 0 0 1 .707 0M8 5.5a.5.5 0 0 1 .5-.5 3 3 0 1 1 0 6 .5.5 0 0 1 0-1 2 2 0 0 0 0-4 .5.5 0 0 1-.5-.5M12.5 8a.5.5 0 0 1 .5-.5h1a.5.5 0 1 1 0 1h-1a.5.5 0 0 1-.5-.5m-1.172 2.828a.5.5 0 0 1 .708 0l.707.708a.5.5 0 0 1-.707.707l-.708-.707a.5.5 0 0 1 0-.708M8.5 12a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5"></path>
                                                     </svg>
@@ -549,7 +549,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6 text-center"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-textarea" style="font-size: 70px;">
+                                                <div class="col-md-6 col-sm-6 text-center"><svg class="bi bi-textarea" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 70px;">
                                                         <path d="M1.5 2.5A1.5 1.5 0 0 1 3 1h10a1.5 1.5 0 0 1 1.5 1.5v3.563a2 2 0 0 1 0 3.874V13.5A1.5 1.5 0 0 1 13 15H3a1.5 1.5 0 0 1-1.5-1.5V9.937a2 2 0 0 1 0-3.874zm1 3.563a2 2 0 0 1 0 3.874V13.5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V9.937a2 2 0 0 1 0-3.874V2.5A.5.5 0 0 0 13 2H3a.5.5 0 0 0-.5.5v3.563M2 7a1 1 0 1 0 0 2 1 1 0 0 0 0-2m12 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"></path>
                                                     </svg>
                                                     <p class="form-control-static" style="font-size: 10px;color: #51b5e0;">Salvati pozitiile caloriferlor.</p><button class="btn btn-default btn-xs" data-bss-hover-animate="flash" id="save_manual_calor" style="background-color: rgb(255,204,30);font-family: Aldrich, sans-serif;font-size: 18px;color: rgb(24,55,122);" type="button">Aplica</button>
