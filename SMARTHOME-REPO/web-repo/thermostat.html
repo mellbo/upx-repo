@@ -27,14 +27,14 @@
     <div class="features-blue">
         <nav class="navbar navbar-inverse navigation-clean" id="top" style="font-family:Aldrich, sans-serif;font-size:15px; background-color:transparent;">
             <div class="container-fluid"><span class="label label-info" id="idcMillis" style="position: absolute;top: 0;right: 0;z-index: 9999;margin: 5px;font-size: 10px;font-family: 'News Cycle', sans-serif;">00:00:00</span>
-                <div class="navbar-header"><a class="navbar-brand" style="font-size:24px;" href="#"> <i class="fa fa-microchip icon" style="font-size:22px;width:33px;color:rgb(255,0,0);"></i> SMART HOME by UPX</a><button data-toggle="collapse" class="navbar-toggle collapsed" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
+                <div class="navbar-header"><a class="navbar-brand" style="font-size:24px;" href="#"> <i class="fa fa-microchip icon" style="font-size:22px;width:33px;color:rgb(255,0,0);"></i> SMART HOME by UPX</a><button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                 <div class="collapse navbar-collapse" id="navcol-1">
                     <ul class="nav navbar-nav navbar-right" style="font-size:20px;font-family:'News Cycle', sans-serif;">
                         <li><a href="/dashboard"><strong><span style="background-color: rgba(255, 255, 255, 0);">Sumar</span></strong></a></li>
                         <li class="active"><a style="color:rgb(255,204,30);background-color:rgba(255,255,255,0.1);" href="#">Turbo</a></li>
                         <li><a class="clsDevForOld" href="/settings">Setari sistem</a></li>
                         <li><a class="clsDevForOld" href="/logs">Informatie</a></li>
-                        <li><a id="LockID" href="/logout"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-lock-fill" style="margin-right: 5px;font-size: 20px;color: rgb(255,204,30);">
+                        <li><a id="LockID" href="/logout"><svg class="bi bi-lock-fill" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 5px;font-size: 20px;color: rgb(255,204,30);">
                                     <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path>
                                 </svg>Lock</a></li>
                     </ul>
@@ -145,7 +145,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="margin-top: 20px;">
+                <div class="row" style="/*margin-top: 20px;*/">
                     <div class="col-md-12">
                         <div class="panel panel-info" style="background-color: transparent;">
                             <div class="panel-heading">
@@ -153,8 +153,51 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-xs-3"><img class="img-rounded img-responsive" width="200" height="200" src="https://mellbo.github.io/upx-repo/SMARTHOME-REPO/web-repo/assets/img/logo_thermostat.jpg" loading="auto" style="width: 150px;" alt="upx-logo"></div>
-                                    <div class="col-xs-9">
+                                    <div class="col-sm-6" style="margin-top: 20px;">
+                                        <div class="row">
+                                            <div class="col-md-6 col-xs-12">
+                                                <fieldset class="fieldset-ledBtn">
+                                                    <div class="legend"><span>KLARSTEIN ICE MAKER</span></div>
+                                                    <div class="checkboxGroup"><label class="chkBoxIceMaker"><input type="checkbox" id="idIceMaker"><div></div><span class="indicator"></span><i class="icon ion-ios-flower-outline" style="position: relative;bottom: 97px;z-index: 999;font-size: 40px;color: #1c6ea2;"></i></label></div>
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-xs-6 hidden-xs hidden-sm">
+                                                <div style="margin:0;padding:0;">
+                                                    <div class="table-responsive" style="width:90%;border:none;">
+                                                        <table class="table">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="height:0;width:99px;">Dormitor: </td>
+                                                                    <td id="TEMP_DORMITOR-1">Load...<br></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Dormitor2: </td>
+                                                                    <td id="TEMP_DORMITOR2-1">Load... </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Living: </td>
+                                                                    <td id="TEMP_HOL-1" style="font-size: 14px;">Load... <i class="icon ion-ios-flame hidden"></i></td>
+                                                                </tr>
+                                                                <tr class="hidden-sm hidden-md hidden-lg">
+                                                                    <td>Bucatarie: </td>
+                                                                    <td id="TEMP_BUCATARIE-1">Load... </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Exterior: </td>
+                                                                    <td id="TEMP_EXTERN-1">Load... </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="color: #feb17a;">MATRIX: </td>
+                                                                    <td id="MATRIX_INDOOR-1">Load... </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-12">
                                         <p>Activarea elementului <strong>TURBO </strong>in regimul de incalzire va activa incalzirea pentru cel putin 30 minute, sau pana cand temperatura calculata in casa ajunge la 23.8ºC. Dupa ce unul din elementele descrise mai sus sunt atinse, modul TURBO se va dezactiva automat, trecand in modul <strong>AUTOMAT </strong>(normal)</p>
                                         <p>Activarea elementului <strong>FORCED&nbsp;</strong>in regimul de racire, se va activa racirea in interior, pentru 1 ora, si temperatura pe aparatul de climatizare va fi selectata la&nbsp;23ºC, M1, swing+airflow. Dupa expirarea timpului, modul <strong>Forced </strong>va trece in ultimul mod la care se afla climatizarea inainte sa activati acest mod.</p>
                                     </div>
