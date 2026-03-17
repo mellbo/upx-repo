@@ -45,38 +45,25 @@
         <div style="height:2px;background-color:#ffcc1e;"></div>
         <div class="container-fluid features-blue" style="margin: 0;padding: 0;background-color: rgb(29,125,154);height: 100%;width: 100%;">
             <div class="text-center" style="align-content: center;margin: 10px 5% 10px 5%;">
-                <div style="color: #ffcc1e;">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="active" role="presentation"><a role="tab" data-toggle="tab" href="#tab-1" style="color: #ffcc1e;">Tab 1</a></li>
-                        <li role="presentation"><a role="tab" data-toggle="tab" href="#tab-2" style="color: #ffcc1e;">Tab 2</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane fade in active" role="tabpanel" id="tab-1">
-                            <p style="font-family: Aldrich, sans-serif;font-size: 24px;padding: 3px;color: #ffcc1e;"><strong>LIVE - Graph</strong></p>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="text-left"><select id="idLstIdxGraph" style="background-color: #18387a;font-size: 18px;">
-                                            <option value="-1" selected="">SELECT DAY</option>
-                                        </select>
-                                        <div class="btn-group" style="position: relative;left: 5px;top: -3px;"><button class="btn btn-info btn-sm" type="button" style="font-family: Aldrich, sans-serif;" data-toggle="dropdown">Meniu</button><button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"><span class="caret"></span></button>
-                                            <ul class="dropdown-menu">
-                                                <li class="text-left"><a id="idRmvItem" style="color: #000000;font-size: 18px;"><svg class="bi bi-trash3" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 28px;color: #ffcc1e;position: absolute;top: 5px;right: 10px;">
-                                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"></path>
-                                                        </svg>Sterge</a></li>
-                                                <li class="text-left"><a id="idRmvAll" style="color: #000000;font-size: 18px;"><svg class="bi bi-folder-x" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 28px;color: #ff0000;position: absolute;top: 38px;right: 10px;">
-                                                            <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181L15.546 8H14.54l.265-2.91A1 1 0 0 0 13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91H9v1H2.826a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31zm6.339-1.577A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139q.323-.119.684-.12h5.396z"></path>
-                                                            <path d="M11.854 10.146a.5.5 0 0 0-.707.708L12.293 12l-1.146 1.146a.5.5 0 0 0 .707.708L13 12.707l1.146 1.147a.5.5 0 0 0 .708-.708L13.707 12l1.147-1.146a.5.5 0 0 0-.707-.708L13 11.293z"></path>
-                                                        </svg>Sterge tot</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div id="idGraphTemperature" style="color: rgb(255,255,255);font-size: 18px;"><canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[],&quot;datasets&quot;:[]},&quot;options&quot;:{&quot;legend&quot;:{&quot;display&quot;:true,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontSize&quot;:18},&quot;position&quot;:&quot;top&quot;},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontColor&quot;:&quot;#ffc700&quot;,&quot;display&quot;:true,&quot;text&quot;:&quot;28.12.2025&quot;,&quot;fontSize&quot;:22},&quot;aspectRatio&quot;:2,&quot;maintainAspectRatio&quot;:true,&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:false}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:false}}]}}}"></canvas></div>
-                                </div>
+                <p style="font-family: Aldrich, sans-serif;font-size: 24px;padding: 3px;color: #ffcc1e;"><strong>LIVE - Graph</strong></p>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="text-left"><select id="idLstIdxGraph" style="background-color: #18387a;font-size: 18px;">
+                                <option value="-1" selected="">SELECT DAY</option>
+                            </select>
+                            <div class="btn-group" style="position: relative;left: 5px;top: -3px;"><button class="btn btn-info btn-sm" type="button" style="font-family: Aldrich, sans-serif;" data-toggle="dropdown">Meniu</button><button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"><span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li class="text-left"><a id="idRmvItem" style="color: #000000;font-size: 18px;"><svg class="bi bi-trash3" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 28px;color: #ffcc1e;position: absolute;top: 5px;right: 10px;">
+                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"></path>
+                                            </svg>Sterge</a></li>
+                                    <li class="text-left"><a id="idRmvAll" style="color: #000000;font-size: 18px;"><svg class="bi bi-folder-x" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 28px;color: #ff0000;position: absolute;top: 38px;right: 10px;">
+                                                <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181L15.546 8H14.54l.265-2.91A1 1 0 0 0 13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91H9v1H2.826a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31zm6.339-1.577A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139q.323-.119.684-.12h5.396z"></path>
+                                                <path d="M11.854 10.146a.5.5 0 0 0-.707.708L12.293 12l-1.146 1.146a.5.5 0 0 0 .707.708L13 12.707l1.146 1.147a.5.5 0 0 0 .708-.708L13.707 12l1.147-1.146a.5.5 0 0 0-.707-.708L13 11.293z"></path>
+                                            </svg>Sterge tot</a></li>
+                                </ul>
                             </div>
                         </div>
-                        <div class="tab-pane fade" role="tabpanel" id="tab-2">
-                            <p>Content for tab 2.</p>
-                        </div>
+                        <div id="idGraphTemperature" style="color: rgb(255,255,255);font-size: 18px;"><canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[],&quot;datasets&quot;:[]},&quot;options&quot;:{&quot;legend&quot;:{&quot;display&quot;:true,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontSize&quot;:18},&quot;position&quot;:&quot;top&quot;},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontColor&quot;:&quot;#ffc700&quot;,&quot;display&quot;:true,&quot;text&quot;:&quot;28.12.2025&quot;,&quot;fontSize&quot;:22},&quot;aspectRatio&quot;:2,&quot;maintainAspectRatio&quot;:true,&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:false}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;beginAtZero&quot;:false}}]}}}"></canvas></div>
                     </div>
                 </div>
             </div>
