@@ -372,16 +372,42 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="swiper-slide" style="background-color:transparent;">
+                            <div class="swiper-slide" style="background-color: transparent;display: block;">
                                 <div class="row">
                                     <div class="col-md-12" style="padding: 0px;margin: 0px;top: -10px;">
-                                        <p class="help-block lead text-left" style="font-size: 50px;font-family: Anton, sans-serif;color: #ffffff;background-color: rgba(31,134,159,0.36);"><i class="fas fa-globe" style="font-size: 50px;color: #51b5e0;margin: 15px;height: auto;"></i>E a r t h - Q u a k e&nbsp; 2</p>
+                                        <p class="help-block lead text-left" style="font-size: 50px;font-family: Anton, sans-serif;color: #ffffff;background-color: rgba(31,134,159,0.36);"><i class="fas fa-globe" style="font-size: 50px;color: #51b5e0;margin: 15px;height: auto;"></i>E a r t h - Q u a k e&nbsp; 2<span class="hidden flash" id="idAlarmShow" style="position: absolute;right: 70px;top: 15px;color: rgb(255,153,0);">ALARM</span></p>
                                     </div>
                                     <div class="col-md-12">
-                                        <div id="idSpaceEartQuacke" style="display: block;width: 100%;"><canvas id="chart" class="EarthQuake_canvas" width="800" height="250"></canvas></div>
+                                        <div id="idSpaceEartQuacke" style="display: block;width: 100%;"><canvas id="chart" class="EarthQuake_canvas" width="980" height="250"></canvas></div>
                                     </div>
                                     <div class="col-md-12">
-                                        <p id="idResult">Info</p>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="font-size: 20px;"><svg class="bi bi-arrows-collapse iconInfQuacke" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                                                                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8m7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0m-.5 11.707-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0z"></path>
+                                                                    </svg><span>avDiff:&nbsp;</span><span id="idQuacke-Diff" class="spanInfQuacke">0</span></td>
+                                                                <td style="font-size: 20px;"><svg class="bi bi-graph-up iconInfQuacke" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 40px;">
+                                                                        <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"></path>
+                                                                    </svg><span>Navg:&nbsp;</span><span id="idQuacke-Navg" class="spanInfQuacke">0</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="font-size: 20px;"><svg class="bi bi-graph-up-arrow iconInfQuacke" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                                                                        <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"></path>
+                                                                    </svg><span>Nmax:&nbsp;</span><span id="idQuacke-Nmax" class="spanInfQuacke">0</span></td>
+                                                                <td style="font-size: 20px;"><svg class="bi bi-record-circle iconInfQuacke" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 40px;">
+                                                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+                                                                        <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path>
+                                                                    </svg><span>Ncnt:&nbsp;</span><span id="idQuacke-Ncnt" class="spanInfQuacke">0</span></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
