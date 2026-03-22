@@ -29,4 +29,6 @@
   27:  "⚠️♨️ Warning: One RoomZone can not heating. Check Logs and Radiators NOW.",
   28:  "⚠️🪫 One of CALOR have LOW BATTERY.<hr>Check the battery.",
   29:  "ℹ️🔋 Baterie Calorifere OK",
+  30:  "⚠️🖧 EarthQuake: missing communication",
+  31:  "ℹ️🖧 EarthQuake: restore communication",
 }
