@@ -37,18 +37,3 @@ var swiper =  new Swiper('.swiper-container', {
         slideShadows: true,
        },
     });
-
-/*
-    swiper.on('slideChange', function() {
-        console.log('slideChange');
-
-        if (!this.autoplay.running) {
-            this.autoplay.start();
-        }
-    });
-*/
-    swiper.on('touchEnd', function() {
-        if (!swiper.autoplay.running) {
-            swiper.autoplay.start();
-        }
-    });
