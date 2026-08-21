@@ -18,9 +18,9 @@ var swiper =  new Swiper('.swiper-container', {
       autoplay: {
         delay: 5000,
         speed: 7800 ,
-        direction:'horizontal',  
+        direction:'horizontal',
         disableOnInteraction: false,
-        waitForTransition: true,  
+        waitForTransition: true,
       },
       pagination: {
         el: '.swiper-pagination',
@@ -38,3 +38,17 @@ var swiper =  new Swiper('.swiper-container', {
        },
     });
 
+/*
+    swiper.on('slideChange', function() {
+        console.log('slideChange');
+
+        if (!this.autoplay.running) {
+            this.autoplay.start();
+        }
+    });
+*/
+    swiper.on('touchEnd', function() {
+        if (!swiper.autoplay.running) {
+            swiper.autoplay.start();
+        }
+    });
